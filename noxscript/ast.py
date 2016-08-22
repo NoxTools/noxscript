@@ -129,6 +129,9 @@ class BinOpNode(Node):
     @property
     def vartype(self):
         assert self.lhs.vartype is self.rhs.vartype, 'Assignment with wrong type (%s vs %s)' % (self.lhs.vartype, self.rhs.vartype)
+        if self.op in '< > <= >= != =='.split(' '):
+            # comparisons always produce an integer
+            return INT
         return self.lhs.vartype
 
     @classmethod
@@ -388,6 +391,10 @@ class IfNode(Node):
     def from_tokens(cls, toks):
         return cls(*toks)
 
+    def validate(self):
+        if self.cond.vartype is not INT:
+            raise Exception('Condition must be int-type')
+
 class WhileNode(Node):
     def __init__(self, cond, body):
         super(WhileNode, self).__init__()
@@ -404,6 +411,10 @@ class WhileNode(Node):
     @classmethod
     def from_tokens(cls, toks):
         return cls(*toks)
+
+    def validate(self):
+        if self.cond.vartype is not INT:
+            raise Exception('Condition must be int-type')
 
 class ForNode(Node):
     def __init__(self, init, cond, inc, body):
@@ -432,6 +443,11 @@ class ForNode(Node):
 
     def scope_visitor(self):
         self._scope = Scope(self.parent.scope)
+
+    def validate(self):
+        if self.cond is not None:
+            if self.cond.vartype is not INT:
+                raise Exception('Condition must be int-type')
 
 class BlockNode(Node):
     def __init__(self, nodes):

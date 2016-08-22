@@ -91,3 +91,14 @@ ENV/
 
 # sqlite databases
 *.db
+
+# swap
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+
+# temporary
+.netrwhist
+*~
+
+# auto-generated tag files
+tags
