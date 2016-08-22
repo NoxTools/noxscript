@@ -201,7 +201,7 @@ class Compiler(object):
         elif isinstance(node, VarNode):
             decl = node.decl
             if isinstance(decl, FuncNode):
-                num = self.funcs[self.func].num
+                num = self.funcs[decl].num
                 # push an int literal
                 self.bc += [4, num]
             else:
