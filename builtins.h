@@ -192,6 +192,75 @@
     }
   \endcode
 
+  <h3>Control Flow</h3>
+  <p>The standard control flow constructs are present: if statements,
+  for loops, and while loops. Additionally, you can use a goto statement
+  and labels if necessary, but this is heavily discouraged.</p>
+
+  \code
+  if (cond1)
+  {
+  }
+  else if (cond2)
+  {
+  }
+  else
+  {
+  }
+  \endcode
+
+  <p>An if statement can have an optional else statement. You can chain these
+  to produce an else-if statement:</p>
+
+  \code
+  for (initialization; condition; afterthought)
+  {
+  }
+  \endcode
+
+  <p>A for loop has 3 parts, each is optional. The initialization happens
+  before any loop code. It must be an expression (e.g. it cannot be used to
+  declare a variable). The condition is checked, and exits the loop if false.
+  And the afterthought is performed every time the loop ends and repeats.</p>
+
+  \code
+  while (condition)
+  {
+  }
+  \endcode
+
+  <p>A while loop has a condition that is checked, and exits the loop if
+  false. The condition is required.</p>
+
+  <p>Both for loops and while loops can be controlled by keywords. A 
+  <code>break;</code> will exit the loop immediately. A <code>continue;</code>
+  will cause the loop to repeat immediately.</p>
+
+  \code
+     goto A;
+     ...
+  A:
+     print("A");
+  \endcode
+
+  <p>A goto statement can be used to immediately start executing from a label.
+  Labels have function scope, so you can only goto a local label. Using a goto
+  is heavily <b>discouraged</b>.</p>
+
+  \code
+  void foo()
+  {
+      return;
+  }
+  int bar()
+  {
+      return 1 + 2;
+  }
+  \endcode
+
+  <p>A return statement is used to immediately exit the current function. It
+  is also required when the function has a return type.</p>
+
   \section API API Reference
 
   <h3>Built-in Functions</h3>

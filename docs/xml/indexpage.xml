@@ -108,7 +108,35 @@
 <codeline><highlight class="normal">{</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>MaxHealth(player)<sp/>-<sp/>CurrentHealth(player);</highlight></codeline>
 <codeline><highlight class="normal">}</highlight></codeline>
-</programlisting></para></sect1>
+</programlisting></para><para><heading level="3">Control Flow</heading>
+</para><para>The standard control flow constructs are present: if statements, for loops, and while loops. Additionally, you can use a goto statement and labels if necessary, but this is heavily discouraged.</para><para><programlisting><codeline><highlight class="normal">if<sp/>(cond1)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">else<sp/>if<sp/>(cond2)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">else</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para><para>An if statement can have an optional else statement. You can chain these to produce an else-if statement:</para><para><programlisting><codeline><highlight class="normal">for<sp/>(initialization;<sp/>condition;<sp/>afterthought)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para><para>A for loop has 3 parts, each is optional. The initialization happens before any loop code. It must be an expression (e.g. it cannot be used to declare a variable). The condition is checked, and exits the loop if false. And the afterthought is performed every time the loop ends and repeats.</para><para><programlisting><codeline><highlight class="normal">while<sp/>(condition)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para><para>A while loop has a condition that is checked, and exits the loop if false. The condition is required.</para><para>Both for loops and while loops can be controlled by keywords. A <computeroutput>break;</computeroutput> will exit the loop immediately. A <computeroutput>continue;</computeroutput> will cause the loop to repeat immediately.</para><para><programlisting><codeline><highlight class="normal"><sp/><sp/><sp/>goto<sp/>A;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>...</highlight></codeline>
+<codeline><highlight class="normal">A:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>print(&quot;A&quot;);</highlight></codeline>
+</programlisting></para><para>A goto statement can be used to immediately start executing from a label. Labels have function scope, so you can only goto a local label. Using a goto is heavily <bold>discouraged</bold>.</para><para><programlisting><codeline><highlight class="normal">void<sp/>foo()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">int<sp/>bar()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>1<sp/>+<sp/>2;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para><para>A return statement is used to immediately exit the current function. It is also required when the function has a return type.</para></sect1>
 <sect1 id="index_1API">
 <title>API Reference</title>
 <para><heading level="3">Built-in Functions</heading>

@@ -201,7 +201,42 @@ object </li>
 <div class="line">{</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code" href="builtins_8h.html#aa005f8f386c74496486b932e4c32e008">MaxHealth</a>(player) - <a class="code" href="builtins_8h.html#aba09e41a0f48e1b7398052a06fd478c5">CurrentHealth</a>(player);</div>
 <div class="line">}</div>
-</div><!-- fragment --><h1><a class="anchor" id="API"></a>
+</div><!-- fragment --><h3>Control Flow</h3>
+<p>The standard control flow constructs are present: if statements, for loops, and while loops. Additionally, you can use a goto statement and labels if necessary, but this is heavily discouraged.</p>
+<div class="fragment"><div class="line"><span class="keywordflow">if</span> (cond1)</div>
+<div class="line">{</div>
+<div class="line">}</div>
+<div class="line"><span class="keywordflow">else</span> <span class="keywordflow">if</span> (cond2)</div>
+<div class="line">{</div>
+<div class="line">}</div>
+<div class="line"><span class="keywordflow">else</span></div>
+<div class="line">{</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>An if statement can have an optional else statement. You can chain these to produce an else-if statement:</p>
+<div class="fragment"><div class="line"><span class="keywordflow">for</span> (initialization; condition; afterthought)</div>
+<div class="line">{</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>A for loop has 3 parts, each is optional. The initialization happens before any loop code. It must be an expression (e.g. it cannot be used to declare a variable). The condition is checked, and exits the loop if false. And the afterthought is performed every time the loop ends and repeats.</p>
+<div class="fragment"><div class="line"><span class="keywordflow">while</span> (condition)</div>
+<div class="line">{</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>A while loop has a condition that is checked, and exits the loop if false. The condition is required.</p>
+<p>Both for loops and while loops can be controlled by keywords. A <code>break;</code> will exit the loop immediately. A <code>continue;</code> will cause the loop to repeat immediately.</p>
+<div class="fragment"><div class="line">   <span class="keywordflow">goto</span> A;</div>
+<div class="line">   ...</div>
+<div class="line">A:</div>
+<div class="line">   print(<span class="stringliteral">&quot;A&quot;</span>);</div>
+</div><!-- fragment --><p>A goto statement can be used to immediately start executing from a label. Labels have function scope, so you can only goto a local label. Using a goto is heavily <b>discouraged</b>.</p>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> foo()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordflow">return</span>;</div>
+<div class="line">}</div>
+<div class="line"><span class="keywordtype">int</span> bar()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordflow">return</span> 1 + 2;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>A return statement is used to immediately exit the current function. It is also required when the function has a return type.</p>
+<h1><a class="anchor" id="API"></a>
 API Reference</h1>
 <h3>Built-in Functions</h3>
 <p>Use <a href="builtins_8h.html">builtins.h</a> to find the function you are interested in. These functions have been renamed from previous versions:</p>
@@ -359,7 +394,7 @@ Examples</h1>
 </div><!-- fragment --> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Aug 22 2016 04:10:28 for Nox Script by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Aug 22 2016 07:25:27 for Nox Script by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>
