@@ -1,3 +1,5 @@
+from pyparsing import col, lineno
+
 VOID = intern('void')
 INT = intern('int')
 FLOAT = intern('float')
@@ -7,13 +9,29 @@ FUNCTION = intern('function')
 ANY = intern('any')
 GLOBAL = intern('GLOBAL')
 
+class AstException(Exception):
+    def __init__(self, node, msg):
+        if node.loc:
+            Exception.__init__(self, '%s (line %d, col %d)' % (msg, node.lineno, node.col))
+        else:
+            Exception.__init__(self, '%s' % msg)
+
 class Node(object):
-    def __init__(self):
+    def __init__(self, loc=None):
         self.children = []
+        self.loc = loc
         self._scope = None
 
     def __repr__(self):
         return '<%s>' % type(self).__name__
+
+    @property
+    def lineno(self):
+        return None if self.loc is None else self.loc[0]
+
+    @property
+    def col(self):
+        return None if self.loc is None else self.loc[1]
 
     @property
     def scope(self):
@@ -60,8 +78,8 @@ class Node(object):
         return constant and len(self.children) > 0
 
 class LiteralNode(Node):
-    def __init__(self, value):
-        super(LiteralNode, self).__init__()
+    def __init__(self, value, **kwargs):
+        super(LiteralNode, self).__init__(**kwargs)
         self.value = value
 
     def __repr__(self):
@@ -77,15 +95,15 @@ class LiteralNode(Node):
             return INT
 
     @classmethod
-    def from_tokens(cls, toks):
-        return cls(toks[0])
+    def from_tokens(cls, st, loc, toks):
+        return cls(toks[0], loc=(lineno(loc, st), col(loc, st)))
 
     def is_constant(self):
         return True
 
 class VarNode(Node):
-    def __init__(self, name):
-        super(VarNode, self).__init__()
+    def __init__(self, name, **kwargs):
+        super(VarNode, self).__init__(**kwargs)
         self.name = name
         self.lval = False
 
@@ -100,19 +118,19 @@ class VarNode(Node):
     def vartype(self):
         node = self.decl
         if node is None:
-            raise Exception('%s not defined' % self.name)
+            raise AstException(self, '%s not defined' % self.name)
         elif isinstance(node, DeclNode) and node.size > 1:
-            raise Exception('Array must be subscripted')
+            raise AstException(self, 'Array must be subscripted')
         return node.decltype
 
     @classmethod
-    def from_tokens(cls, toks):
+    def from_tokens(cls, st, loc, toks):
         toks = toks[0]
-        return cls(toks[0])
+        return cls(toks[0], loc=(lineno(loc, st), col(loc, st)))
 
 class BinOpNode(Node):
-    def __init__(self, op, lhs, rhs):
-        super(BinOpNode, self).__init__()
+    def __init__(self, op, lhs, rhs, **kwargs):
+        super(BinOpNode, self).__init__(**kwargs)
         self.op = op
         self.children = [lhs, rhs]
 
@@ -135,12 +153,12 @@ class BinOpNode(Node):
         return self.lhs.vartype
 
     @classmethod
-    def from_tokens(cls, toks):
+    def from_tokens(cls, st, loc, toks):
         assert len(toks) == 1
         toks = toks[0]
         node = toks[0]
         for x in xrange(1, len(toks), 2):
-            node = cls(toks[x], node, toks[x+1])
+            node = cls(toks[x], node, toks[x+1], loc=(lineno(loc, st), col(loc, st)))
         return node
 
     def validate(self):
@@ -148,11 +166,11 @@ class BinOpNode(Node):
             if isinstance(self.lhs, VarNode) or isinstance(self.lhs, SubscriptNode):
                 self.lhs.lval = True
             else:
-                raise Exception('Invalid lvalue')
+                raise AstException(self, 'Invalid lvalue')
 
 class AssignNode(BinOpNode):
-    def __init__(self, op, lhs, rhs, decltype=None):
-        super(AssignNode, self).__init__(op, lhs, rhs)
+    def __init__(self, op, lhs, rhs, decltype=None, **kwargs):
+        super(AssignNode, self).__init__(op, lhs, rhs, **kwargs)
         self.decltype = intern(decltype) if decltype else None
 
     def __repr__(self):
@@ -167,15 +185,15 @@ class AssignNode(BinOpNode):
         return self.lhs.name
 
     @classmethod
-    def from_tokens(cls, toks):
-        return cls('=', VarNode(toks[1]), toks[2], toks[0])
+    def from_tokens(cls, st, loc, toks):
+        return cls('=', VarNode(toks[1]), toks[2], toks[0], loc=(lineno(loc, st), col(loc, st)))
 
     @classmethod
-    def from_tokens_op(cls, toks):
+    def from_tokens_op(cls, st, loc, toks):
         assert len(toks) == 1
         toks = toks[0]
         assert len(toks) == 3
-        return cls(toks[1], toks[0], toks[2])
+        return cls(toks[1], toks[0], toks[2], loc=(lineno(loc, st), col(loc, st)))
 
     def is_global(self):
         return self.func is None or self.func.name is GLOBAL
@@ -189,13 +207,13 @@ class AssignNode(BinOpNode):
 
         if self.func == None:
             if not self.decltype:
-                raise Exception('%s missing declaration type' % self.name)
+                raise AstException(self, '%s missing declaration type' % self.name)
             if not self.rhs.is_constant():
-                raise Exception('%s initializer must be a constant expression' % self.name)
+                raise AstException(self, '%s initializer must be a constant expression' % self.name)
 
 class UnOpNode(Node):
-    def __init__(self, op, rhs):
-        super(UnOpNode, self).__init__()
+    def __init__(self, op, rhs, **kwargs):
+        super(UnOpNode, self).__init__(**kwargs)
         self.op = op
         self.children = [rhs]
 
@@ -211,15 +229,15 @@ class UnOpNode(Node):
         return self.rhs.vartype
 
     @classmethod
-    def from_tokens(cls, toks):
+    def from_tokens(cls, st, loc, toks):
         assert len(toks) == 1
         toks = toks[0]
         assert len(toks) == 2
-        return cls(toks[0], toks[1])
+        return cls(toks[0], toks[1], loc=(lineno(loc, st), col(loc, st)))
 
 class CallNode(Node):
-    def __init__(self, callee, args):
-        super(CallNode, self).__init__()
+    def __init__(self, callee, args, **kwargs):
+        super(CallNode, self).__init__(**kwargs)
         self.callee = callee
         self.children = args
 
@@ -244,25 +262,25 @@ class CallNode(Node):
     def validate(self):
         node = self.decl
         if node is None:
-            raise Exception('%s is not defined' % self.callee)
+            raise AstException(self, '%s is not defined' % self.callee)
         if not isinstance(node, FuncNode) and not isinstance(node, BuiltinNode):
-            raise Exception('%s is not a function' % self.callee)
+            raise AstException(self, '%s is not a function' % self.callee)
         params = node.params
         if len(params) != len(self.children):
-            raise Exception('Invalid arguments for \'%s\': expected %d, got %d' % (node.name, len(params), len(self.children)))
+            raise AstException(self, 'Invalid arguments for \'%s\': expected %d, got %d' % (node.name, len(params), len(self.children)))
         if not isinstance(node, BuiltinNode):
             params.reverse()
         for i in xrange(len(params)):
             if params[i] is not ANY and params[i] is not self.children[i].vartype:
-                raise Exception('Wrong type for \'%s\': expected %s, got %s' % (node.name, params[i], self.children[i].vartype))
+                raise AstException(self, 'Wrong type for \'%s\': expected %s, got %s' % (node.name, params[i], self.children[i].vartype))
 
     @classmethod
-    def from_tokens(cls, toks):
-        return cls(toks[0], toks[1:])
+    def from_tokens(cls, st, loc, toks):
+        return cls(toks[0], toks[1:], loc=(lineno(loc, st), col(loc, st)))
 
 class ReturnNode(Node):
-    def __init__(self, value=None):
-        super(ReturnNode, self).__init__()
+    def __init__(self, value=None, **kwargs):
+        super(ReturnNode, self).__init__(**kwargs)
         self.children = [value]
 
     @property
@@ -273,25 +291,25 @@ class ReturnNode(Node):
         vartype = self.value.vartype if self.value is not None else VOID
         node = self.func
         if node.rettype is not vartype:
-            raise Exception('Function return type mismatch: expected %s, got %s' % (node.rettype, self.value.vartype))
+            raise AstException(self, 'Function return type mismatch: expected %s, got %s' % (node.rettype, self.value.vartype))
 
     @classmethod
-    def from_tokens(cls, toks):
-        return cls(*toks)
+    def from_tokens(cls, st, loc, toks):
+        return cls(*toks, loc=(lineno(loc, st), col(loc, st)))
 
 class BreakNode(Node):
     @classmethod
-    def from_tokens(cls, toks):
-        return cls()
+    def from_tokens(cls, st, loc, toks):
+        return cls(loc=(lineno(loc, st), col(loc, st)))
 
 class ContinueNode(Node):
     @classmethod
-    def from_tokens(cls, toks):
-        return cls()
+    def from_tokens(cls, st, loc, toks):
+        return cls(loc=(lineno(loc, st), col(loc, st)))
 
 class GotoNode(Node):
-    def __init__(self, target, cond=None):
-        super(GotoNode, self).__init__()
+    def __init__(self, target, cond=None, **kwargs):
+        super(GotoNode, self).__init__(**kwargs)
         self.target = target
         self.children = [cond]
 
@@ -303,31 +321,31 @@ class GotoNode(Node):
         return self.children[0]
 
     @classmethod
-    def from_tokens(cls, toks):
-        return cls(toks[0])
+    def from_tokens(cls, st, loc, toks):
+        return cls(toks[0], loc=(lineno(loc, st), col(loc, st)))
 
 class LabelNode(Node):
-    def __init__(self, label):
-        super(LabelNode, self).__init__()
+    def __init__(self, label, **kwargs):
+        super(LabelNode, self).__init__(**kwargs)
         self.label = label
 
     def __repr__(self):
         return '<LabelNode %s>' % self.label
 
     @classmethod
-    def from_tokens(cls, toks):
-        return cls(toks[0])
+    def from_tokens(cls, st, loc, toks):
+        return cls(toks[0], loc=(lineno(loc, st), col(loc, st)))
 
     def scope_visitor(self):
         self.func.scope.add(self.label, self)
 
 class DeclNode(Node):
-    def __init__(self, decltype, name, size=None):
-        super(DeclNode, self).__init__()
+    def __init__(self, decltype, name, size=None, **kwargs):
+        super(DeclNode, self).__init__(**kwargs)
         self.decltype = intern(decltype)
         self.name = name
         if size is not None and size <= 1:
-            raise Exception('Array size must be greater than 1')
+            raise AstException(self, 'Array size must be greater than 1')
         self.size = size or 1
 
     def __repr__(self):
@@ -337,15 +355,15 @@ class DeclNode(Node):
         return self.func is None or self.func.name is GLOBAL
 
     @classmethod
-    def from_tokens(cls, toks):
-        return cls(*toks)
+    def from_tokens(cls, st, loc, toks):
+        return cls(*toks, loc=(lineno(loc, st), col(loc, st)))
 
     def scope_visitor(self):
         self.scope.add(self.name, self)
 
 class SubscriptNode(Node):
-    def __init__(self, name, sub):
-        super(SubscriptNode, self).__init__()
+    def __init__(self, name, sub, **kwargs):
+        super(SubscriptNode, self).__init__(**kwargs)
         self.name = name
         self.children = [sub]
         self.lval = False
@@ -361,18 +379,18 @@ class SubscriptNode(Node):
     def vartype(self):
         node = self.decl
         if node is None:
-            raise Exception('%s is not defined' % self.name)
+            raise AstException(self, '%s is not defined' % self.name)
         elif node.size <= 1:
-            raise Exception('%s is not an array' % self.name)
+            raise AstException(self, '%s is not an array' % self.name)
         return node.decltype
 
     @classmethod
-    def from_tokens(cls, toks):
-        return cls(*toks)
+    def from_tokens(cls, st, loc, toks):
+        return cls(*toks, loc=(lineno(loc, st), col(loc, st)))
 
 class IfNode(Node):
-    def __init__(self, cond, ifthen, ifelse=None):
-        super(IfNode, self).__init__()
+    def __init__(self, cond, ifthen, ifelse=None, **kwargs):
+        super(IfNode, self).__init__(**kwargs)
         self.children = [cond, ifthen, ifelse]
 
     @property
@@ -388,16 +406,16 @@ class IfNode(Node):
         return self.children[2]
 
     @classmethod
-    def from_tokens(cls, toks):
-        return cls(*toks)
+    def from_tokens(cls, st, loc, toks):
+        return cls(*toks, loc=(lineno(loc, st), col(loc, st)))
 
     def validate(self):
         if self.cond.vartype is not INT:
-            raise Exception('Condition must be int-type')
+            raise AstException(self, 'Condition must be int-type')
 
 class WhileNode(Node):
-    def __init__(self, cond, body):
-        super(WhileNode, self).__init__()
+    def __init__(self, cond, body, **kwargs):
+        super(WhileNode, self).__init__(**kwargs)
         self.children = [cond, body]
 
     @property
@@ -409,16 +427,16 @@ class WhileNode(Node):
         return self.children[1]
 
     @classmethod
-    def from_tokens(cls, toks):
-        return cls(*toks)
+    def from_tokens(cls, st, loc, toks):
+        return cls(*toks, loc=(lineno(loc, st), col(loc, st)))
 
     def validate(self):
         if self.cond.vartype is not INT:
-            raise Exception('Condition must be int-type')
+            raise AstException(self, 'Condition must be int-type')
 
 class ForNode(Node):
-    def __init__(self, init, cond, inc, body):
-        super(ForNode, self).__init__()
+    def __init__(self, init, cond, inc, body, **kwargs):
+        super(ForNode, self).__init__(**kwargs)
         self.children = [init, cond, inc, body]
 
     @property
@@ -438,8 +456,8 @@ class ForNode(Node):
         return self.children[3]
 
     @classmethod
-    def from_tokens(cls, toks):
-        return cls(*toks)
+    def from_tokens(cls, st, loc, toks):
+        return cls(*toks, loc=(lineno(loc, st), col(loc, st)))
 
     def scope_visitor(self):
         self._scope = Scope(self.parent.scope)
@@ -447,16 +465,16 @@ class ForNode(Node):
     def validate(self):
         if self.cond is not None:
             if self.cond.vartype is not INT:
-                raise Exception('Condition must be int-type')
+                raise AstException(self, 'Condition must be int-type')
 
 class BlockNode(Node):
-    def __init__(self, nodes):
-        super(BlockNode, self).__init__()
+    def __init__(self, nodes, **kwargs):
+        super(BlockNode, self).__init__(**kwargs)
         self.children = nodes
 
     @classmethod
-    def from_tokens(cls, toks):
-        return cls(*toks)
+    def from_tokens(cls, st, loc, toks):
+        return cls(*toks, loc=(lineno(loc, st), col(loc, st)))
 
     def scope_visitor(self):
         self._scope = Scope(self.parent.scope)
@@ -469,8 +487,8 @@ class BuiltinNode(Node):
         self.params = params
 
 class FuncNode(Node):
-    def __init__(self, rettype, name, params, body):
-        super(FuncNode, self).__init__()
+    def __init__(self, rettype, name, params, body, **kwargs):
+        super(FuncNode, self).__init__(**kwargs)
         self.rettype = intern(rettype)
         self.name = name
         self.tmp_id = 0
@@ -497,8 +515,8 @@ class FuncNode(Node):
         self.children[-1] = value
 
     @classmethod
-    def from_tokens(cls, toks):
-        return cls(toks[0], toks[1], toks[2:-1], toks[-1])
+    def from_tokens(cls, st, loc, toks):
+        return cls(toks[0], toks[1], toks[2:-1], toks[-1], loc=(lineno(loc, st), col(loc, st)))
 
     def new_label(self):
         node = LabelNode(':label_%d' % self.tmp_id)
@@ -521,7 +539,7 @@ class GlobalNode(Node):
         return None
 
     @classmethod
-    def from_tokens(cls, toks):
+    def from_tokens(cls, st, loc, toks):
         return cls(toks)
 
     def scope_visitor(self):
@@ -540,7 +558,7 @@ class Scope(object):
 
     def add(self, name, node):
         if self.get(name) is not None:
-            raise Exception('%s is already defined' % name)
+            raise AstException(node, '%s is already defined' % name)
         self.names[name] = node
 
 def print_ast(root):
