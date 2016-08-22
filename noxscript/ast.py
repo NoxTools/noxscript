@@ -5,6 +5,7 @@ STRING = intern('string')
 OBJECT = intern('object')
 FUNCTION = intern('function')
 ANY = intern('any')
+GLOBAL = intern('GLOBAL')
 
 class Node(object):
     def __init__(self):
@@ -54,6 +55,10 @@ class Node(object):
             return None
         return self.parent.find_ancestor(cls)
 
+    def is_constant(self):
+        constant = all([node.is_constant() for node in self.children])
+        return constant and len(self.children) > 0
+
 class LiteralNode(Node):
     def __init__(self, value):
         super(LiteralNode, self).__init__()
@@ -74,6 +79,9 @@ class LiteralNode(Node):
     @classmethod
     def from_tokens(cls, toks):
         return cls(toks[0])
+
+    def is_constant(self):
+        return True
 
 class VarNode(Node):
     def __init__(self, name):
@@ -167,11 +175,20 @@ class AssignNode(BinOpNode):
         return cls(toks[1], toks[0], toks[2])
 
     def is_global(self):
-        return False
+        return self.func is None or self.func.name is GLOBAL
 
     def scope_visitor(self):
         if self.decltype is not None:
             self.scope.add(self.lhs.name, self)
+
+    def validate(self):
+        super(AssignNode, self).validate()
+
+        if self.func == None:
+            if not self.decltype:
+                raise Exception('%s missing declaration type' % self.name)
+            if not self.rhs.is_constant():
+                raise Exception('%s initializer must be a constant expression' % self.name)
 
 class UnOpNode(Node):
     def __init__(self, op, rhs):
@@ -314,7 +331,7 @@ class DeclNode(Node):
         return '<DeclNode %s %s %d>' % (self.decltype, self.name, self.size)
 
     def is_global(self):
-        return self.func is None
+        return self.func is None or self.func.name is GLOBAL
 
     @classmethod
     def from_tokens(cls, toks):
@@ -459,6 +476,10 @@ class FuncNode(Node):
     def body(self):
         return self.children[-1]
 
+    @body.setter
+    def body(self, value):
+        self.children[-1] = value
+
     @classmethod
     def from_tokens(cls, toks):
         return cls(toks[0], toks[1], toks[2:-1], toks[-1])
@@ -476,7 +497,7 @@ class FuncNode(Node):
 class GlobalNode(Node):
     def __init__(self, children):
         super(GlobalNode, self).__init__()
-        self.children = children
+        self.children = children.asList()
 
     @property
     def func(self):

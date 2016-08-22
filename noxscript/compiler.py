@@ -5,7 +5,6 @@ from .parser import gen_ast
 import struct
 
 DUMMY = intern('DUMMY')
-GLOBAL = intern('GLOBAL')
 MAGIC = 'NOXSCRIPT3.0'
 UOPS_MAP = {
     (INT, '!'): 0x3e,
@@ -96,21 +95,22 @@ class Function(object):
 
 class Compiler(object):
     def __init__(self, code):
-        root = gen_ast(code)
+        self.root = root = gen_ast(code)
+        self.global_func = FuncNode(VOID, GLOBAL, [], BlockNode([]))
+        root.children += [self.global_func]
         scope_pass(root)
         validate_pass(root)
         flatten_pass(root)
 
-        self.root = root
         self.funcs = {
             DUMMY: Function(GLOBAL, 0),
-            GLOBAL: Function(GLOBAL, 1),
         }
+        # GLOBAL must be num 1
+        self.create_func(self.global_func)
         self.strings = {MAGIC + code: 0}
 
         self.create_func_pass()
-        for x in xrange(4):
-            self.funcs[GLOBAL].locals[x] = Variable(x, 1)
+        self.create_globals_pass()
         self.create_locals_pass()
         self.compile_func_pass()
 
@@ -120,16 +120,33 @@ class Compiler(object):
         assert len(self.strings) < 1024, 'Cannot create more than 1024 unique strings.'
         return self.strings[s]
 
+    def create_globals_pass(self):
+        def visitor(func, block, node, depth):
+            if node is None:
+                return node
+            if isinstance(node, DeclNode) or isinstance(node, AssignNode) and node.decltype is not None:
+                if node.func is None:
+                    # Move to the global function
+                    block += [node]
+                    node.parent = func
+                    return None
+            return node
+        block = [
+            DeclNode(INT, 'OTHER'),
+            DeclNode(INT, 'SELF'),
+            DeclNode(INT, 'TRUE'),
+            DeclNode(INT, 'FALSE'),
+        ]
+        Node.traverse(self.root, None, lambda node, depth: visitor(self.global_func, block, node, depth))
+        self.global_func.body = BlockNode(block)
+
     def create_locals_pass(self):
         def visitor(node, depth):
             if node is None:
                 return node
             if isinstance(node, DeclNode) or isinstance(node, AssignNode) and node.decltype is not None:
-                func = node.func
-                if func is None:
-                    func = self.funcs[GLOBAL]
-                else:
-                    func = self.funcs[func]
+                # At this point, everything should be in a function, even globals
+                func = self.funcs[node.func]
                 func.create_local(node)
             return node
         Node.traverse(self.root, visitor, None)
@@ -144,6 +161,8 @@ class Compiler(object):
         Node.traverse(self.root, visitor, None)
 
     def create_func(self, node):
+        if node in self.funcs:
+            return
         func = Function(node.name, len(self.funcs), len(node.params), node.rettype is not VOID)
         self.funcs[node] = func
 
@@ -170,18 +189,15 @@ class Compiler(object):
             self.bc[offset] = self.labels[label]
         self.funcs[node].bc = self.bc
 
-        #print self.bc
-
+    def get_decl_num(self, decl):
+        return self.funcs[decl.func].locals[decl].num
 
     def pre_visitor(self, node, depth):
         if node is None:
             return node
         if isinstance(node, SubscriptNode):
             decl = node.decl
-            if decl.is_global():
-                num = self.funcs[GLOBAL].locals[decl].num
-            else:
-                num = self.funcs[self.func].locals[decl].num
+            num = self.get_decl_num(decl)
             self.bc += [2]
             self.bc += [int(decl.is_global()), num]
         elif isinstance(node, LabelNode):
@@ -205,10 +221,7 @@ class Compiler(object):
                 # push an int literal
                 self.bc += [4, num]
             else:
-                if decl.is_global():
-                    num = self.funcs[GLOBAL].locals[decl].num
-                else:
-                    num = self.funcs[self.func].locals[decl].num
+                num = self.get_decl_num(decl)
                 if node.lval:
                     self.bc += [2]
                 elif node.vartype is INT or node.vartype is OBJECT:
@@ -284,30 +297,5 @@ class Compiler(object):
         fp.close()
         return {'size': size, 'strings': sorted(self.strings.items(), key=lambda x: x[1]), 'funcs': sorted(self.funcs.values(), key=lambda x: x.num)}
 
-
     def print_ast(self):
         print_ast(self.root)
-
-
-
-code ='''
-int x[10];
-object test2()
-{
-    return Wall(x[2], x[1]);
-}
-
-void test(int a, object wall)
-{
-    WallOpen(wall);
-}
-
-void MapInitialize()
-{
-    x[2] = 7;
-    x[1] = x[2];
-    object wall = test2();
-    test(3, wall);
-    return;
-}
-'''

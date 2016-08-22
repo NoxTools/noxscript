@@ -77,7 +77,7 @@ argdecl = (vartype + name).setParseAction(DeclNode.from_tokens)
 funcdecl = (Keyword('void') | vartype) + name + LPAREN + Optional(argdecl + ZeroOrMore(Suppress(Literal(',')) + argdecl)) + RPAREN
 func = (funcdecl + statement).setParseAction(FuncNode.from_tokens)
 
-grammar = ZeroOrMore(func | (vardecl + SEMICOLON))
+grammar = ZeroOrMore(func | (vardecl + SEMICOLON) | (assign + SEMICOLON))
 grammar.ignore(cppStyleComment)
 
 grammar.setParseAction(GlobalNode.from_tokens)
