@@ -1493,7 +1493,7 @@
     <member refid="builtins_8h_1a92a4ff3777f6eddadc614a1686c0fb74" kind="function"><name>ChangeGold</name></member>
     <member refid="builtins_8h_1afcc49c130d2dc88d163a20a610ea2fb4" kind="function"><name>GetAnswer</name></member>
     <member refid="builtins_8h_1a1bb1b391dbfecce47fa4e44efcd51a81" kind="function"><name>GiveXp</name></member>
-    <member refid="builtins_8h_1a2521cb4b3026f5391bee57cf97cee511" kind="function"><name>HasSubclass</name></member>
+    <member refid="builtins_8h_1a61d98dbad4634a4da052c7a901f14cc3" kind="function"><name>HasSubclass</name></member>
     <member refid="builtins_8h_1a0d696d7aae29bcc73c41974e78db95b8" kind="function"><name>AutoSave</name></member>
     <member refid="builtins_8h_1a6ef138bf07955518b70284d9b6ef2bd3" kind="function"><name>Music</name></member>
     <member refid="builtins_8h_1a74132af20f22df173cfd239984fa964a" kind="function"><name>StartupScreen</name></member>
@@ -1531,5 +1531,7 @@
     <member refid="builtins_8h_1ac08a1bd4356cff850e6fdd4c0ebd50f1" kind="function"><name>ImmediateBlind</name></member>
     <member refid="builtins_8h_1a6a614e1f5cb48d6bf468c3f3a92f4a62" kind="function"><name>SetTeam</name></member>
     <member refid="builtins_8h_1ab48396b635ea9259068cb1cf3f2f2f73" kind="function"><name>GetTeam</name></member>
+  </compound>
+  <compound refid="indexpage" kind="page"><name>index</name>
   </compound>
 </doxygenindex>

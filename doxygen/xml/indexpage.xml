@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.8">
+  <compounddef id="indexpage" kind="page">
+    <compoundname>index</compoundname>
+    <title>Nox Script</title>
+    <detaileddescription>
+<sect1 id="index_1Language">
+<title>Language Reference</title>
+<para><heading level="3">Introduction</heading>
+</para><para>Welcome to Nox Script 3.0! This language is inspired by <ulink url="http://www.compuphase.com/pawn/pawn.htm">Pawn</ulink> which is a scripting language with a C-like syntax. If you are familiar with C, then this will be very familiar to you.</para><para><programlisting><codeline><highlight class="normal">//<sp/>Hello<sp/>world!<sp/>example</highlight></codeline>
+<codeline><highlight class="normal">void<sp/>MapInitialize()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Print(&quot;Hello<sp/>world!&quot;);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para><para><heading level="3">Types</heading>
+</para><para>There are four exposed types in Nox Script:</para><para><itemizedlist>
+<listitem>
+<para>int </para></listitem>
+<listitem>
+<para>float </para></listitem>
+<listitem>
+<para>string </para></listitem>
+<listitem>
+<para>object </para></listitem>
+</itemizedlist>
+</para><para>The <computeroutput>int</computeroutput> and <computeroutput>float</computeroutput> types are the same as C. The <computeroutput>string</computeroutput> type refers to a string in the string table. Lastly, the <computeroutput>object</computeroutput> type is used as an opaque type. It does not refer to an object in Nox! Types are strictly enforced to prevent errors.</para><para>In Nox Script, Nox objects are always referred to by their in-game ID which is an <computeroutput>int</computeroutput>. In addition, there are two keywords, <computeroutput>self</computeroutput> and <computeroutput>other</computeroutput>, that refer to the caller of the script and target of the script, respectively. In the API Reference, these will be referred to as SELF and OTHER.</para><para>The most common usage of the <computeroutput>object</computeroutput> type is when you are dealing with groups and waypoints. While these are technically integer IDs, Nox Script uses an opaque type for basic type checking and preventing you from performing operations on them. The only allowed operations are assignment (<computeroutput>=</computeroutput>), is-equal (<computeroutput>==</computeroutput>), and is-not-equal (<computeroutput>!=</computeroutput>).</para><para><programlisting><codeline><highlight class="normal">void<sp/>MapInitialize()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>int<sp/>thePlayer;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>object<sp/>waypoint;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>thePlayer<sp/>=<sp/>GetHost();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>waypoint<sp/>=<sp/>Waypoint(&quot;Waypoint1&quot;);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para><para><heading level="3">Operators</heading>
+</para><para>All of the standard arithmetic and comparison operators are supported on both <computeroutput>int</computeroutput> and <computeroutput>float</computeroutput> types. Bitwise operators are only allowed on <computeroutput>int</computeroutput> types. Additionally, <computeroutput>string</computeroutput> types support comparison operators, concat (<computeroutput>+</computeroutput>), and concat-assign (<computeroutput>+=</computeroutput>). Below is a complete list of operators and supported types:</para><para><table rows="12" cols="3"><row>
+<entry thead="yes"><para>Assignment</para></entry><entry thead="no"><para><computeroutput>=</computeroutput></para></entry><entry thead="no"><para><computeroutput>int, float, string, object</computeroutput> </para></entry></row>
+<row>
+<entry thead="yes"><para>Concat Assignment</para></entry><entry thead="no"><para><computeroutput>+=</computeroutput></para></entry><entry thead="no"><para><computeroutput>string</computeroutput> </para></entry></row>
+<row>
+<entry thead="yes"><para>Arithmetic Assignment</para></entry><entry thead="no"><para><computeroutput>+= -= *= /=</computeroutput></para></entry><entry thead="no"><para><computeroutput>int, float</computeroutput> </para></entry></row>
+<row>
+<entry thead="yes"><para>Bitwise Assignment</para></entry><entry thead="no"><para><computeroutput>&amp;= |= ^= &lt;&lt;= &gt;&gt;=</computeroutput></para></entry><entry thead="no"><para><computeroutput>int</computeroutput> </para></entry></row>
+<row>
+<entry thead="yes"><para>Modulo Assignment</para></entry><entry thead="no"><para><computeroutput>%=</computeroutput></para></entry><entry thead="no"><para><computeroutput>int</computeroutput> </para></entry></row>
+<row>
+<entry thead="yes"><para>Concatenation</para></entry><entry thead="no"><para><computeroutput>+</computeroutput></para></entry><entry thead="no"><para><computeroutput>string</computeroutput> </para></entry></row>
+<row>
+<entry thead="yes"><para>Arithmetic</para></entry><entry thead="no"><para><computeroutput>+ - * /</computeroutput></para></entry><entry thead="no"><para><computeroutput>int, float</computeroutput> </para></entry></row>
+<row>
+<entry thead="yes"><para>Modulo</para></entry><entry thead="no"><para><computeroutput>%</computeroutput></para></entry><entry thead="no"><para><computeroutput>int</computeroutput> </para></entry></row>
+<row>
+<entry thead="yes"><para>Bitwise</para></entry><entry thead="no"><para><computeroutput>&amp; | ^ = &lt;&lt; &gt;&gt;</computeroutput></para></entry><entry thead="no"><para><computeroutput>int</computeroutput> </para></entry></row>
+<row>
+<entry thead="yes"><para>Logical</para></entry><entry thead="no"><para><computeroutput>&amp;&amp; ||</computeroutput></para></entry><entry thead="no"><para><computeroutput>int</computeroutput> </para></entry></row>
+<row>
+<entry thead="yes"><para>Equality</para></entry><entry thead="no"><para><computeroutput>== !=</computeroutput></para></entry><entry thead="no"><para><computeroutput>int, float, string, object</computeroutput> </para></entry></row>
+<row>
+<entry thead="yes"><para>Comparison</para></entry><entry thead="no"><para><computeroutput>&lt; &gt; &lt;= &gt;=</computeroutput></para></entry><entry thead="no"><para><computeroutput>int, float, string</computeroutput> </para></entry></row>
+<caption>Supported operators</caption>
+</table>
+</para><para><heading level="3">Literals</heading>
+</para><para>There are three types of literals: ints, floats, and strings. The syntax is similar to C.</para><para>An int-literal is either a decimal, hexadecimal, or octal number. A hexadecimal number starts with <computeroutput>0x</computeroutput>, and a octal number starts with <computeroutput>0</computeroutput>. There are additionally the keywords <computeroutput>true</computeroutput> and <computeroutput>false</computeroutput>, which are treated as <computeroutput>1</computeroutput> and <computeroutput>0</computeroutput> respectively.</para><para>A float-literal is a number of the form: <computeroutput>1.0</computeroutput> or <computeroutput>1.0e2</computeroutput>. It must contain a dot, otherwise it may be interpreted as an int-literal, which may cause a type mismatch.</para><para>A string-literal is a C quoted string: &quot;hello world&quot;. It may contain the usual C escape characters, for example: &quot;This is a quote: \&quot;.". All string literals will be added to the string table during compilation.</para><para><heading level="3">Variables</heading>
+</para><para>Like C, all variables are statically typed when they are declared. In addition, a variable name must not conflict with any other name that is within scope. Variables that are declared outside of a function have a global scope, and they can be modified or used from any function. Variables inside a function have a block scope.</para><para>The basic syntax for variable declaration is: <computeroutput>type name;</computeroutput>.</para><para>You can also immediately assign a value using: <computeroutput>type name = value;</computeroutput>. If you assign a value to a global variable at declaration, then it must be a constant expresssion (e.g. it does not use any functions or variables).</para><para>Declaring a variable can only be done as a statement. It cannot be inside of an expression.</para><para>Arrays are also supported: <computeroutput>type name [length];</computeroutput>. The length must an integer number greater than 1. Arrays must be subscripted when they are used: <computeroutput>name[index]</computeroutput>.</para><para><programlisting><codeline><highlight class="normal">int<sp/>RequiredGold<sp/>=<sp/>100;</highlight></codeline>
+<codeline><highlight class="normal">object<sp/>Waypoints[32];</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>MapInitialize()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>int<sp/>ContestOfficial<sp/>=<sp/>Object(&quot;ContestOfficial&quot;);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>int<sp/>i;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>for<sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>32;<sp/>i<sp/>+=<sp/>1)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Waypoints[i]<sp/>=<sp/>Object(&quot;Waypoint&quot;<sp/>+<sp/>IntToString(i<sp/>+<sp/>1));</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para><para><heading level="3">Functions</heading>
+</para><para>Functions are defined in the global scope and their names must not conflict with variable names or built-in names. Functions can have an return type and parameters. If a function does not return anything, then its return type must be the <computeroutput>void</computeroutput> keyword. Function parameters can be used just like normal variables.</para><para>The function declaration syntax is similar to C: <computeroutput>type name(type paramName1, type paramName2, ...)</computeroutput>.</para><para>You can call functions and pass in arguments like C: <computeroutput>name(arg1, arg2, ...)</computeroutput>. If a function returns a value, a function can be called in an expression. This syntax also applies to calling a built-in. Argument types are checked against the expected parameter types.</para><para>Some built-ins take a function as a parameter. This is the only situation where you can use a function as a value.</para><para><programlisting><codeline><highlight class="normal">int<sp/>RequiredGold<sp/>=<sp/>100;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>MapInitialize()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>int<sp/>official<sp/>=<sp/>Object(&quot;ContestOfficial&quot;);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>InitDialog(official);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>InitDialog(official)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>SetDialog(official,<sp/>&quot;NORMAL&quot;,<sp/>NullDialogStart,<sp/>ContestOfficialDialogEnd);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>NullDialogStart()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>ContestOfficialDialogEnd()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>if<sp/>(GetAnswer()<sp/>==<sp/>1)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(GetGold(GetHost())<sp/>&lt;<sp/>RequiredGold)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Print(&quot;GeneralPrint:WishingWellNotEnoughGold&quot;);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RestoreHealth(GetHost(),<sp/>GetHealingAmount(GetHost()));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">int<sp/>GetHealingAmount(object<sp/>player)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>MaxHealth(player)<sp/>-<sp/>CurrentHealth(player);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para></sect1>
+<sect1 id="index_1API">
+<title>API Reference</title>
+<para><heading level="3">Built-in Functions</heading>
+</para><para>Use <ulink url="builtins_8h.html">builtins.h</ulink> to find the function you are interested in. These functions have been renamed from previous versions:</para><para><itemizedlist>
+<listitem>
+<para>IsOn (see <ref refid="builtins_8h_1a4b390d72ca5ee529c588dfbff1e85a9c" kindref="member">IsObjectOn</ref>) </para></listitem>
+<listitem>
+<para>SpecialTimer (see <ref refid="builtins_8h_1a0ff8d0c01b4731c34712d17ee83ba2fc" kindref="member">FrameTimerWithArg</ref>) </para></listitem>
+<listitem>
+<para>Create (see <ref refid="builtins_8h_1ae93f93dfaad56ac8f1a129f57734cd94" kindref="member">CreateObject</ref>) </para></listitem>
+<listitem>
+<para>CheckObjectType (see <ref refid="builtins_8h_1acef7da1683bd154dce469c8ba667ce94" kindref="member">HasClass</ref>) </para></listitem>
+<listitem>
+<para>IsSpotted (see <ref refid="builtins_8h_1a83a98f79211a5b4f9a35479f68bb34a7" kindref="member">IsVisibleTo</ref>) </para></listitem>
+<listitem>
+<para>SetGroupOwner (see <ref refid="builtins_8h_1aced247ea9786a457b92d9304666f51e2" kindref="member">GroupSetOwner</ref>) </para></listitem>
+<listitem>
+<para>AreOwnedBy (see <ref refid="builtins_8h_1ac68768b0a84261b70743161603c625db" kindref="member">GroupIsOwnedBy</ref>) </para></listitem>
+<listitem>
+<para>SetQuestBoolStatus (see <ref refid="builtins_8h_1a53dd8dd39bd124a615c23c4b0d34b90a" kindref="member">SetQuestStatusFloat</ref>) </para></listitem>
+<listitem>
+<para>GetQuestBoolStatus (see <ref refid="builtins_8h_1abc2c3b5d5da7801c624f3a164a13bcd6" kindref="member">GetQuestStatusFloat</ref>) </para></listitem>
+<listitem>
+<para>EnforceTalk (see <ref refid="builtins_8h_1ac0013f0f3fc4eaeaf62e0190d0f98904" kindref="member">StartDialog</ref>) </para></listitem>
+<listitem>
+<para>CastSpellOn (see <ref refid="builtins_8h_1a952a4e701ca455e008d05624ea10c8a5" kindref="member">CastSpellObjectObject</ref>) </para></listitem>
+<listitem>
+<para>CastSpellAt (see <ref refid="builtins_8h_1a6c76d78d5c0bd2ed22b9e569dd818d9a" kindref="member">CastSpellObjectLocation</ref>) </para></listitem>
+<listitem>
+<para>CastSpellTo (see <ref refid="builtins_8h_1ab5cad2f9d650ad19cd119779ab450492" kindref="member">CastSpellLocationObject</ref>) </para></listitem>
+<listitem>
+<para>CastSpellFrom (see <ref refid="builtins_8h_1a5c7e92bde98f7d41bf715a892eefc1a5" kindref="member">CastSpellLocationLocation</ref>) </para></listitem>
+<listitem>
+<para>SetGuardSpot (see <ref refid="builtins_8h_1a2aee6abcebe4dbf754e77ad9f365ed48" kindref="member">CreatureGuard</ref>) </para></listitem>
+<listitem>
+<para>SetGroupGuardSpot (see <ref refid="builtins_8h_1a5338958fafe264eae0d604bdd2d50cfc" kindref="member">CreatureGroupGuard</ref>) </para></listitem>
+<listitem>
+<para>Follow (see <ref refid="builtins_8h_1a138e5156fe0580668f86ac7a3a2d2099" kindref="member">CreatureFollow</ref>) </para></listitem>
+<listitem>
+<para>GroupFollow (see <ref refid="builtins_8h_1aefc1a928c0a811d6ffd14396d797d1ea" kindref="member">CreatureGroupFollow</ref>) </para></listitem>
+<listitem>
+<para>SetPathFlag (see <ref refid="builtins_8h_1a7686224ea99d2e67febd7f073b906197" kindref="member">SetRoamFlag</ref>) </para></listitem>
+<listitem>
+<para>SetGroupPathFlag (see <ref refid="builtins_8h_1a72ee6bfc6a7641d204545fbb464b5c24" kindref="member">GroupSetRoamFlag</ref>) </para></listitem>
+<listitem>
+<para>IdleLevel (see <ref refid="builtins_8h_1ae79487ad111f5bedbe9f93582b33a272" kindref="member">RetreatLevel</ref>) </para></listitem>
+<listitem>
+<para>GroupIdleLevel (see <ref refid="builtins_8h_1a9d03102c61011abe96023afdb73599b8" kindref="member">GroupRetreatLevel</ref>) </para></listitem>
+<listitem>
+<para>CheckItem (see <ref refid="builtins_8h_1a61d98dbad4634a4da052c7a901f14cc3" kindref="member">HasSubclass</ref>) </para></listitem>
+<listitem>
+<para>SetProperty (see <ref refid="builtins_8h_1aa8802e009105ec258a7dc1a0c99ae4ad" kindref="member">SetCallback</ref>) </para></listitem>
+</itemizedlist>
+</para></sect1>
+<sect1 id="index_1Examples">
+<title>Examples</title>
+<para>Below are some examples inspired by scripts in official Nox maps. These are just snippets, so they are not sufficient by themselves.</para><para><programlisting><codeline><highlight class="normal">//<sp/>some<sp/>functions<sp/>from<sp/>G_Temple</highlight></codeline>
+<codeline><highlight class="normal">int<sp/>goodiePits[32];</highlight></codeline>
+<codeline><highlight class="normal">object<sp/>goodiePitExitWalls;</highlight></codeline>
+<codeline><highlight class="normal">object<sp/>elevatorWalls6;</highlight></codeline>
+<codeline><highlight class="normal">int<sp/>isFONTrapOn;</highlight></codeline>
+<codeline><highlight class="normal">int<sp/>fonTrapOrigin1;</highlight></codeline>
+<codeline><highlight class="normal">object<sp/>fonTrapTarget1;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>InitializeGoodiePits()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>int<sp/>i;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>for<sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>32;<sp/>i<sp/>+=<sp/>1)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>goodiePits[i]<sp/>=<sp/>Object(&quot;GoodiePit&quot;<sp/>+<sp/>IntToString(i<sp/>+<sp/>1));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>goodiePitExitWalls<sp/>=<sp/>WallGroup(&quot;GoodiePitExitWalls&quot;);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>elevatorWalls6<sp/>=<sp/>WallGroup(&quot;ElevatorWallgroup06&quot;);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>OpenGoodiePit(int<sp/>i)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ObjectOn(goodiePits[i<sp/>-<sp/>1]);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>GoodiePit1()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ObjectOff(self);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>OpenGoodiePit(1);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>FireFONTrap01()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ObjectOff(self);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Print(&quot;GeneralPrint:MsgTrapOn&quot;);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>isFONTrapOn<sp/>=<sp/>true;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>CastSpellObjectLocation(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;SPELL_FORCE_OF_NATURE&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fonTrapOrigin1,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetWaypointX(fonTrapTarget1),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetWaypointY(fonTrapTarget1));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>SecondTimer(5,<sp/>FONTrap01Loop);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>FONTrap01Loop()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>if<sp/>(isFONTrapOn)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CastSpellObjectLocation(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;SPELL_FORCE_OF_NATURE&quot;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fonTrapOrigin1,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetWaypointX(fonTrapTarget1),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GetWaypointY(fonTrapTarget1));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SecondTimer(5,<sp/>FONTrap01Loop);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>InitializeFONtraps()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>fonTrapOrigin1<sp/>=<sp/>Object(&quot;FON_Origin01&quot;);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>fonTrapTarget1<sp/>=<sp/>Waypoint(&quot;FON_Target01&quot;);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">void<sp/>MapInitialize()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>InitializeGoodiePits();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>InitializeFONtraps();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>function<sp/>from<sp/>Con02A<sp/>(adapted<sp/>as<sp/>an<sp/>example)</highlight></codeline>
+<codeline><highlight class="normal">void<sp/>ContestGuardDialogEnd()</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>int<sp/>hasBow<sp/>=<sp/>false;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>int<sp/>item;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>for<sp/>(item<sp/>=<sp/>GetLastItem(GetHost());<sp/>item<sp/>!=<sp/>0;<sp/>item<sp/>=<sp/>GetPreviousItem(item))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(HasClass(item,<sp/>&quot;WEAPON&quot;)<sp/>&amp;&amp;<sp/>HasSubclass(item,<sp/>&quot;BOW&quot;))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hasBow<sp/>=<sp/>true;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>break;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>int<sp/>gold<sp/>=<sp/>GetGold(GetHost());</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>if<sp/>(gold<sp/>&lt;<sp/>100)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TellStory(&quot;SwordsmanHurt&quot;,<sp/>&quot;Con02A:NotEnoughGold&quot;);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>else<sp/>if<sp/>(hasBow<sp/>==<sp/>false)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TellStory(&quot;SwordsmanHurt&quot;,<sp/>&quot;Con02a:NoBow&quot;);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>else</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ChangeGold(GetHost(),<sp/>-100);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

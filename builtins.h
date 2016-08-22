@@ -1,6 +1,335 @@
 /**
   \file builtins.h
   \brief Built-in definitions for Nox Script
+
+  \mainpage
+
+  \section Language Language Reference
+
+  <h3>Introduction</h3>
+  <p>Welcome to Nox Script 3.0! This language is inspired by
+  <a href="http://www.compuphase.com/pawn/pawn.htm">Pawn</a> which is a
+  scripting language with a C-like syntax. If you are familiar with C, then
+  this will be very familiar to you.<p>
+
+  \code
+    // Hello world! example
+    void MapInitialize()
+    {
+        Print("Hello world!");
+    }
+  \endcode
+
+  <h3>Types</h3>
+  <p>There are four exposed types in Nox Script:<p>
+  
+  <ul>
+    <li>int</li>
+    <li>float</li>
+    <li>string</li>
+    <li>object</li>
+  </ul>
+
+  <p>The <code>int</code> and <code>float</code> types are the same as C. The
+  <code>string</code> type refers to a string in the string table. Lastly, the
+  <code>object</code> type is used as an opaque type. It does not refer to an
+  object in Nox! Types are strictly enforced to prevent errors.</p>
+
+  <p>In Nox Script, Nox objects are always referred to by their in-game ID which
+  is an <code>int</code>. In addition, there are two keywords, <code>self</code>
+  and <code>other</code>, that refer to the caller of the script and target of
+  the script, respectively. In the API Reference, these will be referred to as
+  SELF and OTHER.</p>
+
+  <p>The most common usage of the <code>object</code> type is when you are
+  dealing with groups and waypoints. While these are technically integer IDs,
+  Nox Script uses an opaque type for basic type checking and preventing you
+  from performing operations on them. The only allowed operations are
+  assignment (<code>=</code>), is-equal (<code>==</code>), and is-not-equal
+  (<code>!=</code>).</p>
+
+  \code
+    void MapInitialize()
+    {
+        int thePlayer;
+        object waypoint;
+
+        thePlayer = GetHost();
+        waypoint = Waypoint("Waypoint1");
+    }
+  \endcode
+
+  <h3>Operators</h3>
+  <p>All of the standard arithmetic and comparison operators are supported on
+  both <code>int</code> and <code>float</code> types. Bitwise operators are
+  only allowed on <code>int</code> types. Additionally, <code>string</code>
+  types support comparison operators, concat (<code>+</code>), and
+  concat-assign (<code>+=</code>). Below is a complete list of operators and
+  supported types:</p>
+
+  <table>
+    <caption>Supported operators</caption>
+    <tr><th>Assignment</th><td><code>=</code></td><td><code>int, float, string, object</code></td></tr>
+    <tr><th>Concat Assignment</th><td><code>+=</code></td><td><code>string</code></td></tr>
+    <tr><th>Arithmetic Assignment</th><td><code>+= -= *= /=</code></td><td><code>int, float</code></td></tr>
+    <tr><th>Bitwise Assignment</th><td><code>&amp;= |= ^= &lt;&lt;= &gt;&gt;=</code></td><td><code>int</code></td></tr>
+    <tr><th>Modulo Assignment</th><td><code>%=</code></td><td><code>int</code></td></tr>
+    <tr><th>Concatenation</th><td><code>+</code></td><td><code>string</code></td></tr>
+    <tr><th>Arithmetic</th><td><code>+ - * /</code></td><td><code>int, float</code></td></tr>
+    <tr><th>Modulo</th><td><code>%</code></td><td><code>int</code></td></tr>
+    <tr><th>Bitwise</th><td><code>&amp; | ^ = &lt;&lt; &gt;&gt;</code></td><td><code>int</code></td></tr>
+    <tr><th>Logical</th><td><code>&amp;&amp; ||</code></td><td><code>int</code></td></tr>
+    <tr><th>Equality</th><td><code>== !=</code></td><td><code>int, float, string, object</code></td></tr>
+    <tr><th>Comparison</th><td><code>&lt; &gt; &lt;= &gt;=</code></td><td><code>int, float, string</code></td></tr>
+  </table>
+
+  <h3>Literals</h3>
+  <p>There are three types of literals: ints, floats, and strings. The syntax
+  is similar to C.</p>
+
+  <p>An int-literal is either a decimal, hexadecimal, or octal number. A
+  hexadecimal number starts with <code>0x</code>, and a octal number starts
+  with <code>0</code>. There are additionally the keywords <code>true</code>
+  and <code>false</code>, which are treated as <code>1</code> and
+  <code>0</code> respectively.</p>
+  
+  <p>A float-literal is a number of the form: <code>1.0</code> or
+  <code>1.0e2</code>. It must contain a dot, otherwise it may be interpreted as
+  an int-literal, which may cause a type mismatch.</p>
+
+  <p>A string-literal is a C quoted string: "hello world". It may contain the
+  usual C escape characters, for example: "This is a quote: \".". All string
+  literals will be added to the string table during compilation.</p>
+
+  <h3>Variables</h3>
+  <p>Like C, all variables are statically typed when they are declared. In
+  addition, a variable name must not conflict with any other name that is
+  within scope. Variables that are declared outside of a function have a global
+  scope, and they can be modified or used from any function. Variables inside
+  a function have a block scope.</p>
+
+  <p>The basic syntax for variable declaration is: <code>type name;</code>.</p>
+
+  <p>You can also immediately assign a value using: <code>type name = value;</code>.
+  If you assign a value to a global variable at declaration, then it must be a
+  constant expresssion (e.g. it does not use any functions or variables).</p>
+
+  <p>Declaring a variable can only be done as a statement. It cannot be inside
+  of an expression.</p>
+
+  <p>Arrays are also supported: <code>type name [length];</code>. The length
+  must an integer number greater than 1. Arrays must be subscripted when they
+  are used: <code>name[index]</code>.</p>
+
+  \code
+    int RequiredGold = 100;
+    object Waypoints[32];
+
+    void MapInitialize()
+    {
+        int ContestOfficial = Object("ContestOfficial");
+
+        int i;
+        for (i = 0; i < 32; i += 1)
+            Waypoints[i] = Object("Waypoint" + IntToString(i + 1));
+    }
+  \endcode
+
+  <h3>Functions</h3>
+  <p>Functions are defined in the global scope and their names must not
+  conflict with variable names or built-in names. Functions can have an
+  return type and parameters. If a function does not return anything, then its
+  return type must be the <code>void</code> keyword. Function parameters can be
+  used just like normal variables.</p>
+
+  <p>The function declaration syntax is similar to C:
+  <code>type name(type paramName1, type paramName2, ...)</code>.</p>
+
+  <p>You can call functions and pass in arguments like C:
+  <code>name(arg1, arg2, ...)</code>. If a function returns a value, a function
+  can be called in an expression. This syntax also applies to calling a
+  built-in. Argument types are checked against the expected parameter types.</p>
+
+  <p>Some built-ins take a function as a parameter. This is the only situation
+  where you can use a function as a value.</p>
+
+  \code
+    int RequiredGold = 100;
+
+    void MapInitialize()
+    {
+        int official = Object("ContestOfficial");
+        InitDialog(official);
+    }
+
+    void InitDialog(official)
+    {
+        SetDialog(official, "NORMAL", NullDialogStart, ContestOfficialDialogEnd);
+    }
+
+    void NullDialogStart()
+    {
+    }
+
+    void ContestOfficialDialogEnd()
+    {
+        if (GetAnswer() == 1)
+        {
+            if (GetGold(GetHost()) < RequiredGold)
+            {
+                Print("GeneralPrint:WishingWellNotEnoughGold");
+            }
+            else
+            {
+                RestoreHealth(GetHost(), GetHealingAmount(GetHost()));
+            }
+        }
+    }
+
+    int GetHealingAmount(object player)
+    {
+        return MaxHealth(player) - CurrentHealth(player);
+    }
+  \endcode
+
+  \section API API Reference
+
+  <h3>Built-in Functions</h3>
+  <p>Use <a href="builtins_8h.html">builtins.h</a> to find the function you are
+  interested in. These functions have been renamed from previous versions:</p>
+  <ul>
+    <li>IsOn (see ::IsObjectOn)</li>
+    <li>SpecialTimer (see ::FrameTimerWithArg)</li>
+    <li>Create (see ::CreateObject)</li>
+    <li>CheckObjectType (see ::HasClass)</li>
+    <li>IsSpotted (see ::IsVisibleTo)</li>
+    <li>SetGroupOwner (see ::GroupSetOwner)</li>
+    <li>AreOwnedBy (see ::GroupIsOwnedBy)</li>
+    <li>SetQuestBoolStatus (see ::SetQuestStatusFloat)</li>
+    <li>GetQuestBoolStatus (see ::GetQuestStatusFloat)</li>
+    <li>EnforceTalk (see ::StartDialog)</li>
+    <li>CastSpellOn (see ::CastSpellObjectObject)</li>
+    <li>CastSpellAt (see ::CastSpellObjectLocation)</li>
+    <li>CastSpellTo (see ::CastSpellLocationObject)</li>
+    <li>CastSpellFrom (see ::CastSpellLocationLocation)</li>
+    <li>SetGuardSpot (see ::CreatureGuard)</li>
+    <li>SetGroupGuardSpot (see ::CreatureGroupGuard)</li>
+    <li>Follow (see ::CreatureFollow)</li>
+    <li>GroupFollow (see ::CreatureGroupFollow)</li>
+    <li>SetPathFlag (see ::SetRoamFlag)</li>
+    <li>SetGroupPathFlag (see ::GroupSetRoamFlag)</li>
+    <li>IdleLevel (see ::RetreatLevel)</li>
+    <li>GroupIdleLevel (see ::GroupRetreatLevel)</li>
+    <li>CheckItem (see ::HasSubclass)</li>
+    <li>SetProperty (see ::SetCallback)</li>
+  </ul>
+
+  \section Examples Examples
+
+  <p>Below are some examples inspired by scripts in official Nox maps. These
+  are just snippets, so they are not sufficient by themselves.</p>
+
+  \code
+    // some functions from G_Temple
+    int goodiePits[32];
+    object goodiePitExitWalls;
+    object elevatorWalls6;
+    int isFONTrapOn;
+    int fonTrapOrigin1;
+    object fonTrapTarget1;
+
+    void InitializeGoodiePits()
+    {
+        int i;
+        
+        for (i = 0; i < 32; i += 1)
+        {
+            goodiePits[i] = Object("GoodiePit" + IntToString(i + 1));
+        }
+
+        goodiePitExitWalls = WallGroup("GoodiePitExitWalls");
+        elevatorWalls6 = WallGroup("ElevatorWallgroup06");
+    }
+
+    void OpenGoodiePit(int i)
+    {
+        ObjectOn(goodiePits[i - 1]);
+    }
+
+    void GoodiePit1()
+    {
+        ObjectOff(self);
+        OpenGoodiePit(1);
+    }
+
+    void FireFONTrap01()
+    {
+        ObjectOff(self);
+        Print("GeneralPrint:MsgTrapOn");
+        isFONTrapOn = true;
+        CastSpellObjectLocation(
+            "SPELL_FORCE_OF_NATURE",
+            fonTrapOrigin1,
+            GetWaypointX(fonTrapTarget1),
+            GetWaypointY(fonTrapTarget1));
+        SecondTimer(5, FONTrap01Loop);
+    }
+
+    void FONTrap01Loop()
+    {
+        if (isFONTrapOn)
+        {
+            CastSpellObjectLocation(
+                "SPELL_FORCE_OF_NATURE",
+                fonTrapOrigin1,
+                GetWaypointX(fonTrapTarget1),
+                GetWaypointY(fonTrapTarget1));
+            SecondTimer(5, FONTrap01Loop);
+        }
+    }
+
+    void InitializeFONtraps()
+    {
+        fonTrapOrigin1 = Object("FON_Origin01");
+        fonTrapTarget1 = Waypoint("FON_Target01");
+    }
+
+    void MapInitialize()
+    {
+        InitializeGoodiePits();
+        InitializeFONtraps();
+    }
+
+    // function from Con02A (adapted as an example)
+    void ContestGuardDialogEnd()
+    {
+        int hasBow = false;
+        int item;
+        for (item = GetLastItem(GetHost()); item != 0; item = GetPreviousItem(item))
+        {
+            if (HasClass(item, "WEAPON") && HasSubclass(item, "BOW"))
+            {
+                hasBow = true;
+                break;
+            }
+        }
+
+        int gold = GetGold(GetHost());
+        if (gold < 100)
+        {
+            TellStory("SwordsmanHurt", "Con02A:NotEnoughGold");
+        }
+        else if (hasBow == false)
+        {
+            TellStory("SwordsmanHurt", "Con02a:NoBow");
+        }
+        else
+        {
+            ChangeGold(GetHost(), -100);
+        }
+    }
+  \endcode
+
 */
 
 typedef int any;
@@ -3022,7 +3351,7 @@ void GiveXp(int id, float xp);
   \param subclass a subclass name
   \return TRUE or FALSE
 */
-void HasSubclass(int id, string subclass);
+int HasSubclass(int id, string subclass);
 
 /**
   \brief Trigger an autosave. Only solo games.

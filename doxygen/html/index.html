@@ -23,6 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Nox Script
+   &#160;<span id="projectnumber">3.0</span>
    </div>
   </td>
  </tr>
@@ -76,10 +77,289 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Nox Script Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-</div><!-- contents -->
+<div class="textblock"><h1><a class="anchor" id="Language"></a>
+Language Reference</h1>
+<h3>Introduction</h3>
+<p>Welcome to Nox Script 3.0! This language is inspired by <a href="http://www.compuphase.com/pawn/pawn.htm">Pawn</a> which is a scripting language with a C-like syntax. If you are familiar with C, then this will be very familiar to you.</p>
+<div class="fragment"><div class="line"><span class="comment">// Hello world! example</span></div>
+<div class="line"><span class="keywordtype">void</span> MapInitialize()</div>
+<div class="line">{</div>
+<div class="line">    <a class="code" href="builtins_8h.html#a731ece3fe37df7956003e1594d221811">Print</a>(<span class="stringliteral">&quot;Hello world!&quot;</span>);</div>
+<div class="line">}</div>
+</div><!-- fragment --><h3>Types</h3>
+<p>There are four exposed types in Nox Script:</p>
+<ul>
+<li>
+int </li>
+<li>
+float </li>
+<li>
+string </li>
+<li>
+object </li>
+</ul>
+<p>The <code>int</code> and <code>float</code> types are the same as C. The <code>string</code> type refers to a string in the string table. Lastly, the <code>object</code> type is used as an opaque type. It does not refer to an object in Nox! Types are strictly enforced to prevent errors.</p>
+<p>In Nox Script, Nox objects are always referred to by their in-game ID which is an <code>int</code>. In addition, there are two keywords, <code>self</code> and <code>other</code>, that refer to the caller of the script and target of the script, respectively. In the API Reference, these will be referred to as SELF and OTHER.</p>
+<p>The most common usage of the <code>object</code> type is when you are dealing with groups and waypoints. While these are technically integer IDs, Nox Script uses an opaque type for basic type checking and preventing you from performing operations on them. The only allowed operations are assignment (<code>=</code>), is-equal (<code>==</code>), and is-not-equal (<code>!=</code>).</p>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> MapInitialize()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">int</span> thePlayer;</div>
+<div class="line">    <span class="keywordtype">object</span> waypoint;</div>
+<div class="line"></div>
+<div class="line">    thePlayer = <a class="code" href="builtins_8h.html#aabe1a37dc3164c27778dac9369524cb6">GetHost</a>();</div>
+<div class="line">    waypoint = <a class="code" href="builtins_8h.html#a11c59b2ddbc68ffedd951cf16eb0893e">Waypoint</a>(<span class="stringliteral">&quot;Waypoint1&quot;</span>);</div>
+<div class="line">}</div>
+</div><!-- fragment --><h3>Operators</h3>
+<p>All of the standard arithmetic and comparison operators are supported on both <code>int</code> and <code>float</code> types. Bitwise operators are only allowed on <code>int</code> types. Additionally, <code>string</code> types support comparison operators, concat (<code>+</code>), and concat-assign (<code>+=</code>). Below is a complete list of operators and supported types:</p>
+<table class="doxtable">
+<caption align="bottom">Supported operators</caption>
+<tr>
+<th>Assignment</th><td><code>=</code></td><td><code>int, float, string, object</code> </td></tr>
+<tr>
+<th>Concat Assignment</th><td><code>+=</code></td><td><code>string</code> </td></tr>
+<tr>
+<th>Arithmetic Assignment</th><td><code>+= -= *= /=</code></td><td><code>int, float</code> </td></tr>
+<tr>
+<th>Bitwise Assignment</th><td><code>&amp;= |= ^= &lt;&lt;= &gt;&gt;=</code></td><td><code>int</code> </td></tr>
+<tr>
+<th>Modulo Assignment</th><td><code>%=</code></td><td><code>int</code> </td></tr>
+<tr>
+<th>Concatenation</th><td><code>+</code></td><td><code>string</code> </td></tr>
+<tr>
+<th>Arithmetic</th><td><code>+ - * /</code></td><td><code>int, float</code> </td></tr>
+<tr>
+<th>Modulo</th><td><code>%</code></td><td><code>int</code> </td></tr>
+<tr>
+<th>Bitwise</th><td><code>&amp; | ^ = &lt;&lt; &gt;&gt;</code></td><td><code>int</code> </td></tr>
+<tr>
+<th>Logical</th><td><code>&amp;&amp; ||</code></td><td><code>int</code> </td></tr>
+<tr>
+<th>Equality</th><td><code>== !=</code></td><td><code>int, float, string, object</code> </td></tr>
+<tr>
+<th>Comparison</th><td><code>&lt; &gt; &lt;= &gt;=</code></td><td><code>int, float, string</code> </td></tr>
+</table>
+<h3>Literals</h3>
+<p>There are three types of literals: ints, floats, and strings. The syntax is similar to C.</p>
+<p>An int-literal is either a decimal, hexadecimal, or octal number. A hexadecimal number starts with <code>0x</code>, and a octal number starts with <code>0</code>. There are additionally the keywords <code>true</code> and <code>false</code>, which are treated as <code>1</code> and <code>0</code> respectively.</p>
+<p>A float-literal is a number of the form: <code>1.0</code> or <code>1.0e2</code>. It must contain a dot, otherwise it may be interpreted as an int-literal, which may cause a type mismatch.</p>
+<p>A string-literal is a C quoted string: "hello world". It may contain the usual C escape characters, for example: "This is a quote: \".". All string literals will be added to the string table during compilation.</p>
+<h3>Variables</h3>
+<p>Like C, all variables are statically typed when they are declared. In addition, a variable name must not conflict with any other name that is within scope. Variables that are declared outside of a function have a global scope, and they can be modified or used from any function. Variables inside a function have a block scope.</p>
+<p>The basic syntax for variable declaration is: <code>type name;</code>.</p>
+<p>You can also immediately assign a value using: <code>type name = value;</code>. If you assign a value to a global variable at declaration, then it must be a constant expresssion (e.g. it does not use any functions or variables).</p>
+<p>Declaring a variable can only be done as a statement. It cannot be inside of an expression.</p>
+<p>Arrays are also supported: <code>type name [length];</code>. The length must an integer number greater than 1. Arrays must be subscripted when they are used: <code>name[index]</code>.</p>
+<div class="fragment"><div class="line"><span class="keywordtype">int</span> RequiredGold = 100;</div>
+<div class="line"><span class="keywordtype">object</span> Waypoints[32];</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> MapInitialize()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">int</span> ContestOfficial = <a class="code" href="builtins_8h.html#a300f7792bd6c92de2dfccfb85e030f3e">Object</a>(<span class="stringliteral">&quot;ContestOfficial&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">    <span class="keywordtype">int</span> i;</div>
+<div class="line">    <span class="keywordflow">for</span> (i = 0; i &lt; 32; i += 1)</div>
+<div class="line">        Waypoints[i] = <a class="code" href="builtins_8h.html#a300f7792bd6c92de2dfccfb85e030f3e">Object</a>(<span class="stringliteral">&quot;Waypoint&quot;</span> + <a class="code" href="builtins_8h.html#ae5db86b1b573a674218b7d81248485d2">IntToString</a>(i + 1));</div>
+<div class="line">}</div>
+</div><!-- fragment --><h3>Functions</h3>
+<p>Functions are defined in the global scope and their names must not conflict with variable names or built-in names. Functions can have an return type and parameters. If a function does not return anything, then its return type must be the <code>void</code> keyword. Function parameters can be used just like normal variables.</p>
+<p>The function declaration syntax is similar to C: <code>type name(type paramName1, type paramName2, ...)</code>.</p>
+<p>You can call functions and pass in arguments like C: <code>name(arg1, arg2, ...)</code>. If a function returns a value, a function can be called in an expression. This syntax also applies to calling a built-in. Argument types are checked against the expected parameter types.</p>
+<p>Some built-ins take a function as a parameter. This is the only situation where you can use a function as a value.</p>
+<div class="fragment"><div class="line"><span class="keywordtype">int</span> RequiredGold = 100;</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> MapInitialize()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">int</span> official = <a class="code" href="builtins_8h.html#a300f7792bd6c92de2dfccfb85e030f3e">Object</a>(<span class="stringliteral">&quot;ContestOfficial&quot;</span>);</div>
+<div class="line">    InitDialog(official);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> InitDialog(official)</div>
+<div class="line">{</div>
+<div class="line">    <a class="code" href="builtins_8h.html#ab369892c7d372fdc66c9907bb0455eaa">SetDialog</a>(official, <span class="stringliteral">&quot;NORMAL&quot;</span>, NullDialogStart, ContestOfficialDialogEnd);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> NullDialogStart()</div>
+<div class="line">{</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> ContestOfficialDialogEnd()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordflow">if</span> (<a class="code" href="builtins_8h.html#afcc49c130d2dc88d163a20a610ea2fb4">GetAnswer</a>() == 1)</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordflow">if</span> (<a class="code" href="builtins_8h.html#a6a0a4bfd52943531d3e94f556acdca98">GetGold</a>(<a class="code" href="builtins_8h.html#aabe1a37dc3164c27778dac9369524cb6">GetHost</a>()) &lt; RequiredGold)</div>
+<div class="line">        {</div>
+<div class="line">            <a class="code" href="builtins_8h.html#a731ece3fe37df7956003e1594d221811">Print</a>(<span class="stringliteral">&quot;GeneralPrint:WishingWellNotEnoughGold&quot;</span>);</div>
+<div class="line">        }</div>
+<div class="line">        <span class="keywordflow">else</span></div>
+<div class="line">        {</div>
+<div class="line">            <a class="code" href="builtins_8h.html#aa76f4e35c7af0d7651a47fe05bfa97cf">RestoreHealth</a>(<a class="code" href="builtins_8h.html#aabe1a37dc3164c27778dac9369524cb6">GetHost</a>(), GetHealingAmount(<a class="code" href="builtins_8h.html#aabe1a37dc3164c27778dac9369524cb6">GetHost</a>()));</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> GetHealingAmount(<span class="keywordtype">object</span> player)</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordflow">return</span> <a class="code" href="builtins_8h.html#aa005f8f386c74496486b932e4c32e008">MaxHealth</a>(player) - <a class="code" href="builtins_8h.html#aba09e41a0f48e1b7398052a06fd478c5">CurrentHealth</a>(player);</div>
+<div class="line">}</div>
+</div><!-- fragment --><h1><a class="anchor" id="API"></a>
+API Reference</h1>
+<h3>Built-in Functions</h3>
+<p>Use <a href="builtins_8h.html">builtins.h</a> to find the function you are interested in. These functions have been renamed from previous versions:</p>
+<ul>
+<li>
+IsOn (see <a class="el" href="builtins_8h.html#a4b390d72ca5ee529c588dfbff1e85a9c" title="Get whether object is enabled. ">IsObjectOn</a>) </li>
+<li>
+SpecialTimer (see <a class="el" href="builtins_8h.html#a0ff8d0c01b4731c34712d17ee83ba2fc" title="Create a timer with delay in frames with an argument. ">FrameTimerWithArg</a>) </li>
+<li>
+Create (see <a class="el" href="builtins_8h.html#ae93f93dfaad56ac8f1a129f57734cd94" title="Create an object at a location. ">CreateObject</a>) </li>
+<li>
+CheckObjectType (see <a class="el" href="builtins_8h.html#acef7da1683bd154dce469c8ba667ce94" title="Get whether object has a class. ">HasClass</a>) </li>
+<li>
+IsSpotted (see <a class="el" href="builtins_8h.html#a83a98f79211a5b4f9a35479f68bb34a7" title="Gets whether an object can see another object. ">IsVisibleTo</a>) </li>
+<li>
+SetGroupOwner (see <a class="el" href="builtins_8h.html#aced247ea9786a457b92d9304666f51e2" title="Set the owner of objects in a group. ">GroupSetOwner</a>) </li>
+<li>
+AreOwnedBy (see <a class="el" href="builtins_8h.html#ac68768b0a84261b70743161603c625db" title="Get whether any object in target group is owned by object. ">GroupIsOwnedBy</a>) </li>
+<li>
+SetQuestBoolStatus (see <a class="el" href="builtins_8h.html#a53dd8dd39bd124a615c23c4b0d34b90a" title="Set quest status (float). ">SetQuestStatusFloat</a>) </li>
+<li>
+GetQuestBoolStatus (see <a class="el" href="builtins_8h.html#abc2c3b5d5da7801c624f3a164a13bcd6" title="Get quest status (int). ">GetQuestStatusFloat</a>) </li>
+<li>
+EnforceTalk (see <a class="el" href="builtins_8h.html#ac0013f0f3fc4eaeaf62e0190d0f98904" title="Starts a conversation between two objects. ">StartDialog</a>) </li>
+<li>
+CastSpellOn (see <a class="el" href="builtins_8h.html#a952a4e701ca455e008d05624ea10c8a5" title="Casts a spell from source to target. ">CastSpellObjectObject</a>) </li>
+<li>
+CastSpellAt (see <a class="el" href="builtins_8h.html#a6c76d78d5c0bd2ed22b9e569dd818d9a" title="Casts a spell from source to target. ">CastSpellObjectLocation</a>) </li>
+<li>
+CastSpellTo (see <a class="el" href="builtins_8h.html#ab5cad2f9d650ad19cd119779ab450492" title="Casts a spell from source to target. ">CastSpellLocationObject</a>) </li>
+<li>
+CastSpellFrom (see <a class="el" href="builtins_8h.html#a5c7e92bde98f7d41bf715a892eefc1a5" title="Casts a spell from source to target. ">CastSpellLocationLocation</a>) </li>
+<li>
+SetGuardSpot (see <a class="el" href="builtins_8h.html#a2aee6abcebe4dbf754e77ad9f365ed48" title="Cause a creature to guard a location. ">CreatureGuard</a>) </li>
+<li>
+SetGroupGuardSpot (see <a class="el" href="builtins_8h.html#a5338958fafe264eae0d604bdd2d50cfc" title="Cause creatures in a group to guard a location. ">CreatureGroupGuard</a>) </li>
+<li>
+Follow (see <a class="el" href="builtins_8h.html#a138e5156fe0580668f86ac7a3a2d2099" title="Cause creature to follow an object. ">CreatureFollow</a>) </li>
+<li>
+GroupFollow (see <a class="el" href="builtins_8h.html#aefc1a928c0a811d6ffd14396d797d1ea" title="Cause creatures in a group to follow an object. ">CreatureGroupFollow</a>) </li>
+<li>
+SetPathFlag (see <a class="el" href="builtins_8h.html#a7686224ea99d2e67febd7f073b906197" title="Set roaming flags. ">SetRoamFlag</a>) </li>
+<li>
+SetGroupPathFlag (see <a class="el" href="builtins_8h.html#a72ee6bfc6a7641d204545fbb464b5c24" title="Set roaming flags. ">GroupSetRoamFlag</a>) </li>
+<li>
+IdleLevel (see <a class="el" href="builtins_8h.html#ae79487ad111f5bedbe9f93582b33a272" title="Set when creature retreats due to low health. ">RetreatLevel</a>) </li>
+<li>
+GroupIdleLevel (see <a class="el" href="builtins_8h.html#a9d03102c61011abe96023afdb73599b8" title="Set when creature retreats due to low health. ">GroupRetreatLevel</a>) </li>
+<li>
+CheckItem (see <a class="el" href="builtins_8h.html#a61d98dbad4634a4da052c7a901f14cc3" title="Get whether object has subclass. ">HasSubclass</a>) </li>
+<li>
+SetProperty (see <a class="el" href="builtins_8h.html#aa8802e009105ec258a7dc1a0c99ae4ad" title="Set a callback on an object. ">SetCallback</a>) </li>
+</ul>
+<h1><a class="anchor" id="Examples"></a>
+Examples</h1>
+<p>Below are some examples inspired by scripts in official Nox maps. These are just snippets, so they are not sufficient by themselves.</p>
+<div class="fragment"><div class="line"><span class="comment">// some functions from G_Temple</span></div>
+<div class="line"><span class="keywordtype">int</span> goodiePits[32];</div>
+<div class="line"><span class="keywordtype">object</span> goodiePitExitWalls;</div>
+<div class="line"><span class="keywordtype">object</span> elevatorWalls6;</div>
+<div class="line"><span class="keywordtype">int</span> isFONTrapOn;</div>
+<div class="line"><span class="keywordtype">int</span> fonTrapOrigin1;</div>
+<div class="line"><span class="keywordtype">object</span> fonTrapTarget1;</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> InitializeGoodiePits()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">int</span> i;</div>
+<div class="line">    </div>
+<div class="line">    <span class="keywordflow">for</span> (i = 0; i &lt; 32; i += 1)</div>
+<div class="line">    {</div>
+<div class="line">        goodiePits[i] = <a class="code" href="builtins_8h.html#a300f7792bd6c92de2dfccfb85e030f3e">Object</a>(<span class="stringliteral">&quot;GoodiePit&quot;</span> + <a class="code" href="builtins_8h.html#ae5db86b1b573a674218b7d81248485d2">IntToString</a>(i + 1));</div>
+<div class="line">    }</div>
+<div class="line"></div>
+<div class="line">    goodiePitExitWalls = <a class="code" href="builtins_8h.html#ac2f5e5d69ec00f5e7a149097f5e8b141">WallGroup</a>(<span class="stringliteral">&quot;GoodiePitExitWalls&quot;</span>);</div>
+<div class="line">    elevatorWalls6 = <a class="code" href="builtins_8h.html#ac2f5e5d69ec00f5e7a149097f5e8b141">WallGroup</a>(<span class="stringliteral">&quot;ElevatorWallgroup06&quot;</span>);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> OpenGoodiePit(<span class="keywordtype">int</span> i)</div>
+<div class="line">{</div>
+<div class="line">    <a class="code" href="builtins_8h.html#adf9ca08d2b4b4dd0738230751c9f986e">ObjectOn</a>(goodiePits[i - 1]);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> GoodiePit1()</div>
+<div class="line">{</div>
+<div class="line">    <a class="code" href="builtins_8h.html#a24bb4ffc83ea993ff8bedc2d4547ebb4">ObjectOff</a>(<span class="keyword">self</span>);</div>
+<div class="line">    OpenGoodiePit(1);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> FireFONTrap01()</div>
+<div class="line">{</div>
+<div class="line">    <a class="code" href="builtins_8h.html#a24bb4ffc83ea993ff8bedc2d4547ebb4">ObjectOff</a>(<span class="keyword">self</span>);</div>
+<div class="line">    <a class="code" href="builtins_8h.html#a731ece3fe37df7956003e1594d221811">Print</a>(<span class="stringliteral">&quot;GeneralPrint:MsgTrapOn&quot;</span>);</div>
+<div class="line">    isFONTrapOn = <span class="keyword">true</span>;</div>
+<div class="line">    <a class="code" href="builtins_8h.html#a6c76d78d5c0bd2ed22b9e569dd818d9a">CastSpellObjectLocation</a>(</div>
+<div class="line">        <span class="stringliteral">&quot;SPELL_FORCE_OF_NATURE&quot;</span>,</div>
+<div class="line">        fonTrapOrigin1,</div>
+<div class="line">        <a class="code" href="builtins_8h.html#a406fc643103591b7c81ed7f818bd60ce">GetWaypointX</a>(fonTrapTarget1),</div>
+<div class="line">        <a class="code" href="builtins_8h.html#a682ecf2ff88ea946811fe1e2597f8d6c">GetWaypointY</a>(fonTrapTarget1));</div>
+<div class="line">    <a class="code" href="builtins_8h.html#aac6ac2170e6ef2422a15282eb9f000ba">SecondTimer</a>(5, FONTrap01Loop);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> FONTrap01Loop()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordflow">if</span> (isFONTrapOn)</div>
+<div class="line">    {</div>
+<div class="line">        <a class="code" href="builtins_8h.html#a6c76d78d5c0bd2ed22b9e569dd818d9a">CastSpellObjectLocation</a>(</div>
+<div class="line">            <span class="stringliteral">&quot;SPELL_FORCE_OF_NATURE&quot;</span>,</div>
+<div class="line">            fonTrapOrigin1,</div>
+<div class="line">            <a class="code" href="builtins_8h.html#a406fc643103591b7c81ed7f818bd60ce">GetWaypointX</a>(fonTrapTarget1),</div>
+<div class="line">            <a class="code" href="builtins_8h.html#a682ecf2ff88ea946811fe1e2597f8d6c">GetWaypointY</a>(fonTrapTarget1));</div>
+<div class="line">        <a class="code" href="builtins_8h.html#aac6ac2170e6ef2422a15282eb9f000ba">SecondTimer</a>(5, FONTrap01Loop);</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> InitializeFONtraps()</div>
+<div class="line">{</div>
+<div class="line">    fonTrapOrigin1 = <a class="code" href="builtins_8h.html#a300f7792bd6c92de2dfccfb85e030f3e">Object</a>(<span class="stringliteral">&quot;FON_Origin01&quot;</span>);</div>
+<div class="line">    fonTrapTarget1 = <a class="code" href="builtins_8h.html#a11c59b2ddbc68ffedd951cf16eb0893e">Waypoint</a>(<span class="stringliteral">&quot;FON_Target01&quot;</span>);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">void</span> MapInitialize()</div>
+<div class="line">{</div>
+<div class="line">    InitializeGoodiePits();</div>
+<div class="line">    InitializeFONtraps();</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// function from Con02A (adapted as an example)</span></div>
+<div class="line"><span class="keywordtype">void</span> ContestGuardDialogEnd()</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">int</span> hasBow = <span class="keyword">false</span>;</div>
+<div class="line">    <span class="keywordtype">int</span> item;</div>
+<div class="line">    <span class="keywordflow">for</span> (item = <a class="code" href="builtins_8h.html#aa7ef58e766491adf4936887c365f8ace">GetLastItem</a>(<a class="code" href="builtins_8h.html#aabe1a37dc3164c27778dac9369524cb6">GetHost</a>()); item != 0; item = <a class="code" href="builtins_8h.html#aca871e9085854f0267579374d967d257">GetPreviousItem</a>(item))</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordflow">if</span> (<a class="code" href="builtins_8h.html#acef7da1683bd154dce469c8ba667ce94">HasClass</a>(item, <span class="stringliteral">&quot;WEAPON&quot;</span>) &amp;&amp; <a class="code" href="builtins_8h.html#a61d98dbad4634a4da052c7a901f14cc3">HasSubclass</a>(item, <span class="stringliteral">&quot;BOW&quot;</span>))</div>
+<div class="line">        {</div>
+<div class="line">            hasBow = <span class="keyword">true</span>;</div>
+<div class="line">            <span class="keywordflow">break</span>;</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line"></div>
+<div class="line">    <span class="keywordtype">int</span> gold = <a class="code" href="builtins_8h.html#a6a0a4bfd52943531d3e94f556acdca98">GetGold</a>(<a class="code" href="builtins_8h.html#aabe1a37dc3164c27778dac9369524cb6">GetHost</a>());</div>
+<div class="line">    <span class="keywordflow">if</span> (gold &lt; 100)</div>
+<div class="line">    {</div>
+<div class="line">        <a class="code" href="builtins_8h.html#ad3210f5504f743783e66d8405ca2c6bd">TellStory</a>(<span class="stringliteral">&quot;SwordsmanHurt&quot;</span>, <span class="stringliteral">&quot;Con02A:NotEnoughGold&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (hasBow == <span class="keyword">false</span>)</div>
+<div class="line">    {</div>
+<div class="line">        <a class="code" href="builtins_8h.html#ad3210f5504f743783e66d8405ca2c6bd">TellStory</a>(<span class="stringliteral">&quot;SwordsmanHurt&quot;</span>, <span class="stringliteral">&quot;Con02a:NoBow&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">else</span></div>
+<div class="line">    {</div>
+<div class="line">        <a class="code" href="builtins_8h.html#a92a4ff3777f6eddadc614a1686c0fb74">ChangeGold</a>(<a class="code" href="builtins_8h.html#aabe1a37dc3164c27778dac9369524cb6">GetHost</a>(), -100);</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Aug 22 2016 00:24:00 for Nox Script by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Aug 22 2016 04:10:28 for Nox Script by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>
