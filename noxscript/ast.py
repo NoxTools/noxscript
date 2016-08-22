@@ -514,6 +514,7 @@ class GlobalNode(Node):
     def __init__(self, children):
         super(GlobalNode, self).__init__()
         self.children = children.asList()
+        self.parent = None
 
     @property
     def func(self):
