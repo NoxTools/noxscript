@@ -3013,16 +3013,16 @@ int GetAnswer(int id);
 void GiveXp(int id, float xp);
 
 /**
-  \brief Get whether item has subclass.
+  \brief Get whether object has subclass.
 
-  This will test whether an item has a specifiec subclass. The subclass
-  overlaps, so only test for subclasses that are valid for this item.
+  This will test whether an item has a specific subclass. The subclass
+  overlaps, so you should probably test for the class first (::HasClass).
 
   \param id an object id
   \param subclass a subclass name
   \return TRUE or FALSE
 */
-void ItemHasSubclass(int id, string subclass);
+void HasSubclass(int id, string subclass);
 
 /**
   \brief Trigger an autosave. Only solo games.
@@ -3126,9 +3126,9 @@ void SetHalberd(int upgrade);
 /**
   \brief Show death screen.
 
-  \param type one of 0=Warrior, 1=Wizard, 2=Conjurer
+  \param which the screen to show (1 - 11)
 */
-void DeathScreen(int type);
+void DeathScreen(int which);
 
 /**
   \brief Set frozen status of an object.

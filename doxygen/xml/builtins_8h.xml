@@ -15159,11 +15159,11 @@
         </inbodydescription>
         <location file="/home/awesie/noxscript/builtins.h" line="3013" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="builtins_8h_1ad677d9cdf000f5ee20ad398bba83ae83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="builtins_8h_1a2521cb4b3026f5391bee57cf97cee511" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>void ItemHasSubclass</definition>
+        <definition>void HasSubclass</definition>
         <argsstring>(int id, string subclass)</argsstring>
-        <name>ItemHasSubclass</name>
+        <name>HasSubclass</name>
         <param>
           <type>int</type>
           <declname>id</declname>
@@ -15173,9 +15173,9 @@
           <declname>subclass</declname>
         </param>
         <briefdescription>
-<para>Get whether item has subclass. </para>        </briefdescription>
+<para>Get whether object has subclass. </para>        </briefdescription>
         <detaileddescription>
-<para>This will test whether an item has a specifiec subclass. The subclass overlaps, so only test for subclasses that are valid for this item.</para><para><parameterlist kind="param"><parameteritem>
+<para>This will test whether an item has a specific subclass. The subclass overlaps, so you should probably test for the class first (<ref refid="builtins_8h_1acef7da1683bd154dce469c8ba667ce94" kindref="member">HasClass</ref>).</para><para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>id</parametername>
 </parameternamelist>
@@ -15489,24 +15489,24 @@
         </inbodydescription>
         <location file="/home/awesie/noxscript/builtins.h" line="3124" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="builtins_8h_1ae2c11f46e1875614fc232e88f84133e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="builtins_8h_1ab9ee886d0d5163de194ee344e7e68ef6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void DeathScreen</definition>
-        <argsstring>(int type)</argsstring>
+        <argsstring>(int which)</argsstring>
         <name>DeathScreen</name>
         <param>
           <type>int</type>
-          <declname>type</declname>
+          <declname>which</declname>
         </param>
         <briefdescription>
 <para>Show death screen. </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
-<parametername>type</parametername>
+<parametername>which</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>one of 0=Warrior, 1=Wizard, 2=Conjurer </para></parameterdescription>
+<para>the screen to show (1 - 11) </para></parameterdescription>
 </parameteritem>
 </parameterlist>
 </para>        </detaileddescription>

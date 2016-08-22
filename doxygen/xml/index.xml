@@ -1493,7 +1493,7 @@
     <member refid="builtins_8h_1a92a4ff3777f6eddadc614a1686c0fb74" kind="function"><name>ChangeGold</name></member>
     <member refid="builtins_8h_1afcc49c130d2dc88d163a20a610ea2fb4" kind="function"><name>GetAnswer</name></member>
     <member refid="builtins_8h_1a1bb1b391dbfecce47fa4e44efcd51a81" kind="function"><name>GiveXp</name></member>
-    <member refid="builtins_8h_1ad677d9cdf000f5ee20ad398bba83ae83" kind="function"><name>ItemHasSubclass</name></member>
+    <member refid="builtins_8h_1a2521cb4b3026f5391bee57cf97cee511" kind="function"><name>HasSubclass</name></member>
     <member refid="builtins_8h_1a0d696d7aae29bcc73c41974e78db95b8" kind="function"><name>AutoSave</name></member>
     <member refid="builtins_8h_1a6ef138bf07955518b70284d9b6ef2bd3" kind="function"><name>Music</name></member>
     <member refid="builtins_8h_1a74132af20f22df173cfd239984fa964a" kind="function"><name>StartupScreen</name></member>
@@ -1507,7 +1507,7 @@
     <member refid="builtins_8h_1ad83c6bc16f894584c973ed1c94412097" kind="function"><name>Unknownb8</name></member>
     <member refid="builtins_8h_1a86df8f93fc972f966447c5bcb905409c" kind="function"><name>Unknownb9</name></member>
     <member refid="builtins_8h_1afc6cd130839025dd4b8a638311b060db" kind="function"><name>SetHalberd</name></member>
-    <member refid="builtins_8h_1ae2c11f46e1875614fc232e88f84133e9" kind="function"><name>DeathScreen</name></member>
+    <member refid="builtins_8h_1ab9ee886d0d5163de194ee344e7e68ef6" kind="function"><name>DeathScreen</name></member>
     <member refid="builtins_8h_1a6418b550ccf136b5063a019782367e07" kind="function"><name>Frozen</name></member>
     <member refid="builtins_8h_1ab8e3447ea7030c7affef76a1ce1803dd" kind="function"><name>NoWallSound</name></member>
     <member refid="builtins_8h_1aa8802e009105ec258a7dc1a0c99ae4ad" kind="function"><name>SetCallback</name></member>

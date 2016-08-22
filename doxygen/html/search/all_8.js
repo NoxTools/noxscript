@@ -15,6 +15,5 @@ var searchData=
   ['istrading',['IsTrading',['../builtins_8h.html#a2c42ae661665ca59d226ce0e1c75b6d0',1,'builtins.h']]],
   ['istrigger',['IsTrigger',['../builtins_8h.html#a8d66743f42869fc0a99a83e921c94fb0',1,'builtins.h']]],
   ['isvisibleto',['IsVisibleTo',['../builtins_8h.html#a83a98f79211a5b4f9a35479f68bb34a7',1,'builtins.h']]],
-  ['iswaypointon',['IsWaypointOn',['../builtins_8h.html#a00a1d901a15f7d2146aefd68bdca362f',1,'builtins.h']]],
-  ['itemhassubclass',['ItemHasSubclass',['../builtins_8h.html#ad677d9cdf000f5ee20ad398bba83ae83',1,'builtins.h']]]
+  ['iswaypointon',['IsWaypointOn',['../builtins_8h.html#a00a1d901a15f7d2146aefd68bdca362f',1,'builtins.h']]]
 ];
