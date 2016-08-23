@@ -114,8 +114,6 @@ class Compiler(object):
         self.create_locals_pass()
         self.compile_func_pass()
 
-        print_ast(root)
-
     def create_string(self, s):
         if s not in self.strings:
             self.strings[s] = len(self.strings)
