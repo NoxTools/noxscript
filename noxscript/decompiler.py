@@ -251,7 +251,7 @@ class Decompiler(object):
             elif opcode in [0x47, 0x48]:
                 # NoxC compiler always adds a return void to the end
                 # of a function. Ignore it if we have a retval.
-                if i == len(f.bc) and opcode == 0x48:
+                if i == len(f.bc) and opcode == 0x48 and f.retval:
                     continue
                 if f.retval:
                     node = ReturnNode(stack.pop())
