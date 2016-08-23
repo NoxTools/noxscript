@@ -146,11 +146,16 @@ class BinOpNode(Node):
 
     @property
     def vartype(self):
-        assert self.lhs.vartype is self.rhs.vartype, 'Assignment with wrong type (%s vs %s)' % (self.lhs.vartype, self.rhs.vartype)
+        if self.lhs.vartype is not self.rhs.vartype and self.lhs.vartype is not ANY and self.rhs.vartype is not ANY:
+            # print self.lhs, self.rhs
+            raise AstException(self, '\'%s\' with wrong type (%s is not %s)' % (self.op, self.lhs.vartype, self.rhs.vartype))
         if self.op in '< > <= >= != =='.split(' '):
             # comparisons always produce an integer
             return INT
-        return self.lhs.vartype
+        if self.lhs.vartype is ANY:
+            return self.rhs.vartype
+        else:
+            return self.lhs.vartype
 
     @classmethod
     def from_tokens(cls, st, loc, toks):
@@ -245,13 +250,16 @@ class CallNode(Node):
         return '<CallNode %s>' % self.callee
 
     @property
+    def args(self):
+        return self.children
+
+    @property
     def decl(self):
         return self.scope.get(self.callee)
 
     @property
     def vartype(self):
         node = self.decl
-        self.validate()
         return node.rettype
 
     def scope_visitor(self):
@@ -265,13 +273,13 @@ class CallNode(Node):
             raise AstException(self, '%s is not defined' % self.callee)
         if not isinstance(node, FuncNode) and not isinstance(node, BuiltinNode):
             raise AstException(self, '%s is not a function' % self.callee)
-        params = node.params
+        params = [x.decltype for x in node.params]
         if len(params) != len(self.children):
             raise AstException(self, 'Invalid arguments for \'%s\': expected %d, got %d' % (node.name, len(params), len(self.children)))
         if not isinstance(node, BuiltinNode):
             params.reverse()
         for i in xrange(len(params)):
-            if params[i] is not ANY and params[i] is not self.children[i].vartype:
+            if params[i] is not ANY and self.children[i].vartype is not ANY and params[i] is not self.children[i].vartype:
                 raise AstException(self, 'Wrong type for \'%s\': expected %s, got %s' % (node.name, params[i], self.children[i].vartype))
 
     @classmethod
@@ -370,6 +378,10 @@ class SubscriptNode(Node):
 
     def __repr__(self):
         return '<SubscriptNode %s>' % self.name
+
+    @property
+    def subscript(self):
+        return self.children[0]
 
     @property
     def decl(self):
@@ -484,7 +496,7 @@ class BuiltinNode(Node):
         self.num = num
         self.rettype = intern(rettype)
         self.name = name
-        self.params = params
+        self.params = [DeclNode(param, None) for param in params]
 
 class FuncNode(Node):
     def __init__(self, rettype, name, params, body, **kwargs):
@@ -504,7 +516,7 @@ class FuncNode(Node):
 
     @property
     def params(self):
-        return [x.decltype for x in self.children[:-1]]
+        return self.children[:-1]
 
     @property
     def body(self):
@@ -519,7 +531,7 @@ class FuncNode(Node):
         return cls(toks[0], toks[1], toks[2:-1], toks[-1], loc=(lineno(loc, st), col(loc, st)))
 
     def new_label(self):
-        node = LabelNode(':label_%d' % self.tmp_id)
+        node = LabelNode('.L%d' % self.tmp_id)
         self.tmp_id += 1
         self.scope.add(node.label, node)
         return node
@@ -531,7 +543,7 @@ class FuncNode(Node):
 class GlobalNode(Node):
     def __init__(self, children):
         super(GlobalNode, self).__init__()
-        self.children = children.asList()
+        self.children = children if isinstance(children, list) else children.asList()
         self.parent = None
 
     @property

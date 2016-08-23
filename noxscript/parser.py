@@ -2,6 +2,10 @@ from pyparsing import *
 ParserElement.enablePackrat()
 from .ast import *
 
+# increase the recursion limit
+import sys
+sys.setrecursionlimit(5000)
+
 LPAREN = Suppress(Literal('('))
 RPAREN = Suppress(Literal(')'))
 NEG = Literal('-')
@@ -30,27 +34,26 @@ expr = infixNotation(arrexpr | funccall | true | false | self | other | Group(na
             (oneOf('* / %'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
             (oneOf('+ -'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
             (oneOf('<< >>'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
-            (oneOf('&'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
+            (~Literal('&&') + '&', 2, opAssoc.LEFT, BinOpNode.from_tokens),
             (oneOf('^'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
-            (oneOf('|'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
+            (~Literal('||') + '|', 2, opAssoc.LEFT, BinOpNode.from_tokens),
             (oneOf('< <= > >='), 2, opAssoc.LEFT, BinOpNode.from_tokens),
             (oneOf('== !='), 2, opAssoc.LEFT, BinOpNode.from_tokens),
             (oneOf('&&'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
             (oneOf('||'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
-            (oneOf('= += -= *= /= %='), 2, opAssoc.RIGHT, AssignNode.from_tokens_op),
-            #(oneOf(','), 2, opAssoc.LEFT),
+            (oneOf('= += -= *= /= %= <<= >>='), 2, opAssoc.RIGHT, AssignNode.from_tokens_op),
         ])
-args = Optional(expr + ZeroOrMore(Suppress(Literal(',')) + expr))
-funccall << (name + LPAREN - args + RPAREN)
+args = Optional(delimitedList(expr))
+funccall << (name + LPAREN - args - RPAREN)
 funccall.setParseAction(CallNode.from_tokens)
-arrexpr << (name + LBRAC - expr + RBRAC)
+arrexpr << (name + LBRAC - expr - RBRAC)
 arrexpr.setParseAction(SubscriptNode.from_tokens)
 assign = (vartype + name + Suppress(Literal('=')) - expr).setParseAction(AssignNode.from_tokens)
 blockstmt = Forward()
 ifstmt = Forward()
 whilestmt = Forward()
 forstmt = Forward()
-label = (Suppress(LineEnd()) + name + Suppress(Literal(':'))).setParseAction(LabelNode.from_tokens)
+label = (name + Suppress(Literal(':'))).setParseAction(LabelNode.from_tokens)
 goto = (Suppress(Keyword('goto')) - name).setParseAction(GotoNode.from_tokens)
 retstmt = (Suppress(Keyword('return')) - Optional(expr)).setParseAction(ReturnNode.from_tokens)
 statement = Optional(label) + (blockstmt | ifstmt | whilestmt | forstmt | ((
@@ -62,10 +65,10 @@ statement = Optional(label) + (blockstmt | ifstmt | whilestmt | forstmt | ((
     vardecl |
     expr
     ) + SEMICOLON))
-blockstmt << Suppress(Literal('{')) - Group(ZeroOrMore(statement)) - Suppress(Literal('}'))
+blockstmt << Suppress(Literal('{')) - Group(ZeroOrMore(statement) - Optional(label)) - Suppress(Literal('}'))
 blockstmt.setParseAction(BlockNode.from_tokens)
 elsestmt = Suppress(Keyword('else')) - statement
-ifstmt << (Suppress(Keyword('if')) - LPAREN + expr + RPAREN + statement + Optional(elsestmt))
+ifstmt << (Suppress(Keyword('if')) - LPAREN - expr - RPAREN - statement - Optional(elsestmt))
 ifstmt.setParseAction(IfNode.from_tokens)
 whilestmt << (Suppress(Keyword('while')) - LPAREN + expr + RPAREN + statement)
 whilestmt.setParseAction(WhileNode.from_tokens)
@@ -74,7 +77,7 @@ forstmt << (Suppress(Keyword('for')) - LPAREN + Optional(expr, None) + SEMICOLON
                  Optional(expr, None) + RPAREN + statement)
 forstmt.setParseAction(ForNode.from_tokens)
 argdecl = (vartype + name).setParseAction(DeclNode.from_tokens)
-funcdecl = (Keyword('void') | vartype) + name + LPAREN - Optional(argdecl - ZeroOrMore(Suppress(Literal(',')) - argdecl)) + RPAREN
+funcdecl = (Keyword('void') | vartype) + name + LPAREN - Optional(delimitedList(argdecl)) + RPAREN
 func = (funcdecl - statement).setParseAction(FuncNode.from_tokens)
 
 grammar = ZeroOrMore(func | (vardecl + SEMICOLON) | (assign + SEMICOLON))

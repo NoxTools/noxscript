@@ -2915,15 +2915,17 @@ void SetQuestStatusFloat(float status, string name);
   \brief Get quest status (int).
 
   \param name quest name
+  \return quest status
 */
-void GetQuestStatus(string name);
+int GetQuestStatus(string name);
 
 /**
   \brief Get quest status (int).
 
   \param name quest name
+  \return quest status
 */
-void GetQuestStatusFloat(string name);
+float GetQuestStatusFloat(string name);
 
 /**
   \brief Delete quest status.
@@ -2941,15 +2943,17 @@ void ResetQuestStatus(string name);
   \brief Get whether object is OTHER.
 
   \param id an object id
+  \return TRUE or FALSE
 */
-void IsTrigger(int id);
+int IsTrigger(int id);
 
 /**
   \brief Get whether object is SELF.
 
   \param id an object id
+  \return TRUE or FALSE
 */
-void IsCaller(int id);
+int IsCaller(int id);
 
 /**
   \brief Setup a conversation with object.
@@ -3642,7 +3646,7 @@ void ZombieGroupStayDown(object objectGroup);
 
   \param id an object id
 */
-void RaiseZombie(object int id);
+void RaiseZombie(int id);
 
 /**
   \brief Raise a zombie. Also clears stay down state.
