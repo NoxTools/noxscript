@@ -28,9 +28,10 @@ literal = (qs | fp | integer).setParseAction(LiteralNode.from_tokens)
 vardecl = (vartype + name + Optional(LBRAC + integer + RBRAC)).setParseAction(DeclNode.from_tokens)
 funccall = Forward()
 arrexpr = Forward()
-expr = infixNotation(arrexpr | funccall | true | false | self | other | Group(name).setParseAction(VarNode.from_tokens) | literal,
+operand = arrexpr | funccall | true | false | self | other | Group(name).setParseAction(VarNode.from_tokens) | literal
+_expr = infixNotation(operand,
         [
-            ('-', 1, opAssoc.RIGHT, UnOpNode.from_tokens),
+            (oneOf('- ! ~'), 1, opAssoc.RIGHT, UnOpNode.from_tokens),
             (oneOf('* / %'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
             (oneOf('+ -'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
             (oneOf('<< >>'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
@@ -41,8 +42,10 @@ expr = infixNotation(arrexpr | funccall | true | false | self | other | Group(na
             (oneOf('== !='), 2, opAssoc.LEFT, BinOpNode.from_tokens),
             (oneOf('&&'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
             (oneOf('||'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
+#            (oneOf('|| && * / % + - << >> & | ^ < <= > >= == !='), 2, opAssoc.LEFT, BinOpNode.from_tokens),
             (oneOf('= += -= *= /= %= <<= >>='), 2, opAssoc.RIGHT, AssignNode.from_tokens_op),
         ])
+expr = (operand + ~(Optional(White()) + oneOf('- ! ~ * / % + - << >> && || & | < <= > >= == != = += -= *= /= %= <<= >>='))) | _expr
 args = Optional(delimitedList(expr))
 funccall << (name + LPAREN - args - RPAREN)
 funccall.setParseAction(CallNode.from_tokens)
@@ -80,6 +83,8 @@ argdecl = (vartype + name).setParseAction(DeclNode.from_tokens)
 funcdecl = (Keyword('void') | vartype) + name + LPAREN - Optional(delimitedList(argdecl)) + RPAREN
 func = (funcdecl - statement).setParseAction(FuncNode.from_tokens)
 
+#grammar = (func | (vardecl + SEMICOLON) | (assign + SEMICOLON)).ignore(cppStyleComment)
+
 grammar = ZeroOrMore(func | (vardecl + SEMICOLON) | (assign + SEMICOLON))
 grammar.ignore(cppStyleComment)
 
@@ -88,4 +93,13 @@ grammar.setParseAction(GlobalNode.from_tokens)
 def gen_ast(code):
     root = grammar.parseString(code, True)[0]
     return root
+#    root = GlobalNode([])
+#
+#    loc, node = grammar._parse(code, 0)
+#    while node is not None:
+#        print node
+#        root.children.append(node)
+#        if regex
+#        loc, node = grammar._parse(code, loc)
+#    print loc, root
 
