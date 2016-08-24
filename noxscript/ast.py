@@ -281,6 +281,8 @@ class CallNode(Node):
         for i in xrange(len(params)):
             if params[i] is not ANY and self.children[i].vartype is not ANY and params[i] is not self.children[i].vartype:
                 raise AstException(self, 'Wrong type for \'%s\': expected %s, got %s' % (node.name, params[i], self.children[i].vartype))
+            elif params[i] is FUNCTION and self.children[i].decl.rettype is not VOID:
+                raise AstException(self, 'Function callbacks must have a void return type')
 
     @classmethod
     def from_tokens(cls, st, loc, toks):
