@@ -66,12 +66,12 @@ class Node(object):
     def validate(self):
         pass
 
-    def find_ancestor(self, cls):
-        if isinstance(self, cls):
+    def find_ancestor(self, cls_list):
+        if any([isinstance(self, cls) for cls in cls_list]):
             return self
         if self.parent is None:
             return None
-        return self.parent.find_ancestor(cls)
+        return self.parent.find_ancestor(cls_list)
 
     def is_constant(self):
         constant = all([node.is_constant() for node in self.children])

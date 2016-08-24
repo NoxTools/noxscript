@@ -92,20 +92,16 @@ def flatten_pass(root):
             ]
             return BlockNode(nodes)
         if isinstance(node, ContinueNode):
-            anc = node.find_ancestor(WhileNode)
+            anc = node.find_ancestor([WhileNode, ForNode])
             if anc is None:
-                anc = node.find_ancestor(ForNode)
-                if anc is None:
-                    raise Exception('Could not find loop')
+                raise Exception('Could not find loop')
+            if isinstance(anc, ForNode):
                 return GotoNode(anc.inc_label.label)
             return GotoNode(anc.begin_label.label)
         if isinstance(node, BreakNode):
-            anc = node.find_ancestor(WhileNode)
+            anc = node.find_ancestor([WhileNode, ForNode])
             if anc is None:
-                anc = node.find_ancestor(ForNode)
-                if anc is None:
-                    raise Exception('Could not find loop')
-                return GotoNode(anc.end_label.label)
+                raise Exception('Could not find loop')
             return GotoNode(anc.end_label.label)
         return node
 
