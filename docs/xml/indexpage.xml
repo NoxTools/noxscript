@@ -158,7 +158,7 @@
 <listitem>
 <para>SetQuestBoolStatus (see <ref refid="builtins_8h_1a53dd8dd39bd124a615c23c4b0d34b90a" kindref="member">SetQuestStatusFloat</ref>) </para></listitem>
 <listitem>
-<para>GetQuestBoolStatus (see <ref refid="builtins_8h_1abc2c3b5d5da7801c624f3a164a13bcd6" kindref="member">GetQuestStatusFloat</ref>) </para></listitem>
+<para>GetQuestBoolStatus (see <ref refid="builtins_8h_1a1da69872e9291feb1f76b81f76c4875c" kindref="member">GetQuestStatusFloat</ref>) </para></listitem>
 <listitem>
 <para>EnforceTalk (see <ref refid="builtins_8h_1ac0013f0f3fc4eaeaf62e0190d0f98904" kindref="member">StartDialog</ref>) </para></listitem>
 <listitem>

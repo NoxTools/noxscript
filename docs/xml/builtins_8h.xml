@@ -13198,9 +13198,9 @@
         </inbodydescription>
         <location file="/home/awesie/noxscript/builtins.h" line="2912" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="builtins_8h_1a0d300607757a40034d755b034d7cf702" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void GetQuestStatus</definition>
+      <memberdef kind="function" id="builtins_8h_1a976510d56aff071f9d8f2ecea92f2f03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int GetQuestStatus</definition>
         <argsstring>(string name)</argsstring>
         <name>GetQuestStatus</name>
         <param>
@@ -13218,14 +13218,15 @@
 <para>quest name </para></parameterdescription>
 </parameteritem>
 </parameterlist>
+<simplesect kind="return"><para>quest status </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="2919" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="2920" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="builtins_8h_1abc2c3b5d5da7801c624f3a164a13bcd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void GetQuestStatusFloat</definition>
+      <memberdef kind="function" id="builtins_8h_1a1da69872e9291feb1f76b81f76c4875c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float GetQuestStatusFloat</definition>
         <argsstring>(string name)</argsstring>
         <name>GetQuestStatusFloat</name>
         <param>
@@ -13243,10 +13244,11 @@
 <para>quest name </para></parameterdescription>
 </parameteritem>
 </parameterlist>
+<simplesect kind="return"><para>quest status </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="2926" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="2928" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a4dc291e772d0d7ca16935f075ca01dce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -13271,11 +13273,11 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="2938" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="2940" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="builtins_8h_1a8d66743f42869fc0a99a83e921c94fb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void IsTrigger</definition>
+      <memberdef kind="function" id="builtins_8h_1aa2167dbf9fc08a50260fca98c1d1388f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int IsTrigger</definition>
         <argsstring>(int id)</argsstring>
         <name>IsTrigger</name>
         <param>
@@ -13293,14 +13295,15 @@
 <para>an object id </para></parameterdescription>
 </parameteritem>
 </parameterlist>
+<simplesect kind="return"><para>TRUE or FALSE </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="2945" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="2948" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="builtins_8h_1a0803e508c56435f4928b1d78c49ea1e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void IsCaller</definition>
+      <memberdef kind="function" id="builtins_8h_1a076a47a08e04b2ec41d43bee8b9299c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int IsCaller</definition>
         <argsstring>(int id)</argsstring>
         <name>IsCaller</name>
         <param>
@@ -13318,10 +13321,11 @@
 <para>an object id </para></parameterdescription>
 </parameteritem>
 </parameterlist>
+<simplesect kind="return"><para>TRUE or FALSE </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="2952" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="2956" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ab369892c7d372fdc66c9907bb0455eaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -13379,7 +13383,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="2969" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="2973" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a59086bada177b3b20836194444354c17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -13404,7 +13408,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="2976" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="2980" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1adaada8a666c1c77fb8d32a9e281b31e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -13440,7 +13444,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="2984" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="2988" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ad3210f5504f743783e66d8405ca2c6bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -13476,7 +13480,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="2999" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3003" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ac0013f0f3fc4eaeaf62e0190d0f98904" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -13512,7 +13516,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3010" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3014" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a952a4e701ca455e008d05624ea10c8a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -13559,7 +13563,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3022" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3026" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a6c76d78d5c0bd2ed22b9e569dd818d9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -13617,7 +13621,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3032" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3036" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ab5cad2f9d650ad19cd119779ab450492" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -13675,7 +13679,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3042" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3046" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a5c7e92bde98f7d41bf715a892eefc1a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -13744,7 +13748,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3053" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3057" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a066d00d7671089bb4793169116df3b6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -13757,7 +13761,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3058" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3062" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a15aa3c043a5e1df64f31a4cfddf7461d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -13770,7 +13774,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3063" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3067" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1aa68f4b6f476b62cb893bdcab009619cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -13795,7 +13799,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3068" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3072" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a7946a5934a5803b30a3861a1573077e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -13821,7 +13825,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3076" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3080" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a2aee6abcebe4dbf754e77ad9f365ed48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -13901,7 +13905,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3091" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3095" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a5338958fafe264eae0d604bdd2d50cfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -13981,7 +13985,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3105" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3109" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a67fde5d3055224c47ad89e22efe6d5fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14006,7 +14010,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3112" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3116" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a64f795db6edd2f311137e6774187096a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14031,7 +14035,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3119" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3123" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ae268744a6e2e29ff2d9a84e3fb58555e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14056,7 +14060,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3126" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3130" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1afca05290b1525d8fa3d3bbe4b61693cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14081,7 +14085,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3133" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3137" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a138e5156fe0580668f86ac7a3a2d2099" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14117,7 +14121,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3144" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3148" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1aefc1a928c0a811d6ffd14396d797d1ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14153,7 +14157,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3155" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3159" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ac6c3f26509366b5c097f175f59be93b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14189,7 +14193,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3166" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3170" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ab945578150677ac5b0906de49f5fd703" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14225,7 +14229,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3177" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3181" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1abbe079912e67d2d679e62a68ced4009a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14272,7 +14276,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3186" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3190" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a8cca292e9b8e757438f5198de485708f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14319,7 +14323,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3195" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3199" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a77129ac44c43868549278d3f4c19667b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14366,7 +14370,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3204" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3208" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a328d417e3204f476dfbd8ecad558943f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14413,7 +14417,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3213" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3217" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a7686224ea99d2e67febd7f073b906197" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14449,7 +14453,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3221" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3225" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a72ee6bfc6a7641d204545fbb464b5c24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14485,7 +14489,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3229" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3233" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1afa1977ccca112cf76ac71722b14050c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14521,7 +14525,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3237" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3241" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a36c6bc490398d91fdd89dde26f00bc13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14557,7 +14561,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3245" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3249" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a902f02f6f317be9b3c8db03f6c880739" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14604,7 +14608,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3268" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3272" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a7eb3415031f2e0a19b0086b2b1fc494e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14640,7 +14644,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3280" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3284" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a3367cd43fe15ea1f3f929c064b8142ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14687,7 +14691,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3293" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3297" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ae79487ad111f5bedbe9f93582b33a272" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14723,7 +14727,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3304" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3308" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a9d03102c61011abe96023afdb73599b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14759,7 +14763,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3315" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3319" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a68cfce6ad0f392e5b58ef84043b155bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14795,7 +14799,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3326" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3330" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a7eff51f5104da8cdc74bf427849bce72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14831,7 +14835,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3337" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3341" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a3884cee574b1a96300e0586c2130589c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14878,7 +14882,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3346" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3350" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1acd017d849c03154f713fade3f147ef97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14925,7 +14929,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3355" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3359" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a44048a1e081e187fb38724f00afa68f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14961,7 +14965,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3363" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3367" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ac8afb0b18179b8dd1d1159121937d846" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -14997,7 +15001,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3371" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3375" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ad545b24b85a91b5db0b8806ba9aa4fdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -15033,7 +15037,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3379" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3383" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a6a0a4bfd52943531d3e94f556acdca98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -15059,7 +15063,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3387" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3391" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a92a4ff3777f6eddadc614a1686c0fb74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15095,7 +15099,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3395" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3399" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1afcc49c130d2dc88d163a20a610ea2fb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -15121,7 +15125,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3403" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3407" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a1bb1b391dbfecce47fa4e44efcd51a81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15157,7 +15161,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3411" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3415" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a61d98dbad4634a4da052c7a901f14cc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -15194,7 +15198,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3423" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3427" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a0d696d7aae29bcc73c41974e78db95b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15207,7 +15211,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3428" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3432" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a6ef138bf07955518b70284d9b6ef2bd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15243,7 +15247,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3436" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3440" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a74132af20f22df173cfd239984fa964a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15268,7 +15272,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3443" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3447" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a37e35c7dfaa1ebb9927f5826c7b1e719" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -15282,7 +15286,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3450" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3454" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a13735447c25e4cb3a23dff6ee98387c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -15296,7 +15300,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3457" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3461" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a893cd8fe5d306ab0bd3c391ea25e9c7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -15310,7 +15314,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3464" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3468" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a4548936e0b951fbab815b922c2706864" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15335,7 +15339,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3471" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3475" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a5f48a1e4576369a92f55d2d16bdf6269" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15360,7 +15364,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3478" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3482" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a87798dae7178083d4f7aff83bc973643" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15385,7 +15389,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3485" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3489" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a9d8592e483b83579a79404a21a8c9817" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15410,7 +15414,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3492" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3496" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ad83c6bc16f894584c973ed1c94412097" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -15436,7 +15440,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3500" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3504" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a86df8f93fc972f966447c5bcb905409c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -15462,7 +15466,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3508" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3512" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1afc6cd130839025dd4b8a638311b060db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15487,7 +15491,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3522" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3526" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ab9ee886d0d5163de194ee344e7e68ef6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15512,7 +15516,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3529" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3533" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a6418b550ccf136b5063a019782367e07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15548,7 +15552,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3537" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3541" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ab8e3447ea7030c7affef76a1ce1803dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15573,7 +15577,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3544" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3548" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1aa8802e009105ec258a7dc1a0c99ae4ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15620,7 +15624,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3569" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3573" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a5ce12371a0d3d9498ca32527f8b88e35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15656,7 +15660,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3577" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3581" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a4e1463705c2f2c9820a9e8d9b1b22b7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15714,7 +15718,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3587" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3591" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a2c42ae661665ca59d226ce0e1c75b6d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -15728,7 +15732,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3596" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3600" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1aaa5aa31d86e079bb94741cf944bccc46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15753,7 +15757,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3603" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3607" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a87ee7d8dbcc56a08b7ec31cc08198bd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15789,7 +15793,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3611" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3615" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a61ec1cca9a7e5bfd4fd183faa9b8ab20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15802,7 +15806,7 @@
 <para>TODO </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3616" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3620" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ab91ebd47483cafded2b2c96fab912645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -15828,7 +15832,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3624" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3628" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ae03f541f617c565a7a4b0be4e2ddb507" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15853,7 +15857,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3631" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3635" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1aaf8fe8361507b35a683086ed11d46ca9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15878,15 +15882,15 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3638" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3642" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="builtins_8h_1a00d5b65e379968590ad6b59cc013f28c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="builtins_8h_1a3a8da1d27f1ed1012e88830982dd86ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void RaiseZombie</definition>
-        <argsstring>(object int id)</argsstring>
+        <argsstring>(int id)</argsstring>
         <name>RaiseZombie</name>
         <param>
-          <type>object int</type>
+          <type>int</type>
           <declname>id</declname>
         </param>
         <briefdescription>
@@ -15903,7 +15907,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3645" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3649" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1afb9319d448c50aa90fbc01ce6cc44058" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15928,7 +15932,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3652" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3656" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1aaa7fe46e1ec80d94b4491501d9648c3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15941,7 +15945,7 @@
 <para>TODO </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3657" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3661" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ad421626aab126b51e56f84c1fa637cfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15954,7 +15958,7 @@
 <para>TODO </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3662" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3666" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1abc2a1f852aabf6e5586c8d4e5d8be4b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -15967,7 +15971,7 @@
 <para>TODO </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3667" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3671" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a01c83acfc0b41ec8921e95f9349f7907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -15993,7 +15997,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3675" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3679" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a90534276970eeb8d8fa7cf28285b2adf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -16019,7 +16023,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3683" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3687" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a4bbcbcb5ada051c169c5ebec7dde0a0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -16044,7 +16048,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3690" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3694" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ac08a1bd4356cff850e6fdd4c0ebd50f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -16058,7 +16062,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3697" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3701" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1a6a614e1f5cb48d6bf468c3f3a92f4a62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -16094,7 +16098,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3705" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3709" column="1"/>
       </memberdef>
       <memberdef kind="function" id="builtins_8h_1ab48396b635ea9259068cb1cf3f2f2f73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -16120,7 +16124,7 @@
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/awesie/noxscript/builtins.h" line="3713" column="1"/>
+        <location file="/home/awesie/noxscript/builtins.h" line="3717" column="1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

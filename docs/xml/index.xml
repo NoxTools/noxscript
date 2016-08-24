@@ -1441,11 +1441,11 @@
     <member refid="builtins_8h_1a5a768ff5c259a1d7d776df3eba14a50b" kind="function"><name>DestroyEveryChat</name></member>
     <member refid="builtins_8h_1aff03fe25edc7c1b5fa8d72c3d3864dd0" kind="function"><name>SetQuestStatus</name></member>
     <member refid="builtins_8h_1a53dd8dd39bd124a615c23c4b0d34b90a" kind="function"><name>SetQuestStatusFloat</name></member>
-    <member refid="builtins_8h_1a0d300607757a40034d755b034d7cf702" kind="function"><name>GetQuestStatus</name></member>
-    <member refid="builtins_8h_1abc2c3b5d5da7801c624f3a164a13bcd6" kind="function"><name>GetQuestStatusFloat</name></member>
+    <member refid="builtins_8h_1a976510d56aff071f9d8f2ecea92f2f03" kind="function"><name>GetQuestStatus</name></member>
+    <member refid="builtins_8h_1a1da69872e9291feb1f76b81f76c4875c" kind="function"><name>GetQuestStatusFloat</name></member>
     <member refid="builtins_8h_1a4dc291e772d0d7ca16935f075ca01dce" kind="function"><name>ResetQuestStatus</name></member>
-    <member refid="builtins_8h_1a8d66743f42869fc0a99a83e921c94fb0" kind="function"><name>IsTrigger</name></member>
-    <member refid="builtins_8h_1a0803e508c56435f4928b1d78c49ea1e6" kind="function"><name>IsCaller</name></member>
+    <member refid="builtins_8h_1aa2167dbf9fc08a50260fca98c1d1388f" kind="function"><name>IsTrigger</name></member>
+    <member refid="builtins_8h_1a076a47a08e04b2ec41d43bee8b9299c1" kind="function"><name>IsCaller</name></member>
     <member refid="builtins_8h_1ab369892c7d372fdc66c9907bb0455eaa" kind="function"><name>SetDialog</name></member>
     <member refid="builtins_8h_1a59086bada177b3b20836194444354c17" kind="function"><name>CancelDialog</name></member>
     <member refid="builtins_8h_1adaada8a666c1c77fb8d32a9e281b31e0" kind="function"><name>StoryPic</name></member>
@@ -1520,7 +1520,7 @@
     <member refid="builtins_8h_1ab91ebd47483cafded2b2c96fab912645" kind="function"><name>IsSummoned</name></member>
     <member refid="builtins_8h_1ae03f541f617c565a7a4b0be4e2ddb507" kind="function"><name>ZombieStayDown</name></member>
     <member refid="builtins_8h_1aaf8fe8361507b35a683086ed11d46ca9" kind="function"><name>ZombieGroupStayDown</name></member>
-    <member refid="builtins_8h_1a00d5b65e379968590ad6b59cc013f28c" kind="function"><name>RaiseZombie</name></member>
+    <member refid="builtins_8h_1a3a8da1d27f1ed1012e88830982dd86ba" kind="function"><name>RaiseZombie</name></member>
     <member refid="builtins_8h_1afb9319d448c50aa90fbc01ce6cc44058" kind="function"><name>RaiseZombieGroup</name></member>
     <member refid="builtins_8h_1aaa7fe46e1ec80d94b4491501d9648c3a" kind="function"><name>MusicPushEvent</name></member>
     <member refid="builtins_8h_1ad421626aab126b51e56f84c1fa637cfd" kind="function"><name>MusicPopEvent</name></member>
