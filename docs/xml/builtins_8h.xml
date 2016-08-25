@@ -16064,21 +16064,21 @@
         </inbodydescription>
         <location file="/home/awesie/noxscript/builtins.h" line="3701" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="builtins_8h_1a6a614e1f5cb48d6bf468c3f3a92f4a62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="builtins_8h_1a5d34c67049de799aa99b5f769e3573ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>void SetTeam</definition>
-        <argsstring>(int id, int team)</argsstring>
-        <name>SetTeam</name>
+        <definition>void ChangeScore</definition>
+        <argsstring>(int id, int score)</argsstring>
+        <name>ChangeScore</name>
         <param>
           <type>int</type>
           <declname>id</declname>
         </param>
         <param>
           <type>int</type>
-          <declname>team</declname>
+          <declname>score</declname>
         </param>
         <briefdescription>
-<para>Set player object&apos;s team. </para>        </briefdescription>
+<para>Change player object&apos;s score. </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -16089,10 +16089,10 @@
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>team</parametername>
+<parametername>score</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>team number </para></parameterdescription>
+<para>score delta </para></parameterdescription>
 </parameteritem>
 </parameterlist>
 </para>        </detaileddescription>
@@ -16100,17 +16100,17 @@
         </inbodydescription>
         <location file="/home/awesie/noxscript/builtins.h" line="3709" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="builtins_8h_1ab48396b635ea9259068cb1cf3f2f2f73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="builtins_8h_1a9841f7afdc22b38c9e3b89d5182e9541" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
-        <definition>int GetTeam</definition>
+        <definition>int GetScore</definition>
         <argsstring>(int id)</argsstring>
-        <name>GetTeam</name>
+        <name>GetScore</name>
         <param>
           <type>int</type>
           <declname>id</declname>
         </param>
         <briefdescription>
-<para>Get player object&apos;s team. </para>        </briefdescription>
+<para>Get player object&apos;s score. </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -16120,7 +16120,7 @@
 <para>an object id </para></parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>team number </para></simplesect>
+<simplesect kind="return"><para>score </para></simplesect>
 </para>        </detaileddescription>
         <inbodydescription>
         </inbodydescription>

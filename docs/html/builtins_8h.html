@@ -709,12 +709,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ac08a1bd4356cff850e6fdd4c0ebd50f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="builtins_8h.html#ac08a1bd4356cff850e6fdd4c0ebd50f1">ImmediateBlind</a> ()</td></tr>
 <tr class="memdesc:ac08a1bd4356cff850e6fdd4c0ebd50f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Immediately blind the host.  <a href="#ac08a1bd4356cff850e6fdd4c0ebd50f1">More...</a><br /></td></tr>
 <tr class="separator:ac08a1bd4356cff850e6fdd4c0ebd50f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a614e1f5cb48d6bf468c3f3a92f4a62"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="builtins_8h.html#a6a614e1f5cb48d6bf468c3f3a92f4a62">SetTeam</a> (int id, int team)</td></tr>
-<tr class="memdesc:a6a614e1f5cb48d6bf468c3f3a92f4a62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set player object's team.  <a href="#a6a614e1f5cb48d6bf468c3f3a92f4a62">More...</a><br /></td></tr>
-<tr class="separator:a6a614e1f5cb48d6bf468c3f3a92f4a62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab48396b635ea9259068cb1cf3f2f2f73"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="builtins_8h.html#ab48396b635ea9259068cb1cf3f2f2f73">GetTeam</a> (int id)</td></tr>
-<tr class="memdesc:ab48396b635ea9259068cb1cf3f2f2f73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get player object's team.  <a href="#ab48396b635ea9259068cb1cf3f2f2f73">More...</a><br /></td></tr>
-<tr class="separator:ab48396b635ea9259068cb1cf3f2f2f73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d34c67049de799aa99b5f769e3573ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="builtins_8h.html#a5d34c67049de799aa99b5f769e3573ea">ChangeScore</a> (int id, int score)</td></tr>
+<tr class="memdesc:a5d34c67049de799aa99b5f769e3573ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change player object's score.  <a href="#a5d34c67049de799aa99b5f769e3573ea">More...</a><br /></td></tr>
+<tr class="separator:a5d34c67049de799aa99b5f769e3573ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9841f7afdc22b38c9e3b89d5182e9541"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="builtins_8h.html#a9841f7afdc22b38c9e3b89d5182e9541">GetScore</a> (int id)</td></tr>
+<tr class="memdesc:a9841f7afdc22b38c9e3b89d5182e9541"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get player object's score.  <a href="#a9841f7afdc22b38c9e3b89d5182e9541">More...</a><br /></td></tr>
+<tr class="separator:a9841f7afdc22b38c9e3b89d5182e9541"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -2673,6 +2673,41 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a5d34c67049de799aa99b5f769e3573ea"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ChangeScore </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>score</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Change player object's score. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>an object id </td></tr>
+    <tr><td class="paramname">score</td><td>score delta </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="aee7c68e66bda6f22a7eb91d2206e87e4"></a>
 <div class="memitem">
 <div class="memproto">
@@ -4176,12 +4211,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab48396b635ea9259068cb1cf3f2f2f73"></a>
+<a class="anchor" id="a9841f7afdc22b38c9e3b89d5182e9541"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int GetTeam </td>
+          <td class="memname">int GetScore </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>id</em></td><td>)</td>
@@ -4190,14 +4225,14 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get player object's team. </p>
+<p>Get player object's score. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">id</td><td>an object id </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>team number </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>score </dd></dl>
 
 </div>
 </div>
@@ -7509,41 +7544,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a6a614e1f5cb48d6bf468c3f3a92f4a62"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void SetTeam </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>id</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>team</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Set player object's team. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>an object id </td></tr>
-    <tr><td class="paramname">team</td><td>team number </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a class="anchor" id="ac0013f0f3fc4eaeaf62e0190d0f98904"></a>
 <div class="memitem">
 <div class="memproto">
@@ -8505,7 +8505,7 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Aug 23 2016 23:05:36 for Nox Script by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Aug 25 2016 04:41:12 for Nox Script by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

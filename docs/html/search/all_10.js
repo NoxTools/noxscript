@@ -12,7 +12,6 @@ var searchData=
   ['setqueststatusfloat',['SetQuestStatusFloat',['../builtins_8h.html#a53dd8dd39bd124a615c23c4b0d34b90a',1,'builtins.h']]],
   ['setroamflag',['SetRoamFlag',['../builtins_8h.html#a7686224ea99d2e67febd7f073b906197',1,'builtins.h']]],
   ['setshopkeepertext',['SetShopkeeperText',['../builtins_8h.html#a87ee7d8dbcc56a08b7ec31cc08198bd2',1,'builtins.h']]],
-  ['setteam',['SetTeam',['../builtins_8h.html#a6a614e1f5cb48d6bf468c3f3a92f4a62',1,'builtins.h']]],
   ['spell',['Spell',['../builtins_8h.html#a82a59ec41a0995ddeea6017f140cb2b7',1,'builtins.h']]],
   ['startdialog',['StartDialog',['../builtins_8h.html#ac0013f0f3fc4eaeaf62e0190d0f98904',1,'builtins.h']]],
   ['startupscreen',['StartupScreen',['../builtins_8h.html#a74132af20f22df173cfd239984fa964a',1,'builtins.h']]],

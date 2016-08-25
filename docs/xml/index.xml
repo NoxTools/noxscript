@@ -1529,8 +1529,8 @@
     <member refid="builtins_8h_1a90534276970eeb8d8fa7cf28285b2adf" kind="function"><name>IsCrown</name></member>
     <member refid="builtins_8h_1a4bbcbcb5ada051c169c5ebec7dde0a0b" kind="function"><name>EndGame</name></member>
     <member refid="builtins_8h_1ac08a1bd4356cff850e6fdd4c0ebd50f1" kind="function"><name>ImmediateBlind</name></member>
-    <member refid="builtins_8h_1a6a614e1f5cb48d6bf468c3f3a92f4a62" kind="function"><name>SetTeam</name></member>
-    <member refid="builtins_8h_1ab48396b635ea9259068cb1cf3f2f2f73" kind="function"><name>GetTeam</name></member>
+    <member refid="builtins_8h_1a5d34c67049de799aa99b5f769e3573ea" kind="function"><name>ChangeScore</name></member>
+    <member refid="builtins_8h_1a9841f7afdc22b38c9e3b89d5182e9541" kind="function"><name>GetScore</name></member>
   </compound>
   <compound refid="indexpage" kind="page"><name>index</name>
   </compound>

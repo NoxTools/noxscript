@@ -3701,17 +3701,17 @@ void EndGame(int type);
 void ImmediateBlind();
 
 /**
-  \brief Set player object's team
+  \brief Change player object's score
 
   \param id an object id
-  \param team team number
+  \param score score delta
 */
-void SetTeam(int id, int team);
+void ChangeScore(int id, int score);
 
 /**
-  \brief Get player object's team
+  \brief Get player object's score
 
   \param id an object id
-  \return team number
+  \return score
 */
-int GetTeam(int id);
+int GetScore(int id);

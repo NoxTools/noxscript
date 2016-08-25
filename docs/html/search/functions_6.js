@@ -15,7 +15,7 @@ var searchData=
   ['getpreviousitem',['GetPreviousItem',['../builtins_8h.html#aca871e9085854f0267579374d967d257',1,'builtins.h']]],
   ['getqueststatus',['GetQuestStatus',['../builtins_8h.html#a976510d56aff071f9d8f2ecea92f2f03',1,'builtins.h']]],
   ['getqueststatusfloat',['GetQuestStatusFloat',['../builtins_8h.html#a1da69872e9291feb1f76b81f76c4875c',1,'builtins.h']]],
-  ['getteam',['GetTeam',['../builtins_8h.html#ab48396b635ea9259068cb1cf3f2f2f73',1,'builtins.h']]],
+  ['getscore',['GetScore',['../builtins_8h.html#a9841f7afdc22b38c9e3b89d5182e9541',1,'builtins.h']]],
   ['gettrigger',['GetTrigger',['../builtins_8h.html#a13735447c25e4cb3a23dff6ee98387c7',1,'builtins.h']]],
   ['getwaypointx',['GetWaypointX',['../builtins_8h.html#a406fc643103591b7c81ed7f818bd60ce',1,'builtins.h']]],
   ['getwaypointy',['GetWaypointY',['../builtins_8h.html#a682ecf2ff88ea946811fe1e2597f8d6c',1,'builtins.h']]],

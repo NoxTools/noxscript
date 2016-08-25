@@ -7,6 +7,7 @@ var searchData=
   ['castspellobjectlocation',['CastSpellObjectLocation',['../builtins_8h.html#a6c76d78d5c0bd2ed22b9e569dd818d9a',1,'builtins.h']]],
   ['castspellobjectobject',['CastSpellObjectObject',['../builtins_8h.html#a952a4e701ca455e008d05624ea10c8a5',1,'builtins.h']]],
   ['changegold',['ChangeGold',['../builtins_8h.html#a92a4ff3777f6eddadc614a1686c0fb74',1,'builtins.h']]],
+  ['changescore',['ChangeScore',['../builtins_8h.html#a5d34c67049de799aa99b5f769e3573ea',1,'builtins.h']]],
   ['chat',['Chat',['../builtins_8h.html#aee7c68e66bda6f22a7eb91d2206e87e4',1,'builtins.h']]],
   ['chattimer',['ChatTimer',['../builtins_8h.html#a19587a4ffad245248828c9e4035730cf',1,'builtins.h']]],
   ['chattimerseconds',['ChatTimerSeconds',['../builtins_8h.html#a2cd9862f937231d3a407fd9765ba86f2',1,'builtins.h']]],
