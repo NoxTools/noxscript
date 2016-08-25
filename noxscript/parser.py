@@ -1,10 +1,137 @@
 from pyparsing import *
-ParserElement.enablePackrat()
 from .ast import *
 
 # increase the recursion limit
 import sys
 sys.setrecursionlimit(5000)
+OP_MAP = {
+    '#': (1, opAssoc.RIGHT, UnOpNode.from_tokens, 0),
+    '!': (1, opAssoc.RIGHT, UnOpNode.from_tokens, 0),
+    '~': (1, opAssoc.RIGHT, UnOpNode.from_tokens, 0),
+
+    '*': (2, opAssoc.LEFT, BinOpNode.from_tokens, 1),
+    '/': (2, opAssoc.LEFT, BinOpNode.from_tokens, 1),
+    '%': (2, opAssoc.LEFT, BinOpNode.from_tokens, 1),
+
+    '-': (2, opAssoc.LEFT, BinOpNode.from_tokens, 2),
+    '+': (2, opAssoc.LEFT, BinOpNode.from_tokens, 2),
+
+    '<<': (2, opAssoc.LEFT, BinOpNode.from_tokens, 3),
+    '>>': (2, opAssoc.LEFT, BinOpNode.from_tokens, 3),
+
+    '&': (2, opAssoc.LEFT, BinOpNode.from_tokens, 4),
+    '^': (2, opAssoc.LEFT, BinOpNode.from_tokens, 5),
+    '|': (2, opAssoc.LEFT, BinOpNode.from_tokens, 6),
+
+    '<': (2, opAssoc.LEFT, BinOpNode.from_tokens, 7),
+    '<=': (2, opAssoc.LEFT, BinOpNode.from_tokens, 7),
+    '>': (2, opAssoc.LEFT, BinOpNode.from_tokens, 7),
+    '>=': (2, opAssoc.LEFT, BinOpNode.from_tokens, 7),
+
+    '==': (2, opAssoc.LEFT, BinOpNode.from_tokens, 8),
+    '!=': (2, opAssoc.LEFT, BinOpNode.from_tokens, 8),
+
+    '&&': (2, opAssoc.LEFT, BinOpNode.from_tokens, 9),
+    '||': (2, opAssoc.LEFT, BinOpNode.from_tokens, 10),
+
+    '=': (2, opAssoc.RIGHT, AssignNode.from_tokens_op, 11),
+    '+=': (2, opAssoc.RIGHT, AssignNode.from_tokens_op, 11),
+    '-=': (2, opAssoc.RIGHT, AssignNode.from_tokens_op, 11),
+    '*=': (2, opAssoc.RIGHT, AssignNode.from_tokens_op, 11),
+    '/=': (2, opAssoc.RIGHT, AssignNode.from_tokens_op, 11),
+    '%=': (2, opAssoc.RIGHT, AssignNode.from_tokens_op, 11),
+    '<<=': (2, opAssoc.RIGHT, AssignNode.from_tokens_op, 11),
+    '>>=': (2, opAssoc.RIGHT, AssignNode.from_tokens_op, 11),
+}
+
+class Operator(object):
+    def __init__( self, loc, tokens ):
+        self.loc = loc
+        self.op = tokens[0]
+
+class OperatorPrecedence(ParseExpression):
+    def __init__( self, operand, savelist = False ):
+        self.operands = Optional(oneOf('-= - != ! ~ *= * /= / %= % += + <<= << >>= >> && || & | <= < >= > == != = += -= *= /= %= <<= >>= ( )').setParseAction(lambda loc, tok: Operator(loc, tok)))
+
+        super(OperatorPrecedence,self).__init__([operand], savelist)
+
+    def parseImpl( self, instring, loc, doActions=True ):
+        lastError = None
+        queue = []
+        op_stack = []
+        expr = self.exprs[0]
+        lastTok = None
+        assert doActions
+        while True:
+            old_loc = loc
+            loc, tokens = self.operands._parse( instring, loc, doActions )
+            if len(tokens) == 0:
+                try:
+                    loc, tokens = expr._parse( instring, loc, doActions )
+                except ParseException as err:
+                    lastError = err
+                    break
+                except IndexError:
+                    lastError = err
+                    break
+
+            assert len(tokens) == 1
+            tok = tokens[0]
+            if isinstance(tok, Operator):
+                if tok.op == '(':
+                    op_stack.append(tok)
+                elif tok.op == ')':
+                    error = False
+                    while True:
+                        if len(op_stack) == 0:
+                            error = True
+                            break
+                        op = op_stack.pop()
+                        if op.op == '(':
+                            break
+                        queue.append(op)
+                    if error:
+                        loc = old_loc
+                        break
+                else:
+                    tok.count, tok.assoc, tok.action, tok.prec = OP_MAP[tok.op]
+                    if tok.op == '-':
+                        if lastTok is None or (isinstance(lastTok, Operator) and lastTok.op != ')'):
+                            tok.count, tok.assoc, tok.action, tok.prec = OP_MAP['#']
+                    if tok.count > 1:
+                        while len(op_stack) > 0:
+                            op = op_stack[-1]
+                            if not isinstance(op, Operator) or op.op == '(' or op.op == ')':
+                                break
+                            if (tok.assoc == opAssoc.LEFT and tok.prec <= op.prec) or \
+                              (tok.assoc == opAssoc.RIGHT and tok.prec < op.prec):
+                                queue.append(op_stack.pop())
+                            else:
+                                break
+                    op_stack.append(tok)
+            else:
+                queue.append(tok)
+            lastTok = tok
+        while len(op_stack):
+            queue.append(op_stack.pop())
+        stack = []
+        while len(queue) > 0:
+            op = queue.pop(0)
+            if isinstance(op, Operator):
+                if op.count == 1:
+                    tok = op.action(instring, op.loc, [[op.op, stack.pop()]])
+                    stack.append(tok)
+                elif op.count == 2:
+                    rhs = stack.pop()
+                    lhs = stack.pop()
+                    tok = op.action(instring, op.loc, [[lhs, op.op, rhs]])
+                    stack.append(tok)
+            else:
+                stack.append(op)
+        if len(stack) > 1:
+            raise ParseException(instring, loc, "bad expression", self)
+
+        return loc, stack
 
 LPAREN = Suppress(Literal('('))
 RPAREN = Suppress(Literal(')'))
@@ -29,23 +156,7 @@ vardecl = (vartype + name + Optional(LBRAC + integer + RBRAC)).setParseAction(De
 funccall = Forward()
 arrexpr = Forward()
 operand = arrexpr | funccall | true | false | self | other | Group(name).setParseAction(VarNode.from_tokens) | literal
-_expr = infixNotation(operand,
-        [
-            (oneOf('- ! ~'), 1, opAssoc.RIGHT, UnOpNode.from_tokens),
-            (oneOf('* / %'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
-            (oneOf('+ -'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
-            (oneOf('<< >>'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
-            (~Literal('&&') + '&', 2, opAssoc.LEFT, BinOpNode.from_tokens),
-            (oneOf('^'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
-            (~Literal('||') + '|', 2, opAssoc.LEFT, BinOpNode.from_tokens),
-            (oneOf('< <= > >='), 2, opAssoc.LEFT, BinOpNode.from_tokens),
-            (oneOf('== !='), 2, opAssoc.LEFT, BinOpNode.from_tokens),
-            (oneOf('&&'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
-            (oneOf('||'), 2, opAssoc.LEFT, BinOpNode.from_tokens),
-#            (oneOf('|| && * / % + - << >> & | ^ < <= > >= == !='), 2, opAssoc.LEFT, BinOpNode.from_tokens),
-            (oneOf('= += -= *= /= %= <<= >>='), 2, opAssoc.RIGHT, AssignNode.from_tokens_op),
-        ])
-expr = (operand + ~(Optional(White()) + oneOf('- ! ~ * / % + - << >> && || & | < <= > >= == != = += -= *= /= %= <<= >>='))) | _expr
+expr = OperatorPrecedence(operand)
 args = Optional(delimitedList(expr))
 funccall << (name + LPAREN - args - RPAREN)
 funccall.setParseAction(CallNode.from_tokens)
@@ -83,8 +194,6 @@ argdecl = (vartype + name).setParseAction(DeclNode.from_tokens)
 funcdecl = (Keyword('void') | vartype) + name + LPAREN - Optional(delimitedList(argdecl)) + RPAREN
 func = (funcdecl - statement).setParseAction(FuncNode.from_tokens)
 
-#grammar = (func | (vardecl + SEMICOLON) | (assign + SEMICOLON)).ignore(cppStyleComment)
-
 grammar = ZeroOrMore(func | (vardecl + SEMICOLON) | (assign + SEMICOLON))
 grammar.ignore(cppStyleComment)
 
@@ -93,13 +202,3 @@ grammar.setParseAction(GlobalNode.from_tokens)
 def gen_ast(code):
     root = grammar.parseString(code, True)[0]
     return root
-#    root = GlobalNode([])
-#
-#    loc, node = grammar._parse(code, 0)
-#    while node is not None:
-#        print node
-#        root.children.append(node)
-#        if regex
-#        loc, node = grammar._parse(code, loc)
-#    print loc, root
-
