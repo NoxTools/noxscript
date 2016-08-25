@@ -302,7 +302,7 @@ class Decompiler(object):
             if node is None:
                 return node
             parent = node.parent
-            if isinstance(node, VarNode):
+            if isinstance(node, VarNode) or isinstance(node, SubscriptNode):
                 if hasattr(parent, 'optype'):
                     t = parent.optype
                     if isinstance(parent, BinOpNode) and parent.op in ['=', '==', '!=']:
@@ -340,6 +340,13 @@ class Decompiler(object):
                 if node.value.vartype is not node.func.rettype:
                     node.func.rettype = node.value.vartype
                     self.dirty = True
+            elif isinstance(node, CallNode):
+                decl = node.decl
+                params = [x.decltype for x in decl.params]
+                for i in xrange(len(params)):
+                    if params[i] is ANY and node.args[i].vartype is not ANY:
+                        decl.params[i].decltype = node.args[i].vartype
+                        self.dirty = True
             return node
         self.dirty = False
         Node.traverse(root, lambda n, d: pre_visitor(self, n, d), None)

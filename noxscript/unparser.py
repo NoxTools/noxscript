@@ -32,7 +32,7 @@ def pre_visitor(stream, node, depth, visit):
         return True
 
     if isinstance(node, FuncNode):
-        stream.write(u'%s %s(%s)\n' % (node.rettype, node.name, u''.join([decl_to_string(x) for x in node.params])))
+        stream.write(u'%s %s(%s)\n' % (node.rettype, node.name, u', '.join([decl_to_string(x) for x in node.params])))
         visit(node.body)
         return False
     elif isinstance(node, DeclNode):
