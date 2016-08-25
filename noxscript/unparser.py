@@ -41,7 +41,7 @@ def pre_visitor(stream, node, depth, visit):
     elif isinstance(node, BlockNode):
         stream.write(u'{\n')
     elif isinstance(node, ForNode):
-        stream.write(u'for(')
+        stream.write(u'for (')
         visit(node.init)
         stream.write(u'; ')
         visit(node.cond)
@@ -51,18 +51,21 @@ def pre_visitor(stream, node, depth, visit):
         visit(node.body)
         return False
     elif isinstance(node, WhileNode):
-        stream.write(u'while(')
+        stream.write(u'while (')
         visit(node.cond)
         stream.write(u')\n')
         visit(node.body)
         return False
     elif isinstance(node, IfNode):
-        stream.write(u'if(')
+        stream.write(u'if (')
         visit(node.cond)
         stream.write(u')\n')
         visit(node.ifthen)
         if node.ifelse:
-            stream.write(u'else\n')
+            if isinstance(node.ifelse, IfNode):
+                stream.write(u'else ')
+            else:
+                stream.write(u'else\n')
             visit(node.ifelse)
         return False
     elif isinstance(node, BreakNode):
@@ -81,7 +84,7 @@ def pre_visitor(stream, node, depth, visit):
         stream.write(u'%s:\n' % node.label)
     elif isinstance(node, GotoNode):
         if node.cond:
-            stream.write(u'if(false == ')
+            stream.write(u'if (false == ')
             visit(node.cond)
             stream.write(u') ')
         stream.write(u'goto %s;\n' % node.target)
@@ -96,12 +99,12 @@ def pre_visitor(stream, node, depth, visit):
             visit(node.rhs)
             return False
         stmt = is_statement(node)
-        if not stmt:
+        if not stmt and (isinstance(node.parent, BinOpNode) or isinstance(node.parent, UnOpNode)):
             stream.write(u'(')
         visit(node.lhs)
         stream.write(u' %s ' % node.op)
         visit(node.rhs)
-        if not stmt:
+        if not stmt and (isinstance(node.parent, BinOpNode) or isinstance(node.parent, UnOpNode)):
             stream.write(u')')
         return False
     elif isinstance(node, UnOpNode):

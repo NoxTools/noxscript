@@ -411,13 +411,25 @@ class IfNode(Node):
     def cond(self):
         return self.children[0]
 
+    @cond.setter
+    def cond(self, value):
+        self.children[0] = value
+
     @property
     def ifthen(self):
         return self.children[1]
 
+    @ifthen.setter
+    def ifthen(self, value):
+        self.children[1] = value
+
     @property
     def ifelse(self):
         return self.children[2]
+
+    @ifelse.setter
+    def ifelse(self, value):
+        self.children[2] = value
 
     @classmethod
     def from_tokens(cls, st, loc, toks):

@@ -1,6 +1,8 @@
 from .ast import *
 from .builtins import BUILTINS
+from .cfg import *
 from .passes import *
+from .struct_analysis import *
 from .unparser import unparse
 
 import io
@@ -139,12 +141,13 @@ class Decompiler(object):
 
         scope_pass(self.root)
         while self.infer_types_pass(self.root):
-            print 'here'
+            pass # print 'here'
         # print_ast(self.root)
         try:
             validate_pass(self.root)
         except Exception as e:
             print 'Error detected in AST: %s' % e
+        # print_ast(self.funcs[10].node)
         unparse(self.root, io.TextIOWrapper(io.BufferedWriter(io.FileIO('dump.txt', 'w'))))
 
     def parse_function(self, f):
@@ -154,10 +157,6 @@ class Decompiler(object):
         position_stack = []
         labels = {}
 
-        for i in xrange(f.num_params, len(f.locals)):
-            if f == self.global_func and i < 4:
-                continue
-            block.children += [f.locals[i].node]
         i = 0
         while i < len(f.bc):
             pos = i
@@ -270,6 +269,32 @@ class Decompiler(object):
             if node in positions:
                 block.children.append(LabelNode(labels[positions[node]]))
             block.children.append(node)
+
+        block, _ = coalesce_blocks_pass(block)
+        cfg_root = coalesce_cfg(gen_cfg(block.children))
+        cfg_root = analyze(cfg_root)
+        ast_root = ast_from_cfg(cfg_root)
+        ast_root = remove_label_pass(ast_root)
+        while True:
+            ast_root, dirty = coalesce_blocks_pass(ast_root)
+            if dirty:
+                continue
+            ast_root, dirty = empty_conditional_pass(ast_root)
+            if dirty:
+                continue
+            ast_root, dirty = simplify_expr_pass(ast_root)
+            if dirty:
+                continue
+            ast_root, dirty = reduce_conditional_pass(ast_root)
+            if dirty:
+                continue
+            break
+        block = ast_root
+
+        for i in xrange(f.num_params, len(f.locals)):
+            if f == self.global_func and i < 4:
+                continue
+            block.children.insert(0, f.locals[i].node)
         return block
 
     def infer_types_pass(self, root):
