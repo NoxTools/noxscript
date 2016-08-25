@@ -145,7 +145,7 @@ def coalesce_blocks_pass(root):
                 else:
                     new_children.append(child)
 
-            if len(new_children) == 0:
+            if len(new_children) == 0 and hasattr(node, 'parent'):
                 dirty['dirty'] = True
                 return None
             if len(new_children) == 1:

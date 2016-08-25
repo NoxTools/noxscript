@@ -60,7 +60,11 @@ def pre_visitor(stream, node, depth, visit):
         stream.write(u'if (')
         visit(node.cond)
         stream.write(u')\n')
+        if isinstance(node.ifthen, IfNode):
+            stream.write(u'{\n')
         visit(node.ifthen)
+        if isinstance(node.ifthen, IfNode):
+            stream.write(u'}\n')
         if node.ifelse:
             if isinstance(node.ifelse, IfNode):
                 stream.write(u'else ')
