@@ -419,13 +419,13 @@ const int TRUE = 1;
 
   This constant can be used any place where an object id is used.
 */
-const int SELF = -1;
+const int SELF = -2;
 /**
   \brief OTHER object id
 
   This constant can be used any place where an object id is used.
 */
-const int OTHER = -2;
+const int OTHER = -1;
 
 /**
   \brief Audio events
@@ -2075,7 +2075,7 @@ void AudioEvent(string audio, object waypoint);
 /**
   \brief Display a localized string.
 
-  This will display on a localized string on the screen of SELF. If the string
+  This will display on a localized string on the screen of OTHER. If the string
   is not in the string database, it will instead print an error message with
   "MISSING:".
 
@@ -2940,7 +2940,7 @@ float GetQuestStatusFloat(string name);
 void ResetQuestStatus(string name);
 
 /**
-  \brief Get whether object is OTHER.
+  \brief Get whether object is SELF.
 
   \param id an object id
   \return TRUE or FALSE
@@ -2948,7 +2948,7 @@ void ResetQuestStatus(string name);
 int IsTrigger(int id);
 
 /**
-  \brief Get whether object is SELF.
+  \brief Get whether object is OTHER.
 
   \param id an object id
   \return TRUE or FALSE
@@ -3454,14 +3454,14 @@ void StartupScreen(int arg1);
 int IsTalking();
 
 /**
-  \brief Get OTHER if valid.
+  \brief Get SELF if valid.
 
   \return an object id, or 0
 */
 int GetTrigger();
 
 /**
-  \brief Get SELF if valid.
+  \brief Get OTHER if valid.
 
   \return an object id, or 0
 */

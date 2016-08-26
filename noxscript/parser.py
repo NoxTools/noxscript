@@ -144,8 +144,8 @@ RBRAC = Suppress(Literal(']'))
 # built-in constants
 true = Keyword('true').setParseAction(lambda toks: LiteralNode(1))
 false = Keyword('false').setParseAction(lambda toks: LiteralNode(0))
-self = Keyword('self').setParseAction(lambda toks: LiteralNode(-1))
-other = Keyword('other').setParseAction(lambda toks: LiteralNode(-2))
+other = Keyword('other').setParseAction(lambda toks: LiteralNode(-1))
+self = Keyword('self').setParseAction(lambda toks: LiteralNode(-2))
 
 vartype = Keyword('int') | Keyword('float') | Keyword('string') | Keyword('object')
 name = Word(alphas + '_', alphanums + '_', asKeyword=True)

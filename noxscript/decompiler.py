@@ -191,10 +191,10 @@ class Decompiler(object):
                 if is_global:
                     if num == 0:
                         node = LiteralNode(-2)
-                        node.keyword = 'other'
+                        node.keyword = 'self'
                     elif num == 1:
                         node = LiteralNode(-1)
-                        node.keyword = 'self'
+                        node.keyword = 'other'
                     elif num == 2:
                         node = LiteralNode(1)
                         node.keyword = 'true'

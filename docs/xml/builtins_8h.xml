@@ -9319,7 +9319,7 @@
         <definition>const int SELF</definition>
         <argsstring></argsstring>
         <name>SELF</name>
-        <initializer>= -1</initializer>
+        <initializer>= -2</initializer>
         <briefdescription>
 <para>SELF object id. </para>        </briefdescription>
         <detaileddescription>
@@ -9333,7 +9333,7 @@
         <definition>const int OTHER</definition>
         <argsstring></argsstring>
         <name>OTHER</name>
-        <initializer>= -2</initializer>
+        <initializer>= -1</initializer>
         <briefdescription>
 <para>OTHER object id. </para>        </briefdescription>
         <detaileddescription>
@@ -10322,7 +10322,7 @@
         <briefdescription>
 <para>Display a localized string. </para>        </briefdescription>
         <detaileddescription>
-<para>This will display on a localized string on the screen of SELF. If the string is not in the string database, it will instead print an error message with &quot;MISSING:&quot;.</para><para><parameterlist kind="param"><parameteritem>
+<para>This will display on a localized string on the screen of OTHER. If the string is not in the string database, it will instead print an error message with &quot;MISSING:&quot;.</para><para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>message</parametername>
 </parameternamelist>
@@ -13285,7 +13285,7 @@
           <declname>id</declname>
         </param>
         <briefdescription>
-<para>Get whether object is OTHER. </para>        </briefdescription>
+<para>Get whether object is SELF. </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -13311,7 +13311,7 @@
           <declname>id</declname>
         </param>
         <briefdescription>
-<para>Get whether object is SELF. </para>        </briefdescription>
+<para>Get whether object is OTHER. </para>        </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -15294,7 +15294,7 @@
         <argsstring>()</argsstring>
         <name>GetTrigger</name>
         <briefdescription>
-<para>Get OTHER if valid. </para>        </briefdescription>
+<para>Get SELF if valid. </para>        </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>an object id, or 0 </para></simplesect>
 </para>        </detaileddescription>
@@ -15308,7 +15308,7 @@
         <argsstring>()</argsstring>
         <name>GetCaller</name>
         <briefdescription>
-<para>Get SELF if valid. </para>        </briefdescription>
+<para>Get OTHER if valid. </para>        </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>an object id, or 0 </para></simplesect>
 </para>        </detaileddescription>
