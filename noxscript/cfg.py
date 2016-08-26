@@ -17,20 +17,22 @@ class CFGNode(object):
 class CFGBlockNode(CFGNode):
     def __init__(self, cfg_nodes):
         super(CFGBlockNode, self).__init__(None)
-        self.nodes = cfg_nodes[0].nodes
+        self.nodes = cfg_nodes[0].nodes + cfg_nodes[1].nodes
         self.cfg_nodes = cfg_nodes
 
 class CFGIfNode(CFGNode):
     def __init__(self, cond, ifthen, ifelse):
-        super(CFGIfNode, self).__init__(None)
-        self.nodes = cond.nodes
+        label = cond.nodes[0]
+        super(CFGIfNode, self).__init__(label if isinstance(label, LabelNode) else None)
+        self.cond = cond
         self.ifthen = ifthen
         self.ifelse = ifelse
 
 class CFGWhileNode(CFGNode):
     def __init__(self, cond, body):
-        super(CFGWhileNode, self).__init__(None)
-        self.nodes = cond.nodes
+        label = cond.nodes[0]
+        super(CFGWhileNode, self).__init__(label if isinstance(label, LabelNode) else None)
+        self.cond = cond
         self.body = body
         self.continues = set()
         self.breaks = set()
@@ -110,7 +112,10 @@ def print_cfg_dot(root):
         if len(cur.children) > 0:
             to_visit += list(cur.children)
         s += '%d;\n' % id(cur)
-        print id(cur), cur.nodes[0]
+        if len(cur.nodes):
+            print id(cur), type(cur), cur.nodes[0], cur.nodes[-1]
+        else:
+            print id(cur), type(cur)
         for child in cur.children:
             s += '%d -> %d;\n' % (id(cur), id(child))
         visited.add(cur)
@@ -123,18 +128,27 @@ def ast_from_cfg(root, breaks=None, continues=None):
         return None
     node = None
     if isinstance(root, CFGIfNode):
-        node = BlockNode(root.nodes)
-        cond = node.children.pop()
+        node = BlockNode([])
+        cond = ast_from_cfg(root.cond)
+        node.children.append(cond)
+        c = cond.children[-1]
+        while not isinstance(c, GotoNode):
+            assert isinstance(c, BlockNode)
+            cond = c
+            c = cond.children[-1]
+        cond = cond.children.pop()
         ifnode = IfNode(cond.cond, ast_from_cfg(root.ifthen), ast_from_cfg(root.ifelse))
         node.children.append(ifnode)
     elif isinstance(root, CFGWhileNode):
-        node = BlockNode(root.nodes)
-        cond = node.children.pop()
+        node = BlockNode([])
+        cond = ast_from_cfg(root.cond)
+        node.children.append(cond)
+        cond = cond.children.pop()
         whilenode = WhileNode(cond.cond, ast_from_cfg(root.body, root.breaks, root.continues))
         node.children.append(whilenode)
     elif isinstance(root, CFGBlockNode):
         node = BlockNode([ast_from_cfg(node) for node in root.cfg_nodes])
     else:
         node = BlockNode(root.nodes)
-
+    assert len(root.children) == 0
     return node

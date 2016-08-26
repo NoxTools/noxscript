@@ -145,10 +145,11 @@ def coalesce_blocks_pass(root):
                 else:
                     new_children.append(child)
 
+            # avoid eliminating top-most BlockNode
             if len(new_children) == 0 and hasattr(node, 'parent'):
                 dirty['dirty'] = True
                 return None
-            if len(new_children) == 1:
+            if len(new_children) == 1 and hasattr(node, 'parent'):
                 dirty['dirty'] = True
                 return new_children[0]
             node.children = new_children
@@ -187,6 +188,11 @@ def reduce_conditional_pass(root):
                 node.ifthen, node.ifelse = node.ifelse, node.ifthen
                 node.cond = UnOpNode('!', node.cond)
                 dirty['dirty'] = True
+            elif (not isinstance(node.ifelse, IfNode) or isinstance(node.ifthen, IfNode)) \
+              and isinstance(node.cond, BinOpNode) and node.cond.op == '!=':
+                node.ifthen, node.ifelse = node.ifelse, node.ifthen
+                node.cond = UnOpNode('!', node.cond)
+                dirty['dirty'] = True
         return node
 
     dirty = {'dirty': False}
@@ -216,3 +222,81 @@ def simplify_expr_pass(root):
     root = Node.traverse(root, None, lambda *args: visitor(dirty, *args))
     return root, dirty['dirty']
 
+def fix_unreferenced_pass(root):
+    def visitor(used, node, dpeth):
+        if node is None:
+            return node
+
+        if isinstance(node, VarNode) or isinstance(node, SubscriptNode):
+            used.add(node.decl)
+        return node
+
+    def remove_visitor(used, node, dpeth):
+        if node is None:
+            return node
+
+        if isinstance(node, DeclNode) and node not in used and not isinstance(node.parent, FuncNode):
+            return None
+        return node
+
+    used = set()
+    root = Node.traverse(root, None, lambda *args: visitor(used, *args))
+    root = Node.traverse(root, None, lambda *args: remove_visitor(used, *args))
+    return root
+
+def decl_initializer_pass(root):
+    # iterate over nodes and find the first use of a var, and check that
+    # all other uses have it as a parent scope
+    def visitor(uses, node, depth):
+        if node is None:
+            return node
+
+        if isinstance(node, VarNode) or isinstance(node, SubscriptNode):
+            decl = node.decl
+            if decl.func != node.func or isinstance(decl.parent, FuncNode) or isinstance(decl, FuncNode):
+                return node
+            if decl in uses:
+                first_use, first_scope, valid, others = uses[decl]
+                if not any((x.lval for x in others)):
+                    others.append(node)
+                scope = node.scope
+                while scope is not None and scope is not first_scope:
+                    scope = scope.parent
+                if scope is None:
+                    uses[decl] = first_use, first_scope, False, others
+            else:
+                uses[decl] = (node.parent, node.scope, node.lval, [])
+                uses[node.parent] = (decl,)
+        return node
+
+    def combine_visitor(uses, node, depth):
+        if node is None:
+            return node
+        if node in uses:
+            if isinstance(node, DeclNode):
+                node.scope.remove(node.name, node)
+                return None
+            else:
+                assign = AssignNode(node.op, node.lhs, node.rhs, uses[node][0].decltype)
+                uses[assign] = uses[uses[node][0]]
+                node.scope.add(assign.name, assign)
+                assign.parent = node.parent
+                return assign
+        elif isinstance(node, VarNode) and not node.lval:
+            decl = node.decl
+            if decl in uses:
+                first_use, first_scope, valid, others = uses[decl]
+                if node in others and valid and decl.rhs.is_constant():
+                    return decl.rhs.copy()
+        return node
+
+    uses = {}
+    root = Node.traverse(root, None, lambda *args: visitor(uses, *args))
+    for k,v in uses.items():
+        if len(v) == 4:
+            first_use, first_scope, valid, others = v
+            if not valid or not isinstance(first_use, BinOpNode) or first_use.op != '=' or k.size > 1:
+                del uses[k]
+                del uses[v[0]]
+    root = Node.traverse(root, lambda *args: combine_visitor(uses, *args), None)
+    return root

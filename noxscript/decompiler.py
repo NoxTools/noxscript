@@ -117,7 +117,9 @@ class Function(object):
         return 'Function<%d>(%s, %d, %s, %d)' % (self.num, self.name, self.num_params, str(self.retval), len(self.locals))
 
 class Decompiler(object):
-    def __init__(self, fp):
+    def __init__(self, fp, struct_analysis=True):
+        self.struct_analysis = struct_analysis
+
         self.load_file(fp)
 
         self.root = GlobalNode([])
@@ -142,13 +144,18 @@ class Decompiler(object):
         scope_pass(self.root)
         while self.infer_types_pass(self.root):
             pass # print 'here'
-        # print_ast(self.root)
+        fix_unreferenced_pass(self.root)
+        decl_initializer_pass(self.root)
         try:
             validate_pass(self.root)
         except Exception as e:
             print 'Error detected in AST: %s' % e
-        # print_ast(self.funcs[10].node)
-        unparse(self.root, io.TextIOWrapper(io.BufferedWriter(io.FileIO('dump.txt', 'w'))))
+
+    def print_ast(self):
+        print_ast(self.root)
+
+    def unparse(self, filename):
+        unparse(self.root, io.TextIOWrapper(io.BufferedWriter(io.FileIO(filename, 'w'))))
 
     def parse_function(self, f):
         block = BlockNode([])
@@ -271,25 +278,26 @@ class Decompiler(object):
             block.children.append(node)
 
         block, _ = coalesce_blocks_pass(block)
-        cfg_root = coalesce_cfg(gen_cfg(block.children))
-        cfg_root = analyze(cfg_root)
-        ast_root = ast_from_cfg(cfg_root)
-        ast_root = remove_label_pass(ast_root)
-        while True:
-            ast_root, dirty = coalesce_blocks_pass(ast_root)
-            if dirty:
-                continue
-            ast_root, dirty = empty_conditional_pass(ast_root)
-            if dirty:
-                continue
-            ast_root, dirty = simplify_expr_pass(ast_root)
-            if dirty:
-                continue
-            ast_root, dirty = reduce_conditional_pass(ast_root)
-            if dirty:
-                continue
-            break
-        block = ast_root
+        if self.struct_analysis:
+            cfg_root = coalesce_cfg(gen_cfg(block.children))
+            cfg_root = analyze(cfg_root)
+            ast_root = ast_from_cfg(cfg_root)
+            ast_root = remove_label_pass(ast_root)
+            while True:
+                ast_root, dirty = coalesce_blocks_pass(ast_root)
+                if dirty:
+                    continue
+                ast_root, dirty = empty_conditional_pass(ast_root)
+                if dirty:
+                    continue
+                ast_root, dirty = simplify_expr_pass(ast_root)
+                if dirty:
+                    continue
+                ast_root, dirty = reduce_conditional_pass(ast_root)
+                if dirty:
+                    continue
+                break
+            block = ast_root
 
         for i in xrange(f.num_params, len(f.locals)):
             if f == self.global_func and i < 4:
@@ -303,12 +311,8 @@ class Decompiler(object):
                 return node
             parent = node.parent
             if isinstance(node, VarNode) or isinstance(node, SubscriptNode):
-                if hasattr(parent, 'optype'):
-                    t = parent.optype
-                    if isinstance(parent, BinOpNode) and parent.op in ['=', '==', '!=']:
-                        other = parent.rhs if node == parent.lhs else parent.lhs
-                        if t is INT and other.vartype is not ANY:
-                            t = other.vartype
+                if isinstance(parent, SubscriptNode):
+                    t = INT
                 elif isinstance(parent, CallNode):
                     decl = parent.decl
                     params = [x.decltype for x in decl.params]
@@ -316,8 +320,12 @@ class Decompiler(object):
                         if parent.args[i] == node:
                             t = params[i]
                             break
-                elif isinstance(parent, SubscriptNode):
-                    t = INT
+                elif hasattr(parent, 'optype'):
+                    t = parent.optype
+                    if isinstance(parent, BinOpNode) and parent.op in ['=', '==', '!=']:
+                        other = parent.rhs if node == parent.lhs else parent.lhs
+                        if t is INT and other.vartype is not ANY:
+                            t = other.vartype
                 else:
                     t = ANY
 

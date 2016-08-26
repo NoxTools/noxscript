@@ -1,19 +1,22 @@
 from .cfg import *
 
-def find_cycle(root, visited=None, find=None):
+def find_cycle(root, all_visited=None, visited=None, find=None):
     if visited is None:
         visited = []
-    if find is None:
         find = root
+        all_visited = set()
     if root in visited:
         cycle = visited[visited.index(root):]
         if find in cycle:
             return cycle
         else:
             return None
+    if root in all_visited:
+        return None
     visited.append(root)
+    all_visited.add(root)
     for child in list(root.children):
-        cycle = find_cycle(child, visited, find)
+        cycle = find_cycle(child, all_visited, visited, find)
         if cycle is not None:
             return cycle
     visited.pop()
@@ -35,15 +38,18 @@ def analyze(root):
     counter = 0
     fake_root = CFGNode(None)
     fake_root.add_child(root)
-    while counter < 150:
+    while True: #counter < 15:
         nodes = dfs(list(fake_root.children)[0])
-        if any((reduce_conditional(node) for node in nodes)):
+        if any((reduce_cyclic(node) for node in nodes)):
             counter += 1
             continue
         if any((reduce_block(node) for node in nodes)):
             counter += 1
             continue
-        if any((reduce_cyclic(node) for node in nodes)):
+        if any((reduce_conditional(node) for node in nodes)):
+            counter += 1
+            continue
+        if any((break_edges(node) for node in nodes)):
             counter += 1
             continue
         break
@@ -78,6 +84,7 @@ def reduce_conditional(entry):
         goto_node = entry.nodes[-1]
         ifelse = left if len(left.nodes) > 0 and isinstance(left.nodes[0], LabelNode) and left.nodes[0].label == goto_node.target else right
         ifthen = right if ifelse is left else left
+        assert ifelse.nodes[0].label == goto_node.target
 
         ifnode = CFGIfNode(entry, ifthen, ifelse)
 
@@ -99,8 +106,12 @@ def reduce_conditional(entry):
         left, right = x
         if len(left.parents) == 1 and (len(left.children) == 0 or \
         (len(left.children) == 1 and list(left.children)[0] is right)):
-            assert right.nodes[0].label is entry.nodes[-1].target
-            ifnode = CFGIfNode(entry, left, None)
+            cond = entry.nodes[-1]
+            if not isinstance(right.nodes[0], LabelNode) or right.nodes[0].label is not entry.nodes[-1].target:
+                # XXX is this correct?
+                ifnode = CFGIfNode(entry, left, None)
+            else:
+                ifnode = CFGIfNode(entry, left, None)
             entry.remove_child(left)
             for child in list(left.children):
                 left.remove_child(child)
@@ -122,6 +133,8 @@ def reduce_cyclic(entry):
             cond_node = node
             break
     cond_children = list(cond_node.children)
+    if len(cond_children) != 2:
+        return False
     if cond_children[0] in cycle:
         body_node, exit_node = cond_children
     else:
@@ -149,3 +162,24 @@ def reduce_cyclic(entry):
     while_node.body = analyze(body_node)
     return True
 
+def break_edges(entry):
+    if len(entry.parents) == 2:
+        parents = list(entry.parents)
+        gotos = parents
+#        for parent in parents:
+#            # check if conditional edge
+#            if not isinstance(parent.nodes[-1], GotoNode) or parent.nodes[-1].target != entry.nodes[0].label:
+#                gotos.append(parent)
+        parent = gotos[0]
+        if isinstance(parent.nodes[0], GotoNode):
+            parent = gotos[1]
+        is_cond = isinstance(parent.nodes[-1], GotoNode) and parent.nodes[-1].target == entry.nodes[0].label
+        goto_node = CFGNode(GotoNode(entry.nodes[0].label))
+        parent.remove_child(entry)
+        parent.add_child(goto_node)
+        new_label = id(goto_node)
+        if is_cond:
+            goto_node.nodes.insert(0, LabelNode(new_label))
+            parent.nodes[-1].target = new_label
+        return True
+    return False

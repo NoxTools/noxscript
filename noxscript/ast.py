@@ -101,6 +101,9 @@ class LiteralNode(Node):
     def is_constant(self):
         return True
 
+    def copy(self):
+        return LiteralNode(self.value)
+
 class VarNode(Node):
     def __init__(self, name, **kwargs):
         super(VarNode, self).__init__(**kwargs)
@@ -125,8 +128,12 @@ class VarNode(Node):
 
     @classmethod
     def from_tokens(cls, st, loc, toks):
-        toks = toks[0]
         return cls(toks[0], loc=(lineno(loc, st), col(loc, st)))
+
+    def copy(self):
+        node = LiteralNode(self.name)
+        node.lval = self.lval
+        return node
 
 class BinOpNode(Node):
     def __init__(self, op, lhs, rhs, **kwargs):
@@ -146,16 +153,15 @@ class BinOpNode(Node):
 
     @property
     def vartype(self):
-        if self.lhs.vartype is not self.rhs.vartype and self.lhs.vartype is not ANY and self.rhs.vartype is not ANY:
-            # print self.lhs, self.rhs
-            raise AstException(self, '\'%s\' with wrong type (%s is not %s)' % (self.op, self.lhs.vartype, self.rhs.vartype))
+        lhs_vartype = self.lhs.vartype
+        rhs_vartype = self.rhs.vartype
         if self.op in '< > <= >= != =='.split(' '):
             # comparisons always produce an integer
             return INT
-        if self.lhs.vartype is ANY:
-            return self.rhs.vartype
+        if lhs_vartype is ANY:
+            return rhs_vartype
         else:
-            return self.lhs.vartype
+            return lhs_vartype
 
     @classmethod
     def from_tokens(cls, st, loc, toks):
@@ -172,6 +178,13 @@ class BinOpNode(Node):
                 self.lhs.lval = True
             else:
                 raise AstException(self, 'Invalid lvalue')
+        lhs_vartype = self.lhs.vartype
+        rhs_vartype = self.rhs.vartype
+        if lhs_vartype is not rhs_vartype and lhs_vartype is not ANY and rhs_vartype is not ANY:
+            raise AstException(self, '\'%s\' with wrong type (%s is not %s)' % (self.op, lhs_vartype, rhs_vartype))
+
+    def copy(self):
+        return BinOpNode(self.op, self.lhs.copy(), self.rhs.copy())
 
 class AssignNode(BinOpNode):
     def __init__(self, op, lhs, rhs, decltype=None, **kwargs):
@@ -191,14 +204,15 @@ class AssignNode(BinOpNode):
 
     @classmethod
     def from_tokens(cls, st, loc, toks):
-        return cls('=', VarNode(toks[1]), toks[2], toks[0], loc=(lineno(loc, st), col(loc, st)))
+        return cls('=', toks[1], toks[2], toks[0], loc=(lineno(loc, st), col(loc, st)))
 
     @classmethod
     def from_tokens_op(cls, st, loc, toks):
-        assert len(toks) == 1
-        toks = toks[0]
-        assert len(toks) == 3
         return cls(toks[1], toks[0], toks[2], loc=(lineno(loc, st), col(loc, st)))
+        #assert len(toks) == 1
+        #toks = toks[0]
+        #assert len(toks) == 3
+        #return cls(toks[1], toks[0], toks[2], loc=(lineno(loc, st), col(loc, st)))
 
     def is_global(self):
         return self.func is None or self.func.name is GLOBAL
@@ -215,6 +229,9 @@ class AssignNode(BinOpNode):
                 raise AstException(self, '%s missing declaration type' % self.name)
             if not self.rhs.is_constant():
                 raise AstException(self, '%s initializer must be a constant expression' % self.name)
+
+    def copy(self):
+        return BinOpNode(self.op, self.lhs.copy(), self.rhs.copy(), self.decltype)
 
 class UnOpNode(Node):
     def __init__(self, op, rhs, **kwargs):
@@ -239,6 +256,9 @@ class UnOpNode(Node):
         toks = toks[0]
         assert len(toks) == 2
         return cls(toks[0], toks[1], loc=(lineno(loc, st), col(loc, st)))
+
+    def copy(self):
+        return UnOpNode(self.op, self.rhs.copy())
 
 class CallNode(Node):
     def __init__(self, callee, args, **kwargs):
@@ -288,6 +308,9 @@ class CallNode(Node):
     def from_tokens(cls, st, loc, toks):
         return cls(toks[0], toks[1:], loc=(lineno(loc, st), col(loc, st)))
 
+    def is_constant(self):
+        return False
+
 class ReturnNode(Node):
     def __init__(self, value=None, **kwargs):
         super(ReturnNode, self).__init__(**kwargs)
@@ -324,7 +347,7 @@ class GotoNode(Node):
         self.children = [cond]
 
     def __repr__(self):
-        return '<GotoNode %s>' % self.target
+        return '<GotoNode %s%s>' % (self.target, ' conditional' if self.cond else '')
 
     @property
     def cond(self):
@@ -586,6 +609,10 @@ class Scope(object):
         if self.get(name) is not None:
             raise AstException(node, '%s is already defined' % name)
         self.names[name] = node
+
+    def remove(self, name, node):
+        assert name in self.names and self.names[name] == node
+        del self.names[name]
 
 def print_ast(root):
     def visitor(node, depth):

@@ -60,17 +60,22 @@ def pre_visitor(stream, node, depth, visit):
         stream.write(u'if (')
         visit(node.cond)
         stream.write(u')\n')
-        if isinstance(node.ifthen, IfNode):
+        if not isinstance(node.ifthen, BlockNode):
             stream.write(u'{\n')
         visit(node.ifthen)
-        if isinstance(node.ifthen, IfNode):
+        if not isinstance(node.ifthen, BlockNode):
             stream.write(u'}\n')
         if node.ifelse:
             if isinstance(node.ifelse, IfNode):
                 stream.write(u'else ')
+                visit(node.ifelse)
+            elif not isinstance(node.ifelse, BlockNode):
+                stream.write(u'else {\n')
+                visit(node.ifelse)
+                stream.write(u'}\n')
             else:
                 stream.write(u'else\n')
-            visit(node.ifelse)
+                visit(node.ifelse)
         return False
     elif isinstance(node, BreakNode):
         stream.write(u'break;\n')
@@ -149,8 +154,6 @@ def traverse(node, preop, postop, depth=0):
     if traverse_children:
         if node is not None:
             for i in xrange(len(node.children)):
-                if node.children[i] is not None:
-                    node.children[i].parent = node
                 traverse(node.children[i], preop, postop, depth+1)
     if postop:
         postop(node, depth, visit)
@@ -159,5 +162,8 @@ def unparse(root, stream=None):
     if stream is None:
         stream = io.StringIO()
 
+    # First, make sure parent links are initialized
+    Node.traverse(root, None, None)
+    # Now, print things out
     traverse(root, lambda *args: pre_visitor(stream, *args), lambda *args: post_visitor(stream, *args))
     return stream

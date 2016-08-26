@@ -102,3 +102,10 @@ ENV/
 
 # auto-generated tag files
 tags
+
+# pickle file
+*.pickle
+
+# noxscript file
+*.ns
+*.obj
