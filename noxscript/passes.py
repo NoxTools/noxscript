@@ -12,13 +12,19 @@ def scope_pass(root):
         return node
     Node.traverse(root, visitor, None)
 
-def validate_pass(root):
-    def visitor(node, depth):
+def validate_pass(root, add_comment=False):
+    def visitor(add_comment, node, depth):
         if node is None:
             return node
-        node.validate()
+        if add_comment:
+            try:
+                node.validate()
+            except Exception as e:
+                node.comment = 'FIXME %s' % str(e)
+        else:
+            node.validate()
         return node
-    Node.traverse(root, visitor, None)
+    Node.traverse(root, lambda *args: visitor(add_comment, *args), None)
 
 def flatten_pass(root):
     def pre_visitor(node, depth):

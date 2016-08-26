@@ -147,7 +147,7 @@ class Decompiler(object):
         fix_unreferenced_pass(self.root)
         decl_initializer_pass(self.root)
         try:
-            validate_pass(self.root)
+            validate_pass(self.root, add_comment=True)
         except Exception as e:
             print 'Error detected in AST: %s' % e
 
@@ -380,6 +380,8 @@ class Decompiler(object):
             name = read_string(fp)
             retval = bool(read_uint(fp))
             num_params = read_uint(fp)
+            if ':' in name:
+                name = name.split(':')[0]
             func = Function(name, num, num_params, retval)
             self.funcs.append(func)
 

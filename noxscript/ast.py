@@ -21,6 +21,7 @@ class Node(object):
         self.children = []
         self.loc = loc
         self._scope = None
+        self.comment = None
 
     def __repr__(self):
         return '<%s>' % type(self).__name__

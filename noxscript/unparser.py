@@ -31,6 +31,9 @@ def pre_visitor(stream, node, depth, visit):
     if node is None:
         return True
 
+    if node.comment:
+        stream.write(u'// %s\n' % node.comment)
+
     if isinstance(node, FuncNode):
         stream.write(u'%s %s(%s)\n' % (node.rettype, node.name, u', '.join([decl_to_string(x) for x in node.params])))
         visit(node.body)

@@ -32,7 +32,7 @@ def cli(scrobj, out, analyze, pprint, verbose):
         d.unparse(out)
 
         if pprint:
-            subprocess.check_call(['astyle', '--mode=c', '--style=break', '-j', '-q', '-n', out])
+            subprocess.check_call(['astyle', '--mode=c', '--style=break', '-Y', '-j', '-q', '-n', out])
     except Exception as e:
         click.secho('Error: %s' % e, fg='red')
 
