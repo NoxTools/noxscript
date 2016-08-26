@@ -51,8 +51,8 @@ class Operator(object):
 
 class OperatorPrecedence(ParseExpression):
     def __init__( self, operand, savelist = False ):
-        self.operands = Optional(oneOf('- != ! ~ * / % + << >> && || & | <= < >= > == != ( )').setParseAction(lambda loc, tok: Operator(loc, tok)))
-        #self.operands = Optional(oneOf('-= - != ! ~ *= * /= / %= % += + <<= << >>= >> && || & | <= < >= > == != = += -= *= /= %= <<= >>= ( )').setParseAction(lambda loc, tok: Operator(loc, tok)))
+        self.operands = Optional(oneOf('- != ! ~ * / % + << >> && || & | ^ <= < >= > == != ( )').setParseAction(lambda loc, tok: Operator(loc, tok)))
+        #self.operands = Optional(oneOf('-= - != ! ~ *= * /= / %= % += + <<= << >>= >> && || & | ^ <= < >= > == != = += -= *= /= %= <<= >>= ( )').setParseAction(lambda loc, tok: Operator(loc, tok)))
 
         super(OperatorPrecedence,self).__init__([operand], savelist)
 
@@ -104,8 +104,8 @@ class OperatorPrecedence(ParseExpression):
                             op = op_stack[-1]
                             if not isinstance(op, Operator) or op.op == '(' or op.op == ')':
                                 break
-                            if (tok.assoc == opAssoc.LEFT and tok.prec <= op.prec) or \
-                              (tok.assoc == opAssoc.RIGHT and tok.prec < op.prec):
+                            if (tok.assoc == opAssoc.LEFT and tok.prec >= op.prec) or \
+                              (tok.assoc == opAssoc.RIGHT and tok.prec > op.prec):
                                 queue.append(op_stack.pop())
                             else:
                                 break
@@ -190,9 +190,9 @@ ifstmt << (Suppress(Keyword('if')) - LPAREN - expr - RPAREN - statement - Option
 ifstmt.setParseAction(IfNode.from_tokens)
 whilestmt << (Suppress(Keyword('while')) - LPAREN + expr + RPAREN + statement)
 whilestmt.setParseAction(WhileNode.from_tokens)
-forstmt << (Suppress(Keyword('for')) - LPAREN + Optional(expr | assign, None) + SEMICOLON +
+forstmt << (Suppress(Keyword('for')) - LPAREN + Optional(assign | expr, None) + SEMICOLON +
                  Optional(expr, None) + SEMICOLON +
-                 Optional(expr | assign, None) + RPAREN + statement)
+                 Optional(assign | expr, None) + RPAREN + statement)
 forstmt.setParseAction(ForNode.from_tokens)
 argdecl = (vartype + name).setParseAction(DeclNode.from_tokens)
 funcdecl = (Keyword('void') | vartype) + name + LPAREN - Optional(delimitedList(argdecl)) + RPAREN
