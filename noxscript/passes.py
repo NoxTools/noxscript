@@ -286,6 +286,9 @@ def decl_initializer_pass(root):
             decl = node.decl
             if decl in uses:
                 first_use, first_scope, valid, others = uses[decl]
+                # XXX while loops, for loops, gotos
+                if first_scope != node.scope:
+                    return node
                 if node in others and valid and decl.rhs.is_constant():
                     return decl.rhs.copy()
         return node

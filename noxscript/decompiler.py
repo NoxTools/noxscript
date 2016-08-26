@@ -253,6 +253,7 @@ class Decompiler(object):
                 args = [stack.pop() for _ in xrange(self.funcs[num].num_params)]
                 for _ in xrange(self.funcs[num].num_params):
                     pos = position_stack.pop()
+                args.reverse()
                 node = CallNode(self.funcs[num].name, args)
             elif opcode in [0x47, 0x48]:
                 # NoxC compiler always adds a return void to the end

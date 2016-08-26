@@ -479,6 +479,9 @@ class WhileNode(Node):
     def from_tokens(cls, st, loc, toks):
         return cls(*toks, loc=(lineno(loc, st), col(loc, st)))
 
+    def scope_visitor(self):
+        self._scope = Scope(self.parent.scope)
+
     def validate(self):
         if self.cond.vartype is not INT:
             raise AstException(self, 'Condition must be int-type')
