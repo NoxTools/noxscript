@@ -1,0 +1,2 @@
+# pycparser does not handle CR LF line endings
+builtins.h text eol=lf
