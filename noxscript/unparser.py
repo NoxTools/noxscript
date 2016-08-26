@@ -102,7 +102,10 @@ def pre_visitor(stream, node, depth, visit):
         stream.write(u'goto %s;\n' % node.target)
         return False
     elif isinstance(node, LiteralNode):
-        stream.write(value_to_string(node.value))
+        if node.keyword:
+            stream.write(unicode(node.keyword))
+        else:
+            stream.write(value_to_string(node.value))
     elif isinstance(node, VarNode):
         stream.write(unicode(node.name))
     elif isinstance(node, BinOpNode):

@@ -81,6 +81,7 @@ class Node(object):
 class LiteralNode(Node):
     def __init__(self, value, **kwargs):
         super(LiteralNode, self).__init__(**kwargs)
+        self.keyword = None
         self.value = value
 
     def __repr__(self):

@@ -25,7 +25,7 @@ def cli(scrobj, out, analyze, pprint, verbose):
             return
 
         if out is None:
-            out = './%s_decompiled.ns' % (os.path.splitext(os.path.basename(scrobj.name))[0])
+            out = './%s.ns' % (os.path.splitext(os.path.basename(scrobj.name))[0])
 
         if verbose:
             d.print_ast()
