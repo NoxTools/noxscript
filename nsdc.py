@@ -15,15 +15,16 @@ sys.setrecursionlimit(5000)
 @click.argument('scrobj', type=click.File('rb'))
 @click.option('--out', '-o', default=None, help='Output file path.')
 @click.option('--analyze/--no-analyze', default=True, help='Perform structural analysis.')
+@click.option('--object-type/--no-object-type', default=True, help='Use object type.')
 @click.option('--pprint/--no-pprint', default=True, help='Run astyle on output.')
 @click.option('--verbose', '-v', is_flag=True, help='Verbose mode. Prints AST.')
-def cli(scrobj, out, analyze, pprint, verbose):
+def cli(scrobj, out, analyze, object_type, pprint, verbose):
     '''
     NoxScript 3.0 Decompiler - By Andrew Wesie (zoaedk) and Brian Pak (cai)
     '''
     try:
         try:
-            d = Decompiler(scrobj, struct_analysis=analyze)
+            d = Decompiler(scrobj, object_type=object_type, struct_analysis=analyze)
         except Exception as e:
             click.secho('Error: %s' % e, fg='red')
             return

@@ -62,6 +62,12 @@ class OperatorPrecedence(ParseExpression):
         assert doActions
         while True:
             old_loc = loc
+            try:
+                loc, tokens = cppStyleComment._parse( instring, loc, doActions )
+            except ParseException:
+                pass
+            except IndexError:
+                pass
             loc, tokens = self.operands._parse( instring, loc, doActions )
             if len(tokens) == 0:
                 try:
@@ -144,62 +150,74 @@ false = Keyword('false').setParseAction(lambda toks: LiteralNode(0))
 other = Keyword('other').setParseAction(lambda toks: LiteralNode(-1))
 self = Keyword('self').setParseAction(lambda toks: LiteralNode(-2))
 
-vartype = Keyword('int') | Keyword('float') | Keyword('string') | Keyword('object')
-name = Word(alphas + '_', alphanums + '_', asKeyword=True)
-var_name = name.copy().setParseAction(VarNode.from_tokens)
-qs = QuotedString('"', escChar='\\')
-integer = (Regex(r'0x[0-9a-fA-F]+') | Regex(r'\d+')).setParseAction(lambda toks: int(toks[0], 0))
-fp = Regex(r'\d+(\.\d*)([eE]\d+)?').setParseAction(lambda toks: float(toks[0]))
-literal = (qs | fp | integer).setParseAction(LiteralNode.from_tokens)
-vardecl = (vartype + name + Optional(LBRAC + integer + RBRAC)).setParseAction(DeclNode.from_tokens)
-funccall = Forward()
-arrexpr = Forward()
-operand = arrexpr | funccall | true | false | self | other | var_name | literal
-expr = OperatorPrecedence(operand)
-args = Optional(delimitedList(expr))
-funccall << (name + LPAREN - args - RPAREN)
-funccall.setParseAction(CallNode.from_tokens)
-arrexpr << (name + LBRAC - expr - RBRAC)
-arrexpr.setParseAction(SubscriptNode.from_tokens)
-decl_assign = (vartype + var_name + Suppress(Literal('=')) - expr).setParseAction(AssignNode.from_tokens)
-assign = ((arrexpr | var_name) + oneOf('= += -= *= /= %= <<= >>=') - expr).setParseAction(AssignNode.from_tokens_op)
-blockstmt = Forward()
-ifstmt = Forward()
-whilestmt = Forward()
-forstmt = Forward()
-label = (name + Suppress(Literal(':'))).setParseAction(LabelNode.from_tokens)
-goto = (Suppress(Keyword('goto')) - name).setParseAction(GotoNode.from_tokens)
-retstmt = (Suppress(Keyword('return')) - Optional(expr)).setParseAction(ReturnNode.from_tokens)
-statement = Optional(label) + (blockstmt | ifstmt | whilestmt | forstmt | ((
-    retstmt  |
-    Keyword('continue').setParseAction(ContinueNode.from_tokens) |
-    Keyword('break').setParseAction(BreakNode.from_tokens) |
-    goto |
-    decl_assign |
-    assign |
-    vardecl |
-    expr
-    ) + SEMICOLON))
-blockstmt << Suppress(Literal('{')) - Group(ZeroOrMore(statement) - Optional(label)) - Suppress(Literal('}'))
-blockstmt.setParseAction(BlockNode.from_tokens)
-elsestmt = Suppress(Keyword('else')) - statement
-ifstmt << (Suppress(Keyword('if')) - LPAREN - expr - RPAREN - statement - Optional(elsestmt))
-ifstmt.setParseAction(IfNode.from_tokens)
-whilestmt << (Suppress(Keyword('while')) - LPAREN + expr + RPAREN + statement)
-whilestmt.setParseAction(WhileNode.from_tokens)
-forstmt << (Suppress(Keyword('for')) - LPAREN + Optional(assign | expr, None) + SEMICOLON +
-                 Optional(expr, None) + SEMICOLON +
-                 Optional(assign | expr, None) + RPAREN + statement)
-forstmt.setParseAction(ForNode.from_tokens)
-argdecl = (vartype + name).setParseAction(DeclNode.from_tokens)
-funcdecl = (Keyword('void') | vartype) + name + LPAREN - Optional(delimitedList(argdecl)) + RPAREN
-func = (funcdecl - statement).setParseAction(FuncNode.from_tokens)
+compile_flags = Suppress(LineStart() + Literal('//@')) + delimitedList(Word(alphanums + '_-'))
 
-grammar = ZeroOrMore(func | (vardecl + SEMICOLON) | (decl_assign + SEMICOLON))
-grammar.ignore(cppStyleComment)
+def get_flags(code):
+    flags = set()
+    matches = compile_flags.scanString(code)
+    for tokens, _, _ in matches:
+        flags |= set(tokens)
+    return flags
 
-grammar.setParseAction(GlobalNode.from_tokens)
+def gen_ast(code, ignore_object_type=False):
+    if ignore_object_type:
+        vartype = Keyword('int') | Keyword('float') | Keyword('string')
+    else:
+        vartype = Keyword('int') | Keyword('float') | Keyword('string') | Keyword('object')
+    name = Word(alphas + '_', alphanums + '_', asKeyword=True)
+    var_name = name.copy().setParseAction(VarNode.from_tokens)
+    qs = QuotedString('"', escChar='\\')
+    integer = (Regex(r'0x[0-9a-fA-F]+') | Regex(r'\d+')).setParseAction(lambda toks: int(toks[0], 0))
+    fp = Regex(r'\d+(\.\d*)([eE]\d+)?').setParseAction(lambda toks: float(toks[0]))
+    literal = (qs | fp | integer).setParseAction(LiteralNode.from_tokens)
+    vardecl = (vartype + name + Optional(LBRAC + integer + RBRAC)).setParseAction(DeclNode.from_tokens)
+    funccall = Forward()
+    arrexpr = Forward()
+    operand = arrexpr | funccall | true | false | self | other | var_name | literal
+    expr = OperatorPrecedence(operand)
+    args = Optional(delimitedList(expr))
+    funccall << (name + LPAREN - args - RPAREN)
+    funccall.setParseAction(CallNode.from_tokens)
+    arrexpr << (name + LBRAC - expr - RBRAC)
+    arrexpr.setParseAction(SubscriptNode.from_tokens)
+    decl_assign = (vartype + var_name + Suppress(Literal('=')) - expr).setParseAction(AssignNode.from_tokens)
+    assign = ((arrexpr | var_name) + oneOf('= += -= *= /= %= <<= >>=') - expr).setParseAction(AssignNode.from_tokens_op)
+    blockstmt = Forward()
+    ifstmt = Forward()
+    whilestmt = Forward()
+    forstmt = Forward()
+    label = (name + Suppress(Literal(':'))).setParseAction(LabelNode.from_tokens)
+    goto = (Suppress(Keyword('goto')) - name).setParseAction(GotoNode.from_tokens)
+    retstmt = (Suppress(Keyword('return')) - Optional(expr)).setParseAction(ReturnNode.from_tokens)
+    statement = Optional(label) + (blockstmt | ifstmt | whilestmt | forstmt | ((
+        retstmt  |
+        Keyword('continue').setParseAction(ContinueNode.from_tokens) |
+        Keyword('break').setParseAction(BreakNode.from_tokens) |
+        goto |
+        decl_assign |
+        assign |
+        vardecl |
+        expr
+        ) + SEMICOLON))
+    blockstmt << Suppress(Literal('{')) - Group(ZeroOrMore(statement) - Optional(label)) - Suppress(Literal('}'))
+    blockstmt.setParseAction(BlockNode.from_tokens)
+    elsestmt = Suppress(Keyword('else')) - statement
+    ifstmt << (Suppress(Keyword('if')) - LPAREN - expr - RPAREN - statement - Optional(elsestmt))
+    ifstmt.setParseAction(IfNode.from_tokens)
+    whilestmt << (Suppress(Keyword('while')) - LPAREN + expr + RPAREN + statement)
+    whilestmt.setParseAction(WhileNode.from_tokens)
+    forstmt << (Suppress(Keyword('for')) - LPAREN + Optional(assign | expr, None) + SEMICOLON +
+                     Optional(expr, None) + SEMICOLON +
+                     Optional(assign | expr, None) + RPAREN + statement)
+    forstmt.setParseAction(ForNode.from_tokens)
+    argdecl = (vartype + name).setParseAction(DeclNode.from_tokens)
+    funcdecl = (Keyword('void') | vartype) + name + LPAREN - Optional(delimitedList(argdecl)) + RPAREN
+    func = (funcdecl - statement).setParseAction(FuncNode.from_tokens)
 
-def gen_ast(code):
+    grammar = ZeroOrMore(func | (vardecl + SEMICOLON) | (decl_assign + SEMICOLON))
+    grammar.ignore(cppStyleComment)
+
+    grammar.setParseAction(GlobalNode.from_tokens)
+
     root = grammar.parseString(code, True)[0]
     return root

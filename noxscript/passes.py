@@ -12,17 +12,32 @@ def scope_pass(root):
         return node
     Node.traverse(root, visitor, None)
 
-def validate_pass(root, add_comment=False):
+def remove_object_type_pass(root):
+    def visitor(node, depth):
+        if node is None:
+            return node
+        if hasattr(node, 'decltype') and node.decltype is OBJECT:
+            node.decltype = INT
+        if hasattr(node, 'rettype') and node.rettype is OBJECT:
+            node.rettype = INT
+        return node
+    Node.traverse(root, visitor, None)
+
+    for node in root.scope.names.values():
+        # process BuiltinNodes as well
+        Node.traverse(node, visitor, None)
+
+def validate_pass(root, add_comment=False, **kwargs):
     def visitor(add_comment, node, depth):
         if node is None:
             return node
         if add_comment:
             try:
-                node.validate()
+                node.validate(**kwargs)
             except Exception as e:
                 node.comment = 'FIXME %s' % str(e)
         else:
-            node.validate()
+            node.validate(**kwargs)
         return node
     Node.traverse(root, lambda *args: visitor(add_comment, *args), None)
 

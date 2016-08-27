@@ -1,6 +1,6 @@
 from .ast import *
 from .passes import *
-from .parser import gen_ast
+from .parser import gen_ast, get_flags
 
 import struct
 
@@ -95,10 +95,15 @@ class Function(object):
 
 class Compiler(object):
     def __init__(self, code):
+        flags = get_flags(code)
+        self.ignore_object_type = 'ignore_object_type' in flags
+
         self.root = root = gen_ast(code)
         self.global_func = FuncNode(VOID, GLOBAL, [], BlockNode([]))
         root.children += [self.global_func]
         scope_pass(root)
+        if self.ignore_object_type:
+            remove_object_type_pass(root)
         validate_pass(root)
         flatten_pass(root)
 

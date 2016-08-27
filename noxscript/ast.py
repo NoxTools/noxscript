@@ -534,11 +534,16 @@ class BlockNode(Node):
         self._scope = Scope(self.parent.scope)
 
 class BuiltinNode(Node):
-    def __init__(self, num, rettype, name, params):
+    def __init__(self, num, rettype, name, params, **kwargs):
+        super(BuiltinNode, self).__init__(**kwargs)
         self.num = num
         self.rettype = intern(rettype)
         self.name = name
-        self.params = [DeclNode(param, None) for param in params]
+        self.children = [DeclNode(param, None) for param in params]
+
+    @property
+    def params(self):
+        return self.children
 
 class FuncNode(Node):
     def __init__(self, rettype, name, params, body, **kwargs):

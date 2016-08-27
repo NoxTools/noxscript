@@ -117,7 +117,8 @@ class Function(object):
         return 'Function<%d>(%s, %d, %s, %d)' % (self.num, self.name, self.num_params, str(self.retval), len(self.locals))
 
 class Decompiler(object):
-    def __init__(self, fp, struct_analysis=True):
+    def __init__(self, fp, object_type=True, struct_analysis=True):
+        self.ignore_object_type = not object_type
         self.struct_analysis = struct_analysis
 
         self.load_file(fp)
@@ -142,6 +143,8 @@ class Decompiler(object):
                 self.root.children += filter(lambda node: not isinstance(node, ReturnNode), body.children)
 
         scope_pass(self.root)
+        if self.ignore_object_type:
+            remove_object_type_pass(self.root)
         while self.infer_types_pass(self.root):
             pass # print 'here'
         fix_unreferenced_pass(self.root)
@@ -156,7 +159,10 @@ class Decompiler(object):
         print_ast(self.root)
 
     def unparse(self, filename):
-        unparse(self.root, io.TextIOWrapper(io.BufferedWriter(io.FileIO(filename, 'w'))))
+        tw = io.TextIOWrapper(io.BufferedWriter(io.FileIO(filename, 'w')))
+        if self.ignore_object_type:
+            tw.write(u'//@ignore_object_type\n')
+        unparse(self.root, tw)
 
     def parse_function(self, f):
         block = BlockNode([])
