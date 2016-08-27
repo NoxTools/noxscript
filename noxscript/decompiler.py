@@ -145,7 +145,8 @@ class Decompiler(object):
         while self.infer_types_pass(self.root):
             pass # print 'here'
         fix_unreferenced_pass(self.root)
-        decl_initializer_pass(self.root)
+        # XXX it would be nice if we could run on more things
+        decl_initializer_pass(self.global_func.node)
         try:
             validate_pass(self.root, add_comment=True)
         except Exception as e:
@@ -226,6 +227,7 @@ class Decompiler(object):
                     node = GotoNode(labels[idx])
                 elif opcode == 0x14:
                     node = GotoNode(labels[idx], UnOpNode('!', stack.pop()))
+                    pos = position_stack.pop()
                 elif opcode == 0x15:
                     node = GotoNode(labels[idx], stack.pop())
                     pos = position_stack.pop()
@@ -344,7 +346,9 @@ class Decompiler(object):
                                 node = VarNode(self.funcs[node.value].name)
                                 self.dirty = True
                             elif params[i] is not ANY and params[i] != node.vartype:
-                                print node, node.vartype, params[i]
+                                # XXX wrong type?
+                                # print node, node.vartype, params[i]
+                                pass
             elif isinstance(node, ReturnNode) and node.value:
                 if node.value.vartype is not node.func.rettype:
                     node.func.rettype = node.value.vartype

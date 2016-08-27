@@ -7,6 +7,10 @@ import subprocess
 
 from noxscript.decompiler import Decompiler
 
+# increase the recursion limit
+import sys
+sys.setrecursionlimit(5000)
+
 @click.command(context_settings={'help_option_names': ['-h', '--help']})
 @click.argument('scrobj', type=click.File('rb'))
 @click.option('--out', '-o', default=None, help='Output file path.')

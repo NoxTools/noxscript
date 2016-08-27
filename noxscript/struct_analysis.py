@@ -7,7 +7,7 @@ def find_cycle(root, all_visited=None, visited=None, find=None):
         all_visited = set()
     if root in visited:
         cycle = visited[visited.index(root):]
-        if find in cycle:
+        if find in cycle or find is None:
             return cycle
         else:
             return None
@@ -38,11 +38,13 @@ def analyze(root):
     counter = 0
     fake_root = CFGNode(None)
     fake_root.add_child(root)
+    has_cycle = find_cycle(root, set(), [], None) is not None
     while True: #counter < 15:
         nodes = dfs(list(fake_root.children)[0])
-        if any((reduce_cyclic(node) for node in nodes)):
-            counter += 1
-            continue
+        if has_cycle:
+            if any((reduce_cyclic(node) for node in nodes)):
+                counter += 1
+                continue
         if any((reduce_block(node) for node in nodes)):
             counter += 1
             continue

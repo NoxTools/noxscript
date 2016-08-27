@@ -6,6 +6,10 @@ import colorama
 
 from noxscript.compiler import Compiler
 
+# increase the recursion limit
+import sys
+sys.setrecursionlimit(5000)
+
 @click.command(context_settings={'help_option_names': ['-h', '--help']})
 @click.argument('source', type=click.File('rb'))
 @click.option('--out', '-o', default=None, help='Output file path.')

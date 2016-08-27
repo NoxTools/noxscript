@@ -1,9 +1,6 @@
 from pyparsing import *
 from .ast import *
 
-# increase the recursion limit
-import sys
-sys.setrecursionlimit(5000)
 OP_MAP = {
     '#': (1, opAssoc.RIGHT, UnOpNode.from_tokens, 0),
     '!': (1, opAssoc.RIGHT, UnOpNode.from_tokens, 0),
