@@ -155,6 +155,21 @@ def reduce_cyclic(entry):
             elif child is cond_node:
                 node.remove_child(child)
                 node.add_child(CFGNode(ContinueNode()))
+    nodes = dfs(body_node)
+    for node in nodes:
+        outside = filter(lambda parent: not (parent in nodes or parent is cond_node), list(node.parents))
+        if len(outside) == 0:
+            continue
+        inside = filter(lambda parent: parent in nodes, list(node.parents))
+        for inode in inside:
+            is_cond = isinstance(inode.nodes[-1], GotoNode) and inode.nodes[-1].target == node.nodes[0].label
+            goto_node = CFGNode(GotoNode(node.nodes[0].label))
+            inode.remove_child(node)
+            inode.add_child(goto_node)
+            new_label = id(goto_node)
+            if is_cond:
+                goto_node.nodes.insert(0, LabelNode(new_label))
+                inode.nodes[-1].target = new_label
     cond_node.remove_child(exit_node)
     cond_node.remove_child(body_node)
     while_node.add_child(exit_node)
