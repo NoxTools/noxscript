@@ -10924,22 +10924,22 @@
         </inbodydescription>
         <location file="/home/awesie/noxscript/builtins.h" line="2266" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="builtins_8h_1a124a39f13c7f3d6c56584ef8edb7ee14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="builtins_8h_1a8e0c73079098db044e7673cd46a2bb9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int CreateMover</definition>
-        <argsstring>(int id, int arg2, float arg3)</argsstring>
+        <argsstring>(int id, object waypoint, float speed)</argsstring>
         <name>CreateMover</name>
         <param>
           <type>int</type>
           <declname>id</declname>
         </param>
         <param>
-          <type>int</type>
-          <declname>arg2</declname>
+          <type>object</type>
+          <declname>waypoint</declname>
         </param>
         <param>
           <type>float</type>
-          <declname>arg3</declname>
+          <declname>speed</declname>
         </param>
         <briefdescription>
 <para>Creates a Mover for an object. </para>        </briefdescription>
@@ -10953,17 +10953,17 @@
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>arg2</parametername>
+<parametername>waypoint</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>integer </para></parameterdescription>
+<para>destination waypoint </para></parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>arg3</parametername>
+<parametername>speed</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>float </para></parameterdescription>
+<para>move speed </para></parameterdescription>
 </parameteritem>
 </parameterlist>
 <simplesect kind="return"><para>object id of new Mover </para></simplesect>
@@ -10972,22 +10972,22 @@
         </inbodydescription>
         <location file="/home/awesie/noxscript/builtins.h" line="2276" column="1"/>
       </memberdef>
-      <memberdef kind="function" id="builtins_8h_1aaa43146d7ab4bd6230688cd98c391e39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="builtins_8h_1a7e94b9ddee8888fd1c7e5c14e5a8fe14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void GroupCreateMover</definition>
-        <argsstring>(object objectGroup, int arg2, float arg3)</argsstring>
+        <argsstring>(object objectGroup, object waypoint, float speed)</argsstring>
         <name>GroupCreateMover</name>
         <param>
           <type>object</type>
           <declname>objectGroup</declname>
         </param>
         <param>
-          <type>int</type>
-          <declname>arg2</declname>
+          <type>object</type>
+          <declname>waypoint</declname>
         </param>
         <param>
           <type>float</type>
-          <declname>arg3</declname>
+          <declname>speed</declname>
         </param>
         <briefdescription>
 <para>Creates a Mover for every object in a group. </para>        </briefdescription>
@@ -11001,17 +11001,17 @@
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>arg2</parametername>
+<parametername>waypoint</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>integer </para></parameterdescription>
+<para>destination waypoint </para></parameterdescription>
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>arg3</parametername>
+<parametername>speed</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>float </para></parameterdescription>
+<para>move speed </para></parameterdescription>
 </parameteritem>
 </parameterlist>
 </para>        </detaileddescription>

@@ -24,7 +24,7 @@ var searchData=
   ['groupaggressionlevel',['GroupAggressionLevel',['../builtins_8h.html#ab945578150677ac5b0906de49f5fd703',1,'builtins.h']]],
   ['groupattack',['GroupAttack',['../builtins_8h.html#a36c6bc490398d91fdd89dde26f00bc13',1,'builtins.h']]],
   ['groupawardspell',['GroupAwardSpell',['../builtins_8h.html#a316a4039813e2bd827193907a2c61d52',1,'builtins.h']]],
-  ['groupcreatemover',['GroupCreateMover',['../builtins_8h.html#aaa43146d7ab4bd6230688cd98c391e39',1,'builtins.h']]],
+  ['groupcreatemover',['GroupCreateMover',['../builtins_8h.html#a7e94b9ddee8888fd1c7e5c14e5a8fe14',1,'builtins.h']]],
   ['groupdamage',['GroupDamage',['../builtins_8h.html#ad91160fc074a40d064994ad7af06d171',1,'builtins.h']]],
   ['groupdelete',['GroupDelete',['../builtins_8h.html#a77053b11ae2386d53dbf89f98761c19c',1,'builtins.h']]],
   ['groupenchant',['GroupEnchant',['../builtins_8h.html#a994ca8f6a3ae3d8b751953d75c241463',1,'builtins.h']]],

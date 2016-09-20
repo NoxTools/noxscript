@@ -2269,20 +2269,20 @@ void GroupDamage(object targetGroup, int source, int amount, int type);
   \brief Creates a Mover for an object.
 
   \param id an object id
-  \param arg2 integer
-  \param arg3 float
+  \param waypoint destination waypoint
+  \param speed move speed
   \return object id of new Mover
 */
-int CreateMover(int id, int arg2, float arg3);
+int CreateMover(int id, object waypoint, float speed);
 
 /**
   \brief Creates a Mover for every object in a group.
 
   \param objectGroup an object group object
-  \param arg2 integer
-  \param arg3 float
+  \param waypoint destination waypoint
+  \param speed move speed
 */
-void GroupCreateMover(object objectGroup, int arg2, float arg3);
+void GroupCreateMover(object objectGroup, object waypoint, float speed);
 
 /**
   \brief Award spell level to object.

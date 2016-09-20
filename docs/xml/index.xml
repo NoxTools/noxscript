@@ -1373,8 +1373,8 @@
     <member refid="builtins_8h_1ae93f93dfaad56ac8f1a129f57734cd94" kind="function"><name>CreateObject</name></member>
     <member refid="builtins_8h_1ace6d6e6c07c29a51c7ef7079ad477908" kind="function"><name>Damage</name></member>
     <member refid="builtins_8h_1ad91160fc074a40d064994ad7af06d171" kind="function"><name>GroupDamage</name></member>
-    <member refid="builtins_8h_1a124a39f13c7f3d6c56584ef8edb7ee14" kind="function"><name>CreateMover</name></member>
-    <member refid="builtins_8h_1aaa43146d7ab4bd6230688cd98c391e39" kind="function"><name>GroupCreateMover</name></member>
+    <member refid="builtins_8h_1a8e0c73079098db044e7673cd46a2bb9d" kind="function"><name>CreateMover</name></member>
+    <member refid="builtins_8h_1a7e94b9ddee8888fd1c7e5c14e5a8fe14" kind="function"><name>GroupCreateMover</name></member>
     <member refid="builtins_8h_1a71a4bda1f30748e42e4c6924961e5d06" kind="function"><name>AwardSpell</name></member>
     <member refid="builtins_8h_1a316a4039813e2bd827193907a2c61d52" kind="function"><name>GroupAwardSpell</name></member>
     <member refid="builtins_8h_1ad17ea3636a39519eaefb4de61dae18db" kind="function"><name>Enchant</name></member>

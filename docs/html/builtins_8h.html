@@ -275,12 +275,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ad91160fc074a40d064994ad7af06d171"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="builtins_8h.html#ad91160fc074a40d064994ad7af06d171">GroupDamage</a> (object targetGroup, int source, int amount, int type)</td></tr>
 <tr class="memdesc:ad91160fc074a40d064994ad7af06d171"><td class="mdescLeft">&#160;</td><td class="mdescRight">Damages objects in a group.  <a href="#ad91160fc074a40d064994ad7af06d171">More...</a><br /></td></tr>
 <tr class="separator:ad91160fc074a40d064994ad7af06d171"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a124a39f13c7f3d6c56584ef8edb7ee14"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="builtins_8h.html#a124a39f13c7f3d6c56584ef8edb7ee14">CreateMover</a> (int id, int arg2, float arg3)</td></tr>
-<tr class="memdesc:a124a39f13c7f3d6c56584ef8edb7ee14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a Mover for an object.  <a href="#a124a39f13c7f3d6c56584ef8edb7ee14">More...</a><br /></td></tr>
-<tr class="separator:a124a39f13c7f3d6c56584ef8edb7ee14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa43146d7ab4bd6230688cd98c391e39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="builtins_8h.html#aaa43146d7ab4bd6230688cd98c391e39">GroupCreateMover</a> (object objectGroup, int arg2, float arg3)</td></tr>
-<tr class="memdesc:aaa43146d7ab4bd6230688cd98c391e39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a Mover for every object in a group.  <a href="#aaa43146d7ab4bd6230688cd98c391e39">More...</a><br /></td></tr>
-<tr class="separator:aaa43146d7ab4bd6230688cd98c391e39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e0c73079098db044e7673cd46a2bb9d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="builtins_8h.html#a8e0c73079098db044e7673cd46a2bb9d">CreateMover</a> (int id, object waypoint, float speed)</td></tr>
+<tr class="memdesc:a8e0c73079098db044e7673cd46a2bb9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a Mover for an object.  <a href="#a8e0c73079098db044e7673cd46a2bb9d">More...</a><br /></td></tr>
+<tr class="separator:a8e0c73079098db044e7673cd46a2bb9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e94b9ddee8888fd1c7e5c14e5a8fe14"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="builtins_8h.html#a7e94b9ddee8888fd1c7e5c14e5a8fe14">GroupCreateMover</a> (object objectGroup, object waypoint, float speed)</td></tr>
+<tr class="memdesc:a7e94b9ddee8888fd1c7e5c14e5a8fe14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a Mover for every object in a group.  <a href="#a7e94b9ddee8888fd1c7e5c14e5a8fe14">More...</a><br /></td></tr>
+<tr class="separator:a7e94b9ddee8888fd1c7e5c14e5a8fe14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71a4bda1f30748e42e4c6924961e5d06"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="builtins_8h.html#a71a4bda1f30748e42e4c6924961e5d06">AwardSpell</a> (int id, string spell)</td></tr>
 <tr class="memdesc:a71a4bda1f30748e42e4c6924961e5d06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Award spell level to object.  <a href="#a71a4bda1f30748e42e4c6924961e5d06">More...</a><br /></td></tr>
 <tr class="separator:a71a4bda1f30748e42e4c6924961e5d06"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2878,7 +2878,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a124a39f13c7f3d6c56584ef8edb7ee14"></a>
+<a class="anchor" id="a8e0c73079098db044e7673cd46a2bb9d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -2891,14 +2891,14 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>arg2</em>, </td>
+          <td class="paramtype">object&#160;</td>
+          <td class="paramname"><em>waypoint</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>arg3</em>&#160;</td>
+          <td class="paramname"><em>speed</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -2912,8 +2912,8 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">id</td><td>an object id </td></tr>
-    <tr><td class="paramname">arg2</td><td>integer </td></tr>
-    <tr><td class="paramname">arg3</td><td>float </td></tr>
+    <tr><td class="paramname">waypoint</td><td>destination waypoint </td></tr>
+    <tr><td class="paramname">speed</td><td>move speed </td></tr>
   </table>
   </dd>
 </dl>
@@ -4470,7 +4470,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aaa43146d7ab4bd6230688cd98c391e39"></a>
+<a class="anchor" id="a7e94b9ddee8888fd1c7e5c14e5a8fe14"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -4483,14 +4483,14 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>arg2</em>, </td>
+          <td class="paramtype">object&#160;</td>
+          <td class="paramname"><em>waypoint</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>arg3</em>&#160;</td>
+          <td class="paramname"><em>speed</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -4504,8 +4504,8 @@ Variables</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">objectGroup</td><td>an object group object </td></tr>
-    <tr><td class="paramname">arg2</td><td>integer </td></tr>
-    <tr><td class="paramname">arg3</td><td>float </td></tr>
+    <tr><td class="paramname">waypoint</td><td>destination waypoint </td></tr>
+    <tr><td class="paramname">speed</td><td>move speed </td></tr>
   </table>
   </dd>
 </dl>
@@ -8505,7 +8505,7 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Aug 26 2016 05:50:01 for Nox Script by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 20 2016 15:37:15 for Nox Script by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>
